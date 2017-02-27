@@ -27,6 +27,7 @@ import com.amap.api.services.weather.WeatherSearch.OnWeatherSearchListener;
 
 import com.amap.api.services.weather.WeatherSearchQuery;
 import com.sanitation.app.staff.StaffListActivity;
+import com.sanitation.app.staff.StaffMainActivity;
 
 
 import java.util.List;
@@ -154,10 +155,12 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-            Intent externalActivityIntent = new Intent(this, StaffListActivity.class);
+            Intent externalActivityIntent = new Intent(this, StaffMainActivity.class);
             startActivity(externalActivityIntent);
 
         } else if (id == R.id.nav_gallery) {
+            Intent externalActivityIntent = new Intent(this, StaffListActivity.class);
+            startActivity(externalActivityIntent);
 
         } else if (id == R.id.nav_slideshow) {
 

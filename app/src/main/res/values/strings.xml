@@ -25,6 +25,6 @@
 
     <string name="weather_live">实时</string>
     <string name="weather_report_time">发布时间</string>
-    <string name="title_activity_staff_main">StaffMainActivity</string>
+    <string name="title_activity_staff_main">人员管理</string>
     <string name="section_format">Hello World from section: %1$d</string>
 </resources>

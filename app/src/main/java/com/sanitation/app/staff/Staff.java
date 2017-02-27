@@ -1,4 +1,4 @@
-package com.sanitation.app.staff.factory;
+package com.sanitation.app.staff;
 
 import java.util.ArrayList;
 import java.util.HashMap;

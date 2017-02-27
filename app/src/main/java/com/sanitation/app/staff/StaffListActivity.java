@@ -3,7 +3,6 @@ package com.sanitation.app.staff;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,14 +22,9 @@ import com.sanitation.app.R;
 
 import com.sanitation.app.Utils;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
-import com.sanitation.app.recyclerview.RecyclerClickListener;
-import com.sanitation.app.recyclerview.RecyclerTouchListener;
-import com.sanitation.app.staff.factory.Staff;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;

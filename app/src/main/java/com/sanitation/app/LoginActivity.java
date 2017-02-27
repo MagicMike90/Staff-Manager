@@ -31,8 +31,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.neovisionaries.ws.client.WebSocket;
+import com.neovisionaries.ws.client.WebSocketAdapter;
+import com.neovisionaries.ws.client.WebSocketException;
+import com.neovisionaries.ws.client.WebSocketFactory;
+import com.neovisionaries.ws.client.WebSocketFrame;
+
+import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;
@@ -45,7 +58,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>,MeteorCallback {
+public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>, MeteorCallback {
     private static final String TAG = "LoginActivity";
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -104,12 +117,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
 
         Meteor.setLoggingEnabled(true);
-//        if(!MeteorSingleton.hasInstance()) MeteorSingleton.createInstance(this, "ws://192.168.1.79:3000/websocket",new InMemoryDatabase());
+//        MeteorSingleton.createInstance(this, "ws://192.168.1.84:3000/websocket",new InMemoryDatabase());
 //        MeteorSingleton.getInstance().addCallback(this);
 //        // establish the connection
 //        MeteorSingleton.getInstance().connect();
         // create a new instance (protocol version in second parameter is optional)
-        mMeteor = new Meteor(this, "ws://192.168.1.84:3000/websocket",new InMemoryDatabase());
+        mMeteor = new Meteor(this, "ws://192.168.1.84:3000/websocket");
 //        if(!MeteorSingleton.hasInstance()) MeteorSingleton.createInstance(this, "ws://192.168.1.79:3000/websocket",new InMemoryDatabase());
 //        mMeteor = MeteorSingleton.getInstance();
         // register the callback that will handle events and receive messages
@@ -212,7 +225,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             email = "michael";
             password = "1234";
 
-            if(mMeteor.isConnected()) {
+            if (mMeteor.isConnected()) {
                 mMeteor.loginWithUsername(email, password, new ResultListener() {
                     @Override
                     public void onSuccess(String s) {
@@ -229,8 +242,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         showProgress(false);
                     }
                 });
-            }else {
-                Log.d(TAG, "not connect");
+            } else {
+                mMeteor.reconnect();
+                Log.d(TAG, "try to reconnect connect");
             }
 //            mAuthTask = new UserLoginTask(email, password);
 //            mAuthTask.execute((Void) null);
@@ -330,26 +344,34 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG, "onRestart");
+    }
+
+    @Override
     public void onDestroy() {
         mMeteor.disconnect();
         mMeteor.removeCallback(this);
         super.onDestroy();
-        Log.d(TAG,"onDestroy");
+        Log.d(TAG, "onDestroy");
 
     }
+
     @Override
     public void onConnect(boolean signedInAutomatically) {
-        Log.i(TAG, signedInAutomatically+"");
+        Log.d(TAG, "onConnect");
     }
 
     @Override
     public void onDisconnect() {
-        Log.d(TAG,"onDisconnect");
+        Log.d(TAG, "onDisconnect");
     }
 
     @Override
     public void onException(Exception e) {
-
+        Log.d(TAG, "onException： " + e.getMessage());
+        Log.d(TAG, Log.getStackTraceString(e));
     }
 
     @Override
@@ -412,8 +434,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //                    return pieces[1].equals(mPassword);
 //                }
 //            }
-
-
 
 
             // TODO: register the new account here.

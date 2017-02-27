@@ -59,7 +59,11 @@
         <activity
             android:name=".staff.StaffMainActivity"
             android:label="@string/title_activity_staff_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.sanitation.app.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
