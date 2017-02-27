@@ -1,4 +1,4 @@
-package com.sanitation.app;
+package com.sanitation.app.notification;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,7 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.sanitation.app.ItemFragment.OnListFragmentInteractionListener;
+import com.sanitation.app.R;
+import com.sanitation.app.notification.NoticeFragment.OnListFragmentInteractionListener;
 import com.sanitation.app.dummy.DummyContent.DummyItem;
 
 import java.util.List;
@@ -16,12 +17,12 @@ import java.util.List;
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class InformationFragmentAdapter extends RecyclerView.Adapter<InformationFragmentAdapter.ViewHolder> {
+public class NoticeFragmentAdapter extends RecyclerView.Adapter<NoticeFragmentAdapter.ViewHolder>  {
 
     private final List<DummyItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public InformationFragmentAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public NoticeFragmentAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -29,7 +30,7 @@ public class InformationFragmentAdapter extends RecyclerView.Adapter<Information
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_item, parent, false);
+                .inflate(R.layout.fragment_notice_list_item, parent, false);
         return new ViewHolder(view);
     }
 
