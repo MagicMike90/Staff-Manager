@@ -45,7 +45,7 @@ public class StaffDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            System.out.print(getArguments().getString(ARG_ITEM_ID));
+
             mItem = StaffFactory.STAFF_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
             Activity activity = this.getActivity();

@@ -37,7 +37,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".staff.StaffListActivity"
             android:label="@string/title_staff_list"
@@ -64,6 +64,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.sanitation.app.MainActivity" />
         </activity>
+        <activity
+            android:name=".notice.NoticeDetailActivity"
+            android:label="@string/title_activity_notice_detail"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.sanitation.app.notification;
+package com.sanitation.app.notice;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,38 +6,40 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.sanitation.app.R;
-import com.sanitation.app.dummy.DummyContent.DummyItem;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
-public class NoticeFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
 
+import im.delight.android.ddp.Meteor;
+import im.delight.android.ddp.MeteorCallback;
+import im.delight.android.ddp.MeteorSingleton;
+import im.delight.android.ddp.db.memory.InMemoryDatabase;
+
+
+public class NoticeListFragment extends Fragment implements MeteorCallback {
+    private static final String TAG = "NoticeListFragment";
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
-
+    private List<Notice> mNotices = new ArrayList<Notice>();
+    private Meteor mMeteor;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public NoticeFragment() {
+    public NoticeListFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static NoticeFragment newInstance(int columnCount) {
-        NoticeFragment fragment = new NoticeFragment();
+
+    public static NoticeListFragment newInstance(int columnCount) {
+        NoticeListFragment fragment = new NoticeListFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -51,6 +53,12 @@ public class NoticeFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+
+        if (!MeteorSingleton.hasInstance())
+            MeteorSingleton.createInstance(this.getContext(), "ws://192.168.1.84:3000/websocket", new InMemoryDatabase());
+        mMeteor = MeteorSingleton.getInstance();
+        mMeteor.addCallback(this);
+        mMeteor.connect();
     }
 
     @Override
@@ -67,41 +75,56 @@ public class NoticeFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-//            recyclerView.setAdapter(new NoticeFragmentAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new NoticeFragmentAdapter(mNotices));
         }
         return view;
     }
 
+    @Override
+    public void onPause() {
+        MeteorSingleton.getInstance().removeCallback(this);
+        super.onDestroy();
+        Log.d(TAG, "onDestroy");
 
+    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+
+    @Override
+    public void onConnect(boolean signedInAutomatically) {
+        Log.d(TAG, "onConnect");
+    }
+
+    @Override
+    public void onDisconnect() {
+
+    }
+
+    @Override
+    public void onException(Exception e) {
+
+    }
+
+    @Override
+    public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
+
+    }
+
+    @Override
+    public void onDataChanged(String collectionName, String documentID, String updatedValuesJson, String removedValuesJson) {
+
+    }
+
+    @Override
+    public void onDataRemoved(String collectionName, String documentID) {
+
     }
 }

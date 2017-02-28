@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -26,8 +28,8 @@ import com.amap.api.services.weather.WeatherSearch;
 import com.amap.api.services.weather.WeatherSearch.OnWeatherSearchListener;
 
 import com.amap.api.services.weather.WeatherSearchQuery;
+import com.sanitation.app.notice.NoticeListFragment;
 import com.sanitation.app.staff.StaffListActivity;
-import com.sanitation.app.staff.StaffMainActivity;
 
 
 import java.util.List;
@@ -150,14 +152,16 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        Fragment fragment = null;
+        Class fragmentClass = NoticeListFragment.class;
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-            Intent externalActivityIntent = new Intent(this, StaffMainActivity.class);
-            startActivity(externalActivityIntent);
-
+//            Intent externalActivityIntent = new Intent(this, StaffMainActivity.class);
+//            startActivity(externalActivityIntent);
+            fragmentClass = NoticeListFragment.class;
         } else if (id == R.id.nav_gallery) {
             Intent externalActivityIntent = new Intent(this, StaffListActivity.class);
             startActivity(externalActivityIntent);
@@ -171,6 +175,18 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
+
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        // Highlight the selected item has been done by NavigationView
+        item.setChecked(true);
+        setTitle(item.getTitle());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
