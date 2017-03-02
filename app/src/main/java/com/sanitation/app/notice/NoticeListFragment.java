@@ -3,7 +3,6 @@ package com.sanitation.app.notice;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,23 +11,28 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sanitation.app.R;
+import com.sanitation.app.recyclerview.DividerItemDecoration;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;
 import im.delight.android.ddp.MeteorSingleton;
+import im.delight.android.ddp.db.Collection;
+import im.delight.android.ddp.db.Database;
+import im.delight.android.ddp.db.Document;
 import im.delight.android.ddp.db.memory.InMemoryDatabase;
 
 
 public class NoticeListFragment extends Fragment implements MeteorCallback {
     private static final String TAG = "NoticeListFragment";
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
-    private List<Notice> mNotices = new ArrayList<Notice>();
+
+
+    private RecyclerView mRecyclerView;
+    private NoticeListFragmentAdapter mViewAdapter;
+
     private Meteor mMeteor;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -41,7 +45,6 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
     public static NoticeListFragment newInstance(int columnCount) {
         NoticeListFragment fragment = new NoticeListFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,10 +52,6 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
 
         if (!MeteorSingleton.hasInstance())
             MeteorSingleton.createInstance(this.getContext(), "ws://192.168.1.84:3000/websocket", new InMemoryDatabase());
@@ -69,13 +68,10 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new NoticeFragmentAdapter(mNotices));
+            mRecyclerView = (RecyclerView) view;
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+            mRecyclerView.setAdapter(new NoticeListFragmentAdapter(NoticeManager.getInstance().getNotices()));
+            mRecyclerView.addItemDecoration(new DividerItemDecoration(this.getContext(), LinearLayoutManager.VERTICAL));
         }
         return view;
     }
@@ -101,6 +97,7 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
     @Override
     public void onConnect(boolean signedInAutomatically) {
         Log.d(TAG, "onConnect");
+        mMeteor.subscribe("notices");
     }
 
     @Override
@@ -115,7 +112,28 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
 
     @Override
     public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
+        Log.d(TAG, "onConnect");
 
+        try {
+            Database database = mMeteor.getDatabase();
+            Collection collection = database.getCollection("notices");
+
+            int limit = 30;
+            int offset = 0;
+            Document[] documents = collection.find(limit, offset);
+            for (Document d : documents) {
+                String name = d.getField("title").toString();
+                String content = d.getField("content").toString().replace("编辑时间","r");
+                String time = d.getField("time").toString();
+
+                NoticeManager.getInstance().addNotice(new Notice(name, content, time));
+            }
+        } catch (Exception e) {
+            Log.d(TAG, Log.getStackTraceString(e));
+        }
+        mViewAdapter = new NoticeListFragmentAdapter(NoticeManager.getInstance().getNotices());
+        mRecyclerView.setAdapter(mViewAdapter);
+        mViewAdapter.notifyDataSetChanged();
     }
 
     @Override

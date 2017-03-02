@@ -3,9 +3,13 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_notice"
+            android:icon="@drawable/ic_menu_notice"
+            android:title="@string/navigation_drawer_menu_notice" />
+        <item
             android:id="@+id/nav_camera"
             android:icon="@drawable/ic_menu_camera"
-            android:title="人员管理" />
+            android:title="@string/navigation_drawer_menu_staff" />
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"

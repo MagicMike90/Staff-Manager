@@ -10,28 +10,26 @@ import android.widget.TextView;
 
 import com.sanitation.app.R;
 
-import com.sanitation.app.staff.dummy.DummyContent.DummyItem;
-
 import java.util.List;
 
 
-public class StaffListRecyclerViewAdapter extends RecyclerView.Adapter<StaffListRecyclerViewAdapter.ViewHolder> {
+public class StaffListFragmentAdapter extends RecyclerView.Adapter<StaffListFragmentAdapter.ViewHolder> {
 
     private final List<Staff> mValues;
 
-    public StaffListRecyclerViewAdapter(List<Staff> items) {
+    public StaffListFragmentAdapter(List<Staff> items) {
         mValues = items;
     }
 
     @Override
-    public StaffListRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public StaffListFragmentAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.staff_list_content, parent, false);
-        return new StaffListRecyclerViewAdapter.ViewHolder(view);
+        return new StaffListFragmentAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final StaffListRecyclerViewAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final StaffListFragmentAdapter.ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mStaffNameView.setText(mValues.get(position).staff_name);
         holder.mGenderView.setText(mValues.get(position).gender);
@@ -43,7 +41,7 @@ public class StaffListRecyclerViewAdapter extends RecyclerView.Adapter<StaffList
 
                 Context context = v.getContext();
                 Intent intent = new Intent(context, StaffDetailActivity.class);
-                intent.putExtra(StaffDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                intent.putExtra(StaffDetailFragment.ARG_STAFF_NAME, holder.mItem.id);
 
                 context.startActivity(intent);
 

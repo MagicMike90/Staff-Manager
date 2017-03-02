@@ -13,11 +13,11 @@ import com.sanitation.app.R;
 import java.util.List;
 
 
-public class NoticeFragmentAdapter extends RecyclerView.Adapter<NoticeFragmentAdapter.ViewHolder> {
+public class NoticeListFragmentAdapter extends RecyclerView.Adapter<NoticeListFragmentAdapter.ViewHolder> {
 
     private final List<Notice> mValues;
 
-    public NoticeFragmentAdapter(List<Notice> items) {
+    public NoticeListFragmentAdapter(List<Notice> items) {
         mValues = items;
     }
 
@@ -32,15 +32,16 @@ public class NoticeFragmentAdapter extends RecyclerView.Adapter<NoticeFragmentAd
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mTitleView.setText(mValues.get(position).title);
-        holder.mContentView.setText(mValues.get(position).content);
         holder.mDateView.setText(mValues.get(position).date);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
-                Intent intent = new Intent(context, NoticeDetailFragment.class);
+                Intent intent = new Intent(context, NoticeDetailActivity.class);
                 intent.putExtra(NoticeDetailFragment.ARG_TITLE, holder.mItem.title);
+                intent.putExtra(NoticeDetailFragment.ARG_CONTENT, holder.mItem.content);
+                intent.putExtra(NoticeDetailFragment.ARG_DATE, holder.mItem.date);
                 context.startActivity(intent);
             }
         });
@@ -54,7 +55,6 @@ public class NoticeFragmentAdapter extends RecyclerView.Adapter<NoticeFragmentAd
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mTitleView;
-        public final TextView mContentView;
         public final TextView mDateView;
         public Notice mItem;
 
@@ -62,13 +62,12 @@ public class NoticeFragmentAdapter extends RecyclerView.Adapter<NoticeFragmentAd
             super(view);
             mView = view;
             mTitleView = (TextView) view.findViewById(R.id.title);
-            mContentView = (TextView) view.findViewById(R.id.content);
             mDateView = (TextView) view.findViewById(R.id.date);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mTitleView.getText() + "'";
         }
     }
 }

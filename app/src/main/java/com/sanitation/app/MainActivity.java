@@ -35,14 +35,9 @@ import com.sanitation.app.staff.StaffListActivity;
 import java.util.List;
 
 import im.delight.android.ddp.Meteor;
-import im.delight.android.ddp.MeteorCallback;
-import im.delight.android.ddp.MeteorSingleton;
-import im.delight.android.ddp.db.Collection;
-import im.delight.android.ddp.db.Database;
-import im.delight.android.ddp.db.memory.InMemoryDatabase;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener ,OnWeatherSearchListener, MeteorCallback {
+        implements NavigationView.OnNavigationItemSelectedListener ,OnWeatherSearchListener {
     private static final String TAG = "MainActivity";
 
     private TextView report_time;
@@ -82,13 +77,14 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        if(!MeteorSingleton.hasInstance()) MeteorSingleton.createInstance(this, "ws://192.168.1.84:3000/websocket",new InMemoryDatabase());
-        mMeteor = MeteorSingleton.getInstance();
-//        mMeteor.addCallback(this);
-//        mMeteor.connect();
+
+        //init first drawer item
+        addMainFragment();
+//        setTitle(R.string.navigation_drawer_menu_notice);
+
 
         init();
-        searchliveweather();
+        searchLiveWeather();
     }
     private void init() {
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -103,6 +99,12 @@ public class MainActivity extends AppCompatActivity
         wind=(TextView)headerView.findViewById(R.id.wind);
         humidity = (TextView)headerView.findViewById(R.id.humidity);
     }
+    private void addMainFragment() {
+        MainFragment fragment = new MainFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
+
     private void searchforcastsweather() {
         mquery = new WeatherSearchQuery(cityname, WeatherSearchQuery.WEATHER_TYPE_FORECAST);//检索参数为城市和天气类型，实时天气为1、天气预报为2
         mweathersearch=new WeatherSearch(this);
@@ -110,7 +112,7 @@ public class MainActivity extends AppCompatActivity
         mweathersearch.setQuery(mquery);
         mweathersearch.searchWeatherAsyn(); //异步搜索
     }
-    private void searchliveweather() {
+    private void searchLiveWeather() {
         mquery = new WeatherSearchQuery(cityname, WeatherSearchQuery.WEATHER_TYPE_LIVE);//检索参数为城市和天气类型，实时天气为1、天气预报为2
         mweathersearch=new WeatherSearch(this);
         mweathersearch.setOnWeatherSearchListener(this);
@@ -216,43 +218,4 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public void onConnect(boolean signedInAutomatically) {
-        Log.d(TAG, "connect to meteor");
-        // subscribe to data from the server
-        String subscriptionId = mMeteor.subscribe("notices");
-
-        Log.d("TAG", subscriptionId);
-        Database database = mMeteor.getDatabase();
-        int numCollections = database.count();
-        Collection collection = database.getCollection("notices");
-        String[] collectionNames = database.getCollectionNames();
-//        // unsubscribe from data again (usually done later or not at all)
-//        mMeteor.unsubscribe(subscriptionId);
-    }
-
-    @Override
-    public void onDisconnect() {
-
-    }
-
-    @Override
-    public void onException(Exception e) {
-
-    }
-
-    @Override
-    public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
-
-    }
-
-    @Override
-    public void onDataChanged(String collectionName, String documentID, String updatedValuesJson, String removedValuesJson) {
-
-    }
-
-    @Override
-    public void onDataRemoved(String collectionName, String documentID) {
-
-    }
 }

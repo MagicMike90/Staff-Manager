@@ -56,8 +56,6 @@ public class StaffMainActivity extends AppCompatActivity {
 
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         mTabLayout.setupWithViewPager(mViewPager);
-
-
     }
 
     private void setupViewPager(ViewPager viewPager) {
