@@ -5,11 +5,13 @@ package com.sanitation.app.notice;
  */
 
 public class Notice {
+    public final String id;
     public final String title;
     public final String content;
     public final String date;
 
-    public Notice(String title, String content, String date) {
+    public Notice(String id,String title, String content, String date) {
+        this.id = id;
         this.title = title;
         this.content = content;
         this.date = date;

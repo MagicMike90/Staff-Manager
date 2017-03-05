@@ -29,12 +29,14 @@ public class NoticeDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(NoticeDetailFragment.ARG_TITLE,
-                    getIntent().getStringExtra(NoticeDetailFragment.ARG_TITLE));
-            arguments.putString(NoticeDetailFragment.ARG_CONTENT,
-                    getIntent().getStringExtra(NoticeDetailFragment.ARG_CONTENT));
-            arguments.putString(NoticeDetailFragment.ARG_DATE,
-                    getIntent().getStringExtra(NoticeDetailFragment.ARG_DATE));
+            arguments.putString(NoticeDetailFragment.ARG_ID,
+                    getIntent().getStringExtra(NoticeDetailFragment.ARG_ID));
+//            arguments.putString(NoticeDetailFragment.ARG_TITLE,
+//                    getIntent().getStringExtra(NoticeDetailFragment.ARG_TITLE));
+//            arguments.putString(NoticeDetailFragment.ARG_CONTENT,
+//                    getIntent().getStringExtra(NoticeDetailFragment.ARG_CONTENT));
+//            arguments.putString(NoticeDetailFragment.ARG_DATE,
+//                    getIntent().getStringExtra(NoticeDetailFragment.ARG_DATE));
 
             NoticeDetailFragment fragment = new NoticeDetailFragment();
             fragment.setArguments(arguments);

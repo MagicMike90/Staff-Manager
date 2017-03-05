@@ -227,7 +227,7 @@ public class StaffListActivity extends AppCompatActivity implements MeteorCallba
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(StaffDetailFragment.ARG_STAFF_NAME, holder.mItem.id);
+                        arguments.putString(StaffDetailFragment.ARG_STAFF_ID, holder.mItem.id);
                         StaffDetailFragment fragment = new StaffDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
@@ -236,7 +236,7 @@ public class StaffListActivity extends AppCompatActivity implements MeteorCallba
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, StaffDetailActivity.class);
-                        intent.putExtra(StaffDetailFragment.ARG_STAFF_NAME, holder.mItem.id);
+                        intent.putExtra(StaffDetailFragment.ARG_STAFF_ID, holder.mItem.id);
 
                         context.startActivity(intent);
                     }

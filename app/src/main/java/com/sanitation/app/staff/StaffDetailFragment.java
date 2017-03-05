@@ -10,7 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sanitation.app.R;
-
+import com.sanitation.app.notice.Notice;
+import com.sanitation.app.notice.NoticeManager;
 
 
 public class StaffDetailFragment extends Fragment {
@@ -18,8 +19,8 @@ public class StaffDetailFragment extends Fragment {
      * The fragment argument representing the item ID that this fragment
      * represents.
      */
-    public static final String ARG_STAFF_NAME = "staff_name";
-
+    public static final String ARG_STAFF_ID = "id";
+    private Staff mStaffs;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -31,12 +32,12 @@ public class StaffDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_STAFF_NAME)) {
-
+        if (getArguments().containsKey(ARG_STAFF_ID)) {
+            mStaffs = StaffManager.getInstance().getStaff(getArguments().getString(ARG_STAFF_ID));
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(getArguments().getString(ARG_STAFF_NAME));
+                appBarLayout.setTitle(getArguments().getString(ARG_STAFF_ID));
             }
         }
     }

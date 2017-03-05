@@ -41,7 +41,7 @@ public class StaffListFragmentAdapter extends RecyclerView.Adapter<StaffListFrag
 
                 Context context = v.getContext();
                 Intent intent = new Intent(context, StaffDetailActivity.class);
-                intent.putExtra(StaffDetailFragment.ARG_STAFF_NAME, holder.mItem.id);
+                intent.putExtra(StaffDetailFragment.ARG_STAFF_ID, holder.mItem.id);
 
                 context.startActivity(intent);
 

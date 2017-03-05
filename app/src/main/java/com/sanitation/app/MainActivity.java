@@ -30,6 +30,7 @@ import com.amap.api.services.weather.WeatherSearch.OnWeatherSearchListener;
 import com.amap.api.services.weather.WeatherSearchQuery;
 import com.sanitation.app.notice.NoticeListFragment;
 import com.sanitation.app.staff.StaffListActivity;
+import com.sanitation.app.staff.StaffListFragment;
 
 
 import java.util.List;
@@ -159,14 +160,19 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        if (id == R.id.nav_notice) {
+            fragmentClass = NoticeListFragment.class;
+        }
         if (id == R.id.nav_camera) {
             // Handle the camera action
 //            Intent externalActivityIntent = new Intent(this, StaffMainActivity.class);
 //            startActivity(externalActivityIntent);
-            fragmentClass = NoticeListFragment.class;
+            fragmentClass = StaffListFragment.class;
+
         } else if (id == R.id.nav_gallery) {
-            Intent externalActivityIntent = new Intent(this, StaffListActivity.class);
-            startActivity(externalActivityIntent);
+//            Intent externalActivityIntent = new Intent(this, StaffListActivity.class);
+//            startActivity(externalActivityIntent);
+
 
         } else if (id == R.id.nav_slideshow) {
 

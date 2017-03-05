@@ -56,8 +56,8 @@ public class StaffDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(StaffDetailFragment.ARG_STAFF_NAME,
-                    getIntent().getStringExtra(StaffDetailFragment.ARG_STAFF_NAME));
+            arguments.putString(StaffDetailFragment.ARG_STAFF_ID,
+                    getIntent().getStringExtra(StaffDetailFragment.ARG_STAFF_ID));
             StaffDetailFragment fragment = new StaffDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

@@ -10,12 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sanitation.app.Constants;
 import com.sanitation.app.R;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;
@@ -42,7 +39,7 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
     }
 
 
-    public static NoticeListFragment newInstance(int columnCount) {
+    public static NoticeListFragment newInstance() {
         NoticeListFragment fragment = new NoticeListFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -54,7 +51,7 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
         super.onCreate(savedInstanceState);
 
         if (!MeteorSingleton.hasInstance())
-            MeteorSingleton.createInstance(this.getContext(), "ws://192.168.1.84:3000/websocket", new InMemoryDatabase());
+            MeteorSingleton.createInstance(this.getContext(), Constants.METEOR_SERVER_SOCKET, new InMemoryDatabase());
         mMeteor = MeteorSingleton.getInstance();
         mMeteor.addCallback(this);
         mMeteor.connect();
@@ -70,7 +67,7 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
             Context context = view.getContext();
             mRecyclerView = (RecyclerView) view;
             mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-            mRecyclerView.setAdapter(new NoticeListFragmentAdapter(NoticeManager.getInstance().getNotices()));
+            mRecyclerView.setAdapter(new NoticeListFragmentAdapter(NoticeManager.getInstance().getNotice()));
             mRecyclerView.addItemDecoration(new DividerItemDecoration(this.getContext(), LinearLayoutManager.VERTICAL));
         }
         return view;
@@ -117,6 +114,7 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
         try {
             Database database = mMeteor.getDatabase();
             Collection collection = database.getCollection("notices");
+            NoticeManager.getInstance().init();
 
             int limit = 30;
             int offset = 0;
@@ -126,12 +124,12 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
                 String content = d.getField("content").toString().replace("编辑时间","r");
                 String time = d.getField("time").toString();
 
-                NoticeManager.getInstance().addNotice(new Notice(name, content, time));
+                NoticeManager.getInstance().addNotice(new Notice(d.getId(), name, content, time));
             }
         } catch (Exception e) {
             Log.d(TAG, Log.getStackTraceString(e));
         }
-        mViewAdapter = new NoticeListFragmentAdapter(NoticeManager.getInstance().getNotices());
+        mViewAdapter = new NoticeListFragmentAdapter(NoticeManager.getInstance().getNotice());
         mRecyclerView.setAdapter(mViewAdapter);
         mViewAdapter.notifyDataSetChanged();
     }

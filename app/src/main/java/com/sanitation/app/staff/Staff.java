@@ -24,7 +24,7 @@ public class Staff {
 
     @Override
     public String toString() {
-        return gender;
+        return staff_name;
     }
 
 }
