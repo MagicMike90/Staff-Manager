@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sanitation.app.Constants;
+import com.sanitation.app.MeteorDDP;
 import com.sanitation.app.R;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
 
@@ -50,9 +51,7 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!MeteorSingleton.hasInstance())
-            MeteorSingleton.createInstance(this.getContext(), Constants.METEOR_SERVER_SOCKET, new InMemoryDatabase());
-        mMeteor = MeteorSingleton.getInstance();
+        mMeteor = MeteorDDP.getInstance(this.getContext()).getConnection();
         mMeteor.addCallback(this);
         mMeteor.connect();
     }
@@ -75,9 +74,9 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
 
     @Override
     public void onPause() {
-        MeteorSingleton.getInstance().removeCallback(this);
+        mMeteor.removeCallback(this);
         super.onDestroy();
-        Log.d(TAG, "onDestroy");
+        Log.d(TAG, "onPause");
 
     }
     @Override
@@ -109,7 +108,7 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
 
     @Override
     public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
-        Log.d(TAG, "onConnect");
+        Log.d(TAG, "onDataAdded");
 
         try {
             Database database = mMeteor.getDatabase();

@@ -116,18 +116,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        Meteor.setLoggingEnabled(true);
-//        MeteorSingleton.createInstance(this, "ws://192.168.1.84:3000/websocket",new InMemoryDatabase());
-//        MeteorSingleton.getInstance().addCallback(this);
-//        // establish the connection
-//        MeteorSingleton.getInstance().connect();
-        // create a new instance (protocol version in second parameter is optional)
-        mMeteor = new Meteor(this, "ws://192.168.1.84:3000/websocket");
-//        if(!MeteorSingleton.hasInstance()) MeteorSingleton.createInstance(this, "ws://192.168.1.79:3000/websocket",new InMemoryDatabase());
-//        mMeteor = MeteorSingleton.getInstance();
+        Meteor.setLoggingEnabled(true);;
+        mMeteor = MeteorDDP.getInstance(this).getConnection();
         // register the callback that will handle events and receive messages
         mMeteor.addCallback(this);
-        mMeteor.connect();
+
     }
 
     private void populateAutoComplete() {
@@ -222,8 +215,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // perform the user login attempt.
             showProgress(true);
 
-            email = "michael";
-            password = "1234";
+            email = "test";
+            password = "password";
 
             if (mMeteor.isConnected()) {
                 mMeteor.loginWithUsername(email, password, new ResultListener() {
@@ -344,6 +337,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
     protected void onRestart() {
         super.onRestart();
         Log.d(TAG, "onRestart");
@@ -351,7 +349,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     @Override
     public void onDestroy() {
-        mMeteor.disconnect();
+//        mMeteor.disconnect();
         mMeteor.removeCallback(this);
         super.onDestroy();
         Log.d(TAG, "onDestroy");
