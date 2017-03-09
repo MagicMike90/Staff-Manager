@@ -1,9 +1,9 @@
 # Staff-Manager
-An Android DPP project connect to meteor web app.
+An Android DPP project connect to meteor web app, mix with REST servi
 
 # Project features
-Reactive data exchange.
-Staff roster management.
-Work area management.
-Event reporting system.
-Staff realtime location tracking.
+1.Reactive data exchange.
+2.Staff roster management.
+3.Work area management.
+4.Event reporting system.
+5.Staff realtime location tracking.
