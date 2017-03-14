@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -41,24 +42,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".staff.StaffListActivity"
-            android:label="@string/title_staff_list"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.sanitation.app.MainActivity" />
-        </activity>
-        <activity
             android:name=".staff.StaffDetailActivity"
             android:label="@string/title_staff_detail"
-            android:parentActivityName=".staff.StaffListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.sanitation.app.staff.StaffListActivity" />
         </activity>
         <activity
             android:name=".staff.StaffMainActivity"
@@ -77,7 +64,11 @@
 
         <service
             android:name=".service.LocationIntentService"
-            android:exported="false"></service>
+            android:exported="false" />
+        <service
+            android:name=".service.GPSService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

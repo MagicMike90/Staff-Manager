@@ -32,7 +32,7 @@ import im.delight.android.ddp.db.memory.InMemoryDatabase;
 
 public class StaffListFragment extends Fragment implements MeteorCallback {
 
-    private static final String TAG = "NoticeListFragment";
+    private static final String TAG = "StaffListFragment";
 
 
     private RecyclerView mRecyclerView;
@@ -132,6 +132,8 @@ public class StaffListFragment extends Fragment implements MeteorCallback {
                 String name = d.getField("staff_name").toString();
                 String gender = d.getField("gender").toString();
                 String date = d.getField("join_work_date") != null ? d.getField("join_work_date").toString() : "0";
+
+                Log.d(TAG, gender);
 
                 Utils utils = Utils.getInstance(this.getContext());
                 name = utils.getName(name);

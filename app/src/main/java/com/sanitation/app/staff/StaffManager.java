@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by Michael on 3/2/17.
  */
 public class StaffManager {
-    private static final String TAG = "NoticeManager";
+    private static final String TAG = "StaffManager";
     private static StaffManager mInstance;
     private List<Staff> mStaffs;
     public static final Map<String, Staff> STAFF_MAP = new ConcurrentHashMap<String, Staff>();
@@ -46,7 +46,6 @@ public class StaffManager {
 
     //Add element to array
     public void addStaffs(Staff value) {
-        Log.d(TAG, "addStaff");
         STAFF_MAP.put(value.id,value);
         mStaffs.add(value);
     }

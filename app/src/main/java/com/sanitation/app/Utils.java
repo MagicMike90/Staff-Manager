@@ -28,7 +28,8 @@ public class Utils {
         return name;
     }
     public String getGender(String gender) {
-        return gender == "male" ? "男": "女";
+
+        return gender.equals("male") ? "男": "女";
     }
     public String getDateStr(String date) {
         String mm = date.replaceAll("[^-?0-9]+", "");

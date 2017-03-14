@@ -13,13 +13,13 @@ import com.android.volley.toolbox.Volley;
  * Created by Michael on 2/11/17.
  */
 
-public class VolleyHTTP {
-    private static VolleyHTTP mInstance;
+public class VolleySingleton {
+    private static VolleySingleton mInstance;
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
     private static Context mCtx;
 
-    private VolleyHTTP(Context context) {
+    private VolleySingleton(Context context) {
         mCtx = context;
         mRequestQueue = getRequestQueue();
 
@@ -40,9 +40,9 @@ public class VolleyHTTP {
                 });
     }
 
-    public static synchronized VolleyHTTP getInstance(Context context) {
+    public static synchronized VolleySingleton getInstance(Context context) {
         if (mInstance == null) {
-            mInstance = new VolleyHTTP(context);
+            mInstance = new VolleySingleton(context);
         }
         return mInstance;
     }

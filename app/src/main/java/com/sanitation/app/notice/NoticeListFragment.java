@@ -74,6 +74,7 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
 
     @Override
     public void onPause() {
+//        mMeteor.disconnect();
         mMeteor.removeCallback(this);
         super.onDestroy();
         Log.d(TAG, "onPause");

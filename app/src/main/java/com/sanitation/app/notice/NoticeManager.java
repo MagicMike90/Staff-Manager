@@ -47,7 +47,7 @@ public class NoticeManager {
 
     //Add element to array
     public void addNotice(Notice value) {
-        Log.d(TAG, "addNotice");
+//        Log.d(TAG, "addNotice");
         NOTICE_MAP.put(value.id,value);
         mNotices.add(value);
     }

@@ -1,6 +1,5 @@
 package com.sanitation.app;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -29,7 +28,6 @@ import com.amap.api.services.weather.WeatherSearch.OnWeatherSearchListener;
 
 import com.amap.api.services.weather.WeatherSearchQuery;
 import com.sanitation.app.notice.NoticeListFragment;
-import com.sanitation.app.staff.StaffListActivity;
 import com.sanitation.app.staff.StaffListFragment;
 
 
