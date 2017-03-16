@@ -27,6 +27,5 @@ public class MeteorDDP {
     private MeteorDDP(Context context) {
         Meteor.setLoggingEnabled(true);;
         mMeteor = new Meteor(context, Constants.METEOR_SERVER_SOCKET,new InMemoryDatabase());
-        mMeteor.connect();
     }
 }

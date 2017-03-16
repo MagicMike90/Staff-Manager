@@ -21,7 +21,12 @@ import android.widget.TextView;
 
 import com.sanitation.app.service.GPSService;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;
@@ -83,8 +88,6 @@ public class LoginActivity extends AppCompatActivity implements MeteorCallback {
 
 
 
-
-
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
@@ -96,19 +99,17 @@ public class LoginActivity extends AppCompatActivity implements MeteorCallback {
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
-        // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+
 
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
+//        // Check for a valid password, if the user entered one.
+//        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+//            mPasswordView.setError(getString(R.string.error_invalid_password));
+//            focusView = mPasswordView;
+//            cancel = true;
+//        }
 
 //        // Check for a valid email address.
 //        if (TextUtils.isEmpty(email)) {
@@ -130,37 +131,8 @@ public class LoginActivity extends AppCompatActivity implements MeteorCallback {
             // perform the user login attempt.
             showProgress(true);
 
-            email = "michael";
-            password = "password";
+            mMeteor.connect();
 
-            if (mMeteor.isConnected()) {
-                mMeteor.loginWithUsername(email, password, new ResultListener() {
-                    @Override
-                    public void onSuccess(String s) {
-                        Log.d(TAG, s);
-                        showProgress(false);
-
-                        //start location tracker
-                        Intent ddpIntent = new Intent(LoginActivity.this, GPSService.class);
-                        ddpIntent.putExtra("test", "string");
-                        startService(ddpIntent);
-
-
-                        Intent externalActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(externalActivityIntent);
-                        finish();
-                    }
-
-                    @Override
-                    public void onError(String s, String s1, String s2) {
-                        Log.e(TAG, s + " -> " + s1 + " -> " + s2);
-                        showProgress(false);
-                    }
-                });
-            } else {
-                mMeteor.reconnect();
-                Log.d(TAG, "try to reconnect connect");
-            }
 //            mAuthTask = new UserLoginTask(email, password);
 //            mAuthTask.execute((Void) null);
         }
@@ -178,7 +150,9 @@ public class LoginActivity extends AppCompatActivity implements MeteorCallback {
         return true;
     }
 
-
+    private String findStaffId() {
+        return "";
+    }
     /**
      * Shows the progress UI and hides the login form.
      */
@@ -249,6 +223,82 @@ public class LoginActivity extends AppCompatActivity implements MeteorCallback {
     @Override
     public void onConnect(boolean signedInAutomatically) {
         Log.d(TAG, "onConnect");
+
+        String subscriptionId = mMeteor.subscribe("users");
+        Log.d(TAG, subscriptionId);
+        if(!signedInAutomatically) {
+            // Store values at the time of the login attempt.
+            String email = mEmailView.getText().toString();
+            String password = mPasswordView.getText().toString();
+
+            email = "michael";
+            password = "password";
+
+            mMeteor.loginWithUsername(email, password, new ResultListener() {
+                @Override
+                public void onSuccess(String result) {
+                    Log.d(TAG, result);
+                    showProgress(false);
+
+
+                    Log.d(TAG, "Logged in: " + result);
+
+                    try {
+                        JSONObject login = new JSONObject(result);
+
+                        String userId = login.getString("id");
+                        String token = login.getString("token");
+                        long expiry = login.getJSONObject("tokenExpires").getLong("$date");
+
+                        Map<String, Object> user = new HashMap<String, Object>();
+                        user.put("_id", userId);
+
+                        Object[] queryParams = {user};
+
+                        mMeteor.call("user.findStaffId", queryParams, new ResultListener() {
+                            @Override
+                            public void onSuccess(String result) {
+                                Log.d(TAG, "Call result: " + result);
+                            }
+
+                            @Override
+                            public void onError(String error, String reason, String details) {
+                                Log.d(TAG, "Error: " + error + " " + reason + " " + details);
+                            }
+                        });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    //start location tracker
+                    Intent ddpIntent = new Intent(LoginActivity.this, GPSService.class);
+                    ddpIntent.putExtra("userId", mMeteor.getUserId());
+                    startService(ddpIntent);
+
+
+                    Intent externalActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(externalActivityIntent);
+                    finish();
+                }
+
+                @Override
+                public void onError(String s, String s1, String s2) {
+                    Log.e(TAG, s + " -> " + s1 + " -> " + s2);
+                    showProgress(false);
+                }
+            });
+        }else {
+            Log.d(TAG,  mMeteor.getUserId());
+            //start location tracker
+            Intent ddpIntent = new Intent(LoginActivity.this, GPSService.class);
+            ddpIntent.putExtra("userId", mMeteor.getUserId());
+            startService(ddpIntent);
+
+            Intent externalActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(externalActivityIntent);
+            finish();
+        }
     }
 
     @Override
