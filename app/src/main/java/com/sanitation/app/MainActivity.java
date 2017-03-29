@@ -155,6 +155,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         Fragment fragment = null;
         Class fragmentClass = NoticeListFragment.class;
+        String hint = "";
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
