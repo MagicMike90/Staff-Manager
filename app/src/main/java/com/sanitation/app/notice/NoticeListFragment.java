@@ -82,31 +82,32 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-
-        if (searchItem != null) {
-            searchView = (SearchView) searchItem.getActionView();
-            searchView.setQueryHint(mSearchbarHint);
-        }
-        if (searchView != null) {
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-
-            queryTextListener = new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    Log.i("onQueryTextChange", newText);
-
-                    return true;
-                }
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    Log.i("onQueryTextSubmit", query);
-
-                    return true;
-                }
-            };
-            searchView.setOnQueryTextListener(queryTextListener);
-        }
+        searchItem.setVisible(true);
+//        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+//
+//        if (searchItem != null) {
+//            searchView = (SearchView) searchItem.getActionView();
+//            searchView.setQueryHint(mSearchbarHint);
+//        }
+//        if (searchView != null) {
+//            searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+//
+//            queryTextListener = new SearchView.OnQueryTextListener() {
+//                @Override
+//                public boolean onQueryTextChange(String newText) {
+//                    Log.i("onQueryTextChange", newText);
+//
+//                    return true;
+//                }
+//                @Override
+//                public boolean onQueryTextSubmit(String query) {
+//                    Log.i("onQueryTextSubmit", query);
+//
+//                    return true;
+//                }
+//            };
+//            searchView.setOnQueryTextListener(queryTextListener);
+//        }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -115,11 +116,12 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
         switch (item.getItemId()) {
             case R.id.action_search:
                 // Not implemented here
+
                 return false;
             default:
                 break;
         }
-        searchView.setOnQueryTextListener(queryTextListener);
+//        searchView.setOnQueryTextListener(queryTextListener);
         return super.onOptionsItemSelected(item);
     }
 
