@@ -69,9 +69,6 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service
-            android:name=".service.LocationIntentService"
-            android:exported="false" />
-        <service
             android:name=".service.GPSService"
             android:enabled="true"
             android:exported="true" />

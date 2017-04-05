@@ -1,36 +1,32 @@
 package com.sanitation.app.staff;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sanitation.app.Constants;
 import com.sanitation.app.MeteorDDP;
 import com.sanitation.app.R;
 import com.sanitation.app.Utils;
-import com.sanitation.app.notice.NoticeListFragmentAdapter;
-import com.sanitation.app.notice.NoticeManager;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;
-import im.delight.android.ddp.MeteorSingleton;
 import im.delight.android.ddp.db.Collection;
 import im.delight.android.ddp.db.Database;
 import im.delight.android.ddp.db.Document;
-import im.delight.android.ddp.db.memory.InMemoryDatabase;
 
-public class StaffListFragment extends Fragment implements MeteorCallback {
+public class StaffListFragment extends Fragment implements MeteorCallback, StaffFilterFragment.OnCloseListener
+{
 
     private static final String TAG = "StaffListFragment";
 
@@ -47,8 +43,7 @@ public class StaffListFragment extends Fragment implements MeteorCallback {
     public StaffListFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
+
     public static StaffListFragment newInstance() {
         StaffListFragment fragment = new StaffListFragment();
         Bundle args = new Bundle();
@@ -59,6 +54,7 @@ public class StaffListFragment extends Fragment implements MeteorCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
         mMeteor =  MeteorDDP.getInstance(this.getContext()).getConnection();
         mMeteor.addCallback(this);
@@ -79,6 +75,25 @@ public class StaffListFragment extends Fragment implements MeteorCallback {
             mRecyclerView.addItemDecoration(new DividerItemDecoration(this.getContext(), LinearLayoutManager.VERTICAL));
         }
         return view;
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchItem.setVisible(true);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                StaffFilterFragment dialog = StaffFilterFragment.newInstance();
+                dialog.show(getFragmentManager(), "StaffFilterFragment");
+                return false;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -157,6 +172,11 @@ public class StaffListFragment extends Fragment implements MeteorCallback {
 
     @Override
     public void onDataRemoved(String collectionName, String documentID) {
+
+    }
+
+    @Override
+    public void OnCloseListener(Uri uri) {
 
     }
 }

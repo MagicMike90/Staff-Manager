@@ -1,5 +1,6 @@
 package com.sanitation.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -28,12 +29,15 @@ import com.amap.api.services.weather.WeatherSearch.OnWeatherSearchListener;
 
 import com.amap.api.services.weather.WeatherSearchQuery;
 import com.sanitation.app.notice.NoticeListFragment;
+import com.sanitation.app.service.GPSService;
 import com.sanitation.app.staff.StaffListFragment;
 
 
 import java.util.List;
 
 import im.delight.android.ddp.Meteor;
+import im.delight.android.ddp.MeteorSingleton;
+import im.delight.android.ddp.db.memory.InMemoryDatabase;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener ,OnWeatherSearchListener {
@@ -61,14 +65,14 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -77,14 +81,14 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
 
-        //init first drawer item
-        addMainFragment();
 //        setTitle(R.string.navigation_drawer_menu_notice);
 
 
         init();
         searchLiveWeather();
     }
+
+
     private void init() {
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
@@ -97,11 +101,20 @@ public class MainActivity extends AppCompatActivity
         Temperature = (TextView)headerView.findViewById(R.id.temp);
         wind=(TextView)headerView.findViewById(R.id.wind);
         humidity = (TextView)headerView.findViewById(R.id.humidity);
-    }
-    private void addMainFragment() {
-        MainFragment fragment = new MainFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+
+//        NoticeListFragment fragment = new NoticeListFragment();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+
+        MeteorSingleton.createInstance(this,Constants.METEOR_SERVER_SOCKET,new InMemoryDatabase());
+        //start location tracker
+        Intent ddpIntent = new Intent(this, GPSService.class);
+        ddpIntent.putExtra("userId",  MeteorSingleton.getInstance().getUserId());
+        startService(ddpIntent);
+
+
+        MenuItem item =  mNavigationView.getMenu().getItem(0);
+        onNavigationItemSelected(item);
     }
 
     private void searchforcastsweather() {
@@ -160,6 +173,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_notice) {
             fragmentClass = NoticeListFragment.class;
+
         }
         if (id == R.id.nav_camera) {
             // Handle the camera action

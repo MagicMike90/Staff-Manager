@@ -24,13 +24,14 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import im.delight.android.ddp.Meteor;
+import im.delight.android.ddp.MeteorSingleton;
 import im.delight.android.ddp.ResultListener;
 
 
 public class GPSService extends Service {
     private static final String TAG = "GPSService";
     private LocationManager mLocationManager = null;
-    private static final int LOCATION_INTERVAL = 500;
+    private static final int LOCATION_INTERVAL = 100000;
     private static final float LOCATION_DISTANCE = 10f;
     // flag for GPS status
     boolean isGPSEnabled = false;
@@ -41,7 +42,8 @@ public class GPSService extends Service {
     private Meteor mMeteor;
 
     public GPSService() {
-        mMeteor = MeteorDDP.getInstance(this).getConnection();
+//        mMeteor = MeteorDDP.getInstance(this).getConnection();
+        mMeteor  = MeteorSingleton.getInstance();
         Log.d(TAG, "GPSService: constructor");
     }
 

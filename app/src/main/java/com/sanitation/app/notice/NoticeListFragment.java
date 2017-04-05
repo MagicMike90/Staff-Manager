@@ -1,8 +1,8 @@
 package com.sanitation.app.notice;
 
-import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,15 +15,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sanitation.app.Constants;
 import com.sanitation.app.MeteorDDP;
 import com.sanitation.app.R;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
 
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;
+import im.delight.android.ddp.MeteorSingleton;
 import im.delight.android.ddp.db.Collection;
 import im.delight.android.ddp.db.Database;
 import im.delight.android.ddp.db.Document;
+import im.delight.android.ddp.db.memory.InMemoryDatabase;
 
 
 public class NoticeListFragment extends Fragment implements MeteorCallback {
@@ -47,10 +50,9 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
     }
 
 
-    public static NoticeListFragment newInstance(String hint) {
+    public static NoticeListFragment newInstance() {
         NoticeListFragment fragment = new NoticeListFragment();
         Bundle args = new Bundle();
-        args.putString("hint",hint);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,11 +60,16 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-        mMeteor = MeteorDDP.getInstance(this.getContext()).getConnection();
+//        setHasOptionsMenu(true);
+//        mMeteor = MeteorDDP.getInstance(this.getContext()).getConnection();
+
+        mMeteor = MeteorSingleton.getInstance();
+//        mMeteor = new Meteor(getContext(), Constants.METEOR_SERVER_SOCKET,new InMemoryDatabase());
         mMeteor.addCallback(this);
+
         mMeteor.connect();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,51 +86,26 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
         }
         return view;
     }
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        searchItem.setVisible(true);
-//        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        MenuItem searchItem = menu.findItem(R.id.action_search);
+//        searchItem.setVisible(true);
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
 //
-//        if (searchItem != null) {
-//            searchView = (SearchView) searchItem.getActionView();
-//            searchView.setQueryHint(mSearchbarHint);
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.action_search:
+//                NoticeFilterDialogFragment dialog = NoticeFilterDialogFragment.newInstance();
+//                dialog.show(getFragmentManager(), "dialog");
+//
+//                return false;
+//            default:
+//                break;
 //        }
-//        if (searchView != null) {
-//            searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-//
-//            queryTextListener = new SearchView.OnQueryTextListener() {
-//                @Override
-//                public boolean onQueryTextChange(String newText) {
-//                    Log.i("onQueryTextChange", newText);
-//
-//                    return true;
-//                }
-//                @Override
-//                public boolean onQueryTextSubmit(String query) {
-//                    Log.i("onQueryTextSubmit", query);
-//
-//                    return true;
-//                }
-//            };
-//            searchView.setOnQueryTextListener(queryTextListener);
-//        }
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                // Not implemented here
-
-                return false;
-            default:
-                break;
-        }
-//        searchView.setOnQueryTextListener(queryTextListener);
-        return super.onOptionsItemSelected(item);
-    }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @Override
     public void onPause() {
@@ -173,7 +155,7 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
             Document[] documents = collection.find(limit, offset);
             for (Document d : documents) {
                 String name = d.getField("title").toString();
-                String content = d.getField("content").toString().replace("编辑时间", "r");
+                String content = d.getField("content").toString().replace("编辑时间", "");
                 String time = d.getField("time").toString();
 
                 NoticeManager.getInstance().addNotice(new Notice(d.getId(), name, content, time));

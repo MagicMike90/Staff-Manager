@@ -8,6 +8,9 @@ public class Constants {
   public static final String METEOR_SERVER_SOCKET = "ws://"+LOCAL_HOST + LOCAL_HOST_PORT +"/websocket";
   public static final String METEOR_LOCATION_ENDPOINT = "http://" +LOCAL_HOST + LOCAL_HOST_PORT + "/api/location";
 
+  public static final String[] DEPARTMENT = {"一所","二所","三所","四所","五所","六所"};
+  public static final String[] ONLINE_STATUS = {"所有人员","只显示在线"};
+
   public class SearchHin {
     private static final String SEARCH_NOTICE = "搜索通知";
     private static final String SEARCH_STAFF = "搜索员工";
