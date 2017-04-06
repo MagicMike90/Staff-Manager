@@ -10,34 +10,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.sanitation.app.Constants;
 import com.sanitation.app.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link OnCloseListener} interface
- * to handle interaction events.
- * Use the {@link StaffFilterFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class StaffFilterFragment extends DialogFragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private String filter_name = "";
+    private String filter_department = Constants.DEPARTMENT[0];
+    private String filter_online = Constants.ONLINE_STATUS[0];
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private String filter_name;
-    private String filter_department;
-    private String filter_online;
     private OnCloseListener mListener;
 
+    EditText StaffNameView;
     public StaffFilterFragment() {
         // Required empty public constructor
     }
@@ -53,50 +42,86 @@ public class StaffFilterFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        StaffListFragment frag = (StaffListFragment)getTargetFragment();
+        onAttachToParentFragment(frag);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_staff_filter, container, false);
-        // Inflate the layout for this fragment
-        MaterialSpinner spinner = (MaterialSpinner) view.findViewById(R.id.spinner_department);
-//        spinner.setDropdownHeight(500);
-        spinner.setItems(Constants.DEPARTMENT);
-        spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
 
-            @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show();
+        StaffNameView = (EditText)view.findViewById(R.id.staff_name);
+
+        //department selection
+        MaterialSpinner department_spinner = (MaterialSpinner) view.findViewById(R.id.spinner_department);
+        department_spinner.setItems(Constants.DEPARTMENT);
+        department_spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                filter_department = item;
+//                Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show();
             }
         });
 
+        //user online status selection
         MaterialSpinner status_spinner = (MaterialSpinner) view.findViewById(R.id.spinner_online);
         status_spinner.setItems(Constants.ONLINE_STATUS);
+        status_spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+//                Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show();
+                filter_online = item;
+            }
+        });
 
         Button staff_filter_confirm_button = (Button) view.findViewById(R.id.staff_filter_confirm_button);
         staff_filter_confirm_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+
+
+                // user name
+                filter_name = StaffNameView.getText().toString();
+
+                JSONObject result = new JSONObject();
+                try {
+                    result.put("filter_name",filter_name);
+                    result.put("filter_department",filter_department);
+                    result.put("filter_online",filter_online);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                mListener.OnCloseListener(result);
+                dismiss();
             }
         });
 
         return view;
     }
 
+    public void onAttachToParentFragment(Fragment fragment) {
+        try {
+            mListener = (OnCloseListener) fragment;
 
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.OnCloseListener(uri);
+        } catch (ClassCastException e) {
+            throw new ClassCastException(
+                    fragment.toString() + " must implement OnPlayerSelectionSetListener");
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+//        try {
+//            mListener = (OnCloseListener) activity;
+//        } catch (ClassCastException e) {
+//            throw new ClassCastException(activity.toString() + " must implement OnArticleSelectedListener");
+//        }
+
 //        if (context instanceof OnCloseListener) {
 //            mListener = (OnCloseListener) context;
 //        } else {
@@ -124,18 +149,9 @@ public class StaffFilterFragment extends DialogFragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnCloseListener {
         // TODO: Update argument type and name
-        void OnCloseListener(Uri uri);
+        void OnCloseListener(JSONObject result);
     }
 }

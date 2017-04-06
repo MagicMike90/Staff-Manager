@@ -40,7 +40,7 @@ import im.delight.android.ddp.MeteorSingleton;
 import im.delight.android.ddp.db.memory.InMemoryDatabase;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener ,OnWeatherSearchListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnWeatherSearchListener {
     private static final String TAG = "MainActivity";
 
     private TextView report_time;
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity
     private LocalWeatherLive weatherlive;
     private LocalWeatherForecast weatherforecast;
     private List<LocalDayWeatherForecast> forecastlist = null;
-    private String cityname="沈阳市";//天气搜索的城市，可以写名称或adcode；
+    private String cityname = "沈阳市";//天气搜索的城市，可以写名称或adcode；
 
     private NavigationView mNavigationView;
     private Meteor mMeteor;
@@ -94,43 +94,43 @@ public class MainActivity extends AppCompatActivity
         mNavigationView.setNavigationItemSelectedListener(this);
 
         View headerView = mNavigationView.getHeaderView(0);
-        TextView city =(TextView)headerView.findViewById(R.id.city);
+        TextView city = (TextView) headerView.findViewById(R.id.city);
         city.setText(cityname);
-        report_time = (TextView)headerView.findViewById(R.id.report_time);
-        weather = (TextView)headerView.findViewById(R.id.weather);
-        Temperature = (TextView)headerView.findViewById(R.id.temp);
-        wind=(TextView)headerView.findViewById(R.id.wind);
-        humidity = (TextView)headerView.findViewById(R.id.humidity);
+        report_time = (TextView) headerView.findViewById(R.id.report_time);
+        weather = (TextView) headerView.findViewById(R.id.weather);
+        Temperature = (TextView) headerView.findViewById(R.id.temp);
+        wind = (TextView) headerView.findViewById(R.id.wind);
+        humidity = (TextView) headerView.findViewById(R.id.humidity);
 
-//        NoticeListFragment fragment = new NoticeListFragment();
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
 
-        MeteorSingleton.createInstance(this,Constants.METEOR_SERVER_SOCKET,new InMemoryDatabase());
+        if (!MeteorSingleton.hasInstance())
+            MeteorSingleton.createInstance(this, Constants.METEOR_SERVER_SOCKET, new InMemoryDatabase());
         //start location tracker
         Intent ddpIntent = new Intent(this, GPSService.class);
-        ddpIntent.putExtra("userId",  MeteorSingleton.getInstance().getUserId());
+        ddpIntent.putExtra("userId", MeteorSingleton.getInstance().getUserId());
         startService(ddpIntent);
 
 
-        MenuItem item =  mNavigationView.getMenu().getItem(0);
+        MenuItem item = mNavigationView.getMenu().getItem(0);
         onNavigationItemSelected(item);
     }
 
     private void searchforcastsweather() {
         mquery = new WeatherSearchQuery(cityname, WeatherSearchQuery.WEATHER_TYPE_FORECAST);//检索参数为城市和天气类型，实时天气为1、天气预报为2
-        mweathersearch=new WeatherSearch(this);
+        mweathersearch = new WeatherSearch(this);
         mweathersearch.setOnWeatherSearchListener(this);
         mweathersearch.setQuery(mquery);
         mweathersearch.searchWeatherAsyn(); //异步搜索
     }
+
     private void searchLiveWeather() {
         mquery = new WeatherSearchQuery(cityname, WeatherSearchQuery.WEATHER_TYPE_LIVE);//检索参数为城市和天气类型，实时天气为1、天气预报为2
-        mweathersearch=new WeatherSearch(this);
+        mweathersearch = new WeatherSearch(this);
         mweathersearch.setOnWeatherSearchListener(this);
         mweathersearch.setQuery(mquery);
         mweathersearch.searchWeatherAsyn(); //异步搜索
     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -218,16 +218,16 @@ public class MainActivity extends AppCompatActivity
         if (rCode == AMapException.CODE_AMAP_SUCCESS) {
             if (weatherLiveResult != null && weatherLiveResult.getLiveResult() != null) {
                 weatherlive = weatherLiveResult.getLiveResult();
-                report_time.setText(weatherlive.getReportTime()+" 发布");
+                report_time.setText(weatherlive.getReportTime() + " 发布");
                 weather.setText(weatherlive.getWeather());
-                Temperature.setText(weatherlive.getTemperature()+"°");
-                wind.setText(weatherlive.getWindDirection()+"风     "+weatherlive.getWindPower()+"级");
-                humidity.setText("湿度     "+weatherlive.getHumidity()+"%");
-            }else {
-                Log.d("time","no data");
+                Temperature.setText(weatherlive.getTemperature() + "°");
+                wind.setText(weatherlive.getWindDirection() + "风     " + weatherlive.getWindPower() + "级");
+                humidity.setText("湿度     " + weatherlive.getHumidity() + "%");
+            } else {
+                Log.d("time", "no data");
             }
-        }else {
-            Log.d("rCode",rCode+"");
+        } else {
+            Log.d("rCode", rCode + "");
         }
     }
 

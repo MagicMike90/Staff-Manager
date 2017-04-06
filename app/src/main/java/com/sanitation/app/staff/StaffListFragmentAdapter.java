@@ -6,19 +6,26 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.sanitation.app.R;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
-public class StaffListFragmentAdapter extends RecyclerView.Adapter<StaffListFragmentAdapter.ViewHolder> {
+public class StaffListFragmentAdapter extends RecyclerView.Adapter<StaffListFragmentAdapter.ViewHolder> implements Filterable {
 
-    private final List<Staff> mValues;
+    private final List<Staff> mStaffList;
+    private final List<Staff> mFilteredStaffList;
+    private StaffFilter mStaffFilter;
 
     public StaffListFragmentAdapter(List<Staff> items) {
-        mValues = items;
+        mStaffList = items;
+        this.mFilteredStaffList = new ArrayList<>();
     }
 
     @Override
@@ -30,10 +37,10 @@ public class StaffListFragmentAdapter extends RecyclerView.Adapter<StaffListFrag
 
     @Override
     public void onBindViewHolder(final StaffListFragmentAdapter.ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mStaffNameView.setText(mValues.get(position).staff_name);
-        holder.mGenderView.setText(mValues.get(position).gender);
-        holder.mJoinWorkDateView.setText(mValues.get(position).join_work_date);
+        holder.mItem = mStaffList.get(position);
+        holder.mStaffNameView.setText(mStaffList.get(position).staff_name);
+        holder.mGenderView.setText(mStaffList.get(position).gender);
+        holder.mJoinWorkDateView.setText(mStaffList.get(position).join_work_date);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +58,14 @@ public class StaffListFragmentAdapter extends RecyclerView.Adapter<StaffListFrag
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return mStaffList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        if (mStaffFilter == null)
+            mStaffFilter = new StaffFilter(this, mStaffList);
+        return mStaffFilter;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -72,6 +86,50 @@ public class StaffListFragmentAdapter extends RecyclerView.Adapter<StaffListFrag
         @Override
         public String toString() {
             return super.toString() + " '" + mStaffNameView.getText() + "'";
+        }
+    }
+
+    private static class StaffFilter extends Filter {
+
+        private final StaffListFragmentAdapter adapter;
+
+        private final List<Staff> originalList;
+
+        private final List<Staff> filteredList;
+
+        private StaffFilter(StaffListFragmentAdapter adapter, List<Staff> originalList) {
+            super();
+            this.adapter = adapter;
+            this.originalList = new LinkedList<>(originalList);
+            this.filteredList = new ArrayList<>();
+        }
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            filteredList.clear();
+            final FilterResults results = new FilterResults();
+
+            if (constraint.length() == 0) {
+                filteredList.addAll(originalList);
+            } else {
+                final String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (final Staff user : originalList) {
+                    if (user.staff_name.contains(filterPattern)) {
+                        filteredList.add(user);
+                    }
+                }
+            }
+            results.values = filteredList;
+            results.count = filteredList.size();
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            adapter.mFilteredStaffList.clear();
+            adapter.mFilteredStaffList.addAll((ArrayList<Staff>) results.values);
+            adapter.notifyDataSetChanged();
         }
     }
 }

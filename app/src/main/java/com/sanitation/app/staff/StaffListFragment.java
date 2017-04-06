@@ -19,22 +19,25 @@ import com.sanitation.app.R;
 import com.sanitation.app.Utils;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;
 import im.delight.android.ddp.db.Collection;
 import im.delight.android.ddp.db.Database;
 import im.delight.android.ddp.db.Document;
 
-public class StaffListFragment extends Fragment implements MeteorCallback, StaffFilterFragment.OnCloseListener
-{
-
+public class StaffListFragment extends Fragment implements MeteorCallback, StaffFilterFragment.OnCloseListener {
     private static final String TAG = "StaffListFragment";
+    private static final int DIALOG_REQ_CODE = 1;
 
 
     private RecyclerView mRecyclerView;
     private StaffListFragmentAdapter mViewAdapter;
 
     private Meteor mMeteor;
+    StaffFilterFragment mStaffFilterFragment;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -56,9 +59,11 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        mMeteor =  MeteorDDP.getInstance(this.getContext()).getConnection();
+        mMeteor = MeteorDDP.getInstance(this.getContext()).getConnection();
         mMeteor.addCallback(this);
         mMeteor.connect();
+
+        mStaffFilterFragment = StaffFilterFragment.newInstance();
     }
 
     @Override
@@ -76,6 +81,7 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
         }
         return view;
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         MenuItem searchItem = menu.findItem(R.id.action_search);
@@ -87,8 +93,8 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
-                StaffFilterFragment dialog = StaffFilterFragment.newInstance();
-                dialog.show(getFragmentManager(), "StaffFilterFragment");
+                mStaffFilterFragment.setTargetFragment(StaffListFragment.this, DIALOG_REQ_CODE);
+                mStaffFilterFragment.show(getFragmentManager(), "StaffFilterFragment");
                 return false;
             default:
                 break;
@@ -103,6 +109,7 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
         Log.d(TAG, "onPause");
 
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -160,7 +167,7 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
         } catch (Exception e) {
             Log.d(TAG, Log.getStackTraceString(e));
         }
-        mViewAdapter = new StaffListFragmentAdapter( StaffManager.getInstance().getStaffs());
+        mViewAdapter = new StaffListFragmentAdapter(StaffManager.getInstance().getStaffs());
         mRecyclerView.setAdapter(mViewAdapter);
         mViewAdapter.notifyDataSetChanged();
     }
@@ -176,7 +183,13 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
     }
 
     @Override
-    public void OnCloseListener(Uri uri) {
+    public void OnCloseListener(JSONObject result) {
 
+        try {
+            mViewAdapter.getFilter().filter(result.getString("staff_name"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, result.toString());
     }
 }
