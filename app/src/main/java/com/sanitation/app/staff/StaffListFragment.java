@@ -19,14 +19,20 @@ import com.sanitation.app.R;
 import com.sanitation.app.Utils;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;
+import im.delight.android.ddp.ResultListener;
 import im.delight.android.ddp.db.Collection;
 import im.delight.android.ddp.db.Database;
 import im.delight.android.ddp.db.Document;
+import im.delight.android.ddp.db.Query;
 
 public class StaffListFragment extends Fragment implements MeteorCallback, StaffFilterFragment.OnCloseListener {
     private static final String TAG = "StaffListFragment";
@@ -37,7 +43,12 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
     private StaffListFragmentAdapter mViewAdapter;
 
     private Meteor mMeteor;
+    private String mSubscribe;
     StaffFilterFragment mStaffFilterFragment;
+
+    private String mFilterStaffName;
+    private String mFilterDepartment;
+    private String mFilterOnline;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -125,7 +136,7 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
     @Override
     public void onConnect(boolean signedInAutomatically) {
         Log.d(TAG, "conConnect");
-        mMeteor.subscribe("staffs");
+        mSubscribe = mMeteor.subscribe("staffs");
     }
 
     @Override
@@ -140,36 +151,22 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
 
     @Override
     public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
-        Log.d(TAG, "onDataAdded");
+        Log.d(TAG, "onDataAdded collectionName: " + collectionName);
 
-        try {
-            Database database = mMeteor.getDatabase();
-            Collection collection = database.getCollection("staffs");
-            StaffManager.getInstance().init();
+        Database database = mMeteor.getDatabase();
+        int limit = 30;
+        int offset = 0;
 
-            int limit = 30;
-            int offset = 0;
-            Document[] documents = collection.find(limit, offset);
-            for (Document d : documents) {
-                String name = d.getField("staff_name").toString();
-                String gender = d.getField("gender").toString();
-                String date = d.getField("join_work_date") != null ? d.getField("join_work_date").toString() : "0";
 
-                Log.d(TAG, gender);
-
-                Utils utils = Utils.getInstance(this.getContext());
-                name = utils.getName(name);
-                gender = utils.getGender(gender);
-                date = utils.getDateStr(date);
-
-                StaffManager.getInstance().addStaffs(new Staff(d.getId(), name, gender, date));
+        Collection collection = database.getCollection(collectionName);
+        Document[] documents = collection.find(limit, offset);
+        if (documents.length != 0) {
+            try {
+                processData(documents);
+            } catch (Exception e) {
+                Log.d(TAG, Log.getStackTraceString(e));
             }
-        } catch (Exception e) {
-            Log.d(TAG, Log.getStackTraceString(e));
         }
-        mViewAdapter = new StaffListFragmentAdapter(StaffManager.getInstance().getStaffs());
-        mRecyclerView.setAdapter(mViewAdapter);
-        mViewAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -182,11 +179,85 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
 
     }
 
+    private void processData(Document[] documents) {
+        StaffManager.getInstance().init();
+        for (Document d : documents) {
+            String name =  d.getField("staff_name") != null ?d.getField("staff_name").toString();
+            String gender =  d.getField("gender") != null ?d.getField("gender").toString();
+            String date = d.getField("join_work_date") != null ? d.getField("join_work_date").toString() : "0";
+
+
+            Utils utils = Utils.getInstance(this.getContext());
+            name = utils.getName(name);
+            gender = utils.getGender(gender);
+            date = utils.getDateStr(date);
+
+            StaffManager.getInstance().addStaffs(new Staff(d.getId(), name, gender, date));
+        }
+
+
+        mViewAdapter = new StaffListFragmentAdapter(StaffManager.getInstance().getStaffs());
+        mRecyclerView.setAdapter(mViewAdapter);
+        mViewAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public void OnCloseListener(JSONObject result) {
 
         try {
-            mViewAdapter.getFilter().filter(result.getString("staff_name"));
+            mFilterStaffName = result.getString("filter_name");
+//            mViewAdapter.getFilter().filter(result.getString("staff_name"));
+//            Database database = mMeteor.getDatabase();
+//            Document[] documents = database.getCollection("staffs").whereEqual("staff_name", mFilterStaffName).find();
+//
+//            processData(documents);
+
+//            JSONObject locationJSON = new JSONObject();
+//            locationJSON.put("staff_name", location.getLatitude());
+//            locationJSON.put("longitude", location.getLongitude());
+//            locationJSON.put("time", nowAsISO);
+//
+//            Map<String, Object> item = new HashMap<String, Object>();
+//            item.put("user_id", mMeteor.getUserId());
+//            item.put("location", locationJSON.toString());
+
+
+            mMeteor.call("staffs.find", new Object[]{mFilterStaffName}, new ResultListener() {
+                @Override
+                public void onSuccess(String result) {
+                    Log.d(TAG, "Call result: " + result);
+                    try {
+                        StaffManager.getInstance().init();
+                        JSONArray jsonArray = new JSONArray(result);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObj = jsonArray.getJSONObject(i);
+
+                            String name = jsonObj.has("staff_name") ? jsonObj.getString("staff_name"): " ";
+                            String gender = jsonObj.has("gender") ?jsonObj.getString("gender"): " ";
+                            String date = jsonObj.has("join_work_date") ? jsonObj.getString("join_work_date") : "0";
+
+
+                            Utils utils = Utils.getInstance(StaffListFragment.this.getContext());
+                            name = utils.getName(name);
+                            gender = utils.getGender(gender);
+                            date = utils.getDateStr(date);
+
+                            StaffManager.getInstance().addStaffs(new Staff(jsonObj.getString("_id"), name, gender, date));
+                        }
+                        mViewAdapter = new StaffListFragmentAdapter(StaffManager.getInstance().getStaffs());
+                        mRecyclerView.setAdapter(mViewAdapter);
+                        mViewAdapter.notifyDataSetChanged();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onError(String error, String reason, String details) {
+                    Log.d(TAG, "Error: " + error + " " + reason + " " + details);
+                }
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -41,6 +41,7 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
     private SearchView.OnQueryTextListener queryTextListener;
 
     private Meteor mMeteor;
+    private String mSubscribeId;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -68,6 +69,7 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
         mMeteor.addCallback(this);
 
         mMeteor.connect();
+
     }
 
 
@@ -128,7 +130,8 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
     @Override
     public void onConnect(boolean signedInAutomatically) {
         Log.d(TAG, "onConnect");
-        mMeteor.subscribe("notices");
+
+        mSubscribeId = mMeteor.subscribe("notices");
     }
 
     @Override
