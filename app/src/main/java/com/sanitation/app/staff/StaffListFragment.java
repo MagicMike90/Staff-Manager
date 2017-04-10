@@ -182,8 +182,8 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
     private void processData(Document[] documents) {
         StaffManager.getInstance().init();
         for (Document d : documents) {
-            String name =  d.getField("staff_name") != null ?d.getField("staff_name").toString();
-            String gender =  d.getField("gender") != null ?d.getField("gender").toString();
+            String name =  d.getField("staff_name") != null ?d.getField("staff_name").toString() :"";
+            String gender =  d.getField("gender") != null ?d.getField("gender").toString() :"";
             String date = d.getField("join_work_date") != null ? d.getField("join_work_date").toString() : "0";
 
 
@@ -206,20 +206,6 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
 
         try {
             mFilterStaffName = result.getString("filter_name");
-//            mViewAdapter.getFilter().filter(result.getString("staff_name"));
-//            Database database = mMeteor.getDatabase();
-//            Document[] documents = database.getCollection("staffs").whereEqual("staff_name", mFilterStaffName).find();
-//
-//            processData(documents);
-
-//            JSONObject locationJSON = new JSONObject();
-//            locationJSON.put("staff_name", location.getLatitude());
-//            locationJSON.put("longitude", location.getLongitude());
-//            locationJSON.put("time", nowAsISO);
-//
-//            Map<String, Object> item = new HashMap<String, Object>();
-//            item.put("user_id", mMeteor.getUserId());
-//            item.put("location", locationJSON.toString());
 
 
             mMeteor.call("staffs.find", new Object[]{mFilterStaffName}, new ResultListener() {
