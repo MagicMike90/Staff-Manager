@@ -4,6 +4,7 @@ package com.sanitation.app;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +78,7 @@ public class MainFragment extends Fragment {
                 switch (itemId) {
                     case R.id.tab_home:
                         fragmentClass = NoticeListFragment.class;
-
+//                        transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
                         break;
                     case R.id.tab_images:
                         fragmentClass = StaffListFragment.class;
@@ -91,7 +92,9 @@ public class MainFragment extends Fragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                fragmentManager.beginTransaction().replace(R.id.child_fragment_container, fragment).commit();
+                FragmentTransaction transaction =  fragmentManager.beginTransaction();
+                transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+                transaction.replace(R.id.child_fragment_container, fragment).commit();
             }
         });
         return view;
