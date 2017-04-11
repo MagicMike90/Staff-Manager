@@ -1,7 +1,6 @@
 package com.sanitation.app.staff;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,16 +22,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;
 import im.delight.android.ddp.ResultListener;
 import im.delight.android.ddp.db.Collection;
 import im.delight.android.ddp.db.Database;
 import im.delight.android.ddp.db.Document;
-import im.delight.android.ddp.db.Query;
 
 public class StaffListFragment extends Fragment implements MeteorCallback, StaffFilterFragment.OnCloseListener {
     private static final String TAG = "StaffListFragment";
@@ -80,16 +75,15 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_stafflist_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_staff_list, container, false);
 
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            mRecyclerView = (RecyclerView) view;
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-            mRecyclerView.setAdapter(new StaffListFragmentAdapter(StaffManager.getInstance().getStaffs()));
-            mRecyclerView.addItemDecoration(new DividerItemDecoration(this.getContext(), LinearLayoutManager.VERTICAL));
-        }
+        Context context = view.getContext();
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.staff_list);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        mRecyclerView.setAdapter(new StaffListFragmentAdapter(StaffManager.getInstance().getStaffs()));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this.getContext(), LinearLayoutManager.VERTICAL));
+
         return view;
     }
 
@@ -182,8 +176,8 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
     private void processData(Document[] documents) {
         StaffManager.getInstance().init();
         for (Document d : documents) {
-            String name =  d.getField("staff_name") != null ?d.getField("staff_name").toString() :"";
-            String gender =  d.getField("gender") != null ?d.getField("gender").toString() :"";
+            String name = d.getField("staff_name") != null ? d.getField("staff_name").toString() : "";
+            String gender = d.getField("gender") != null ? d.getField("gender").toString() : "";
             String date = d.getField("join_work_date") != null ? d.getField("join_work_date").toString() : "0";
 
 
@@ -206,9 +200,10 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
 
         try {
             mFilterStaffName = result.getString("filter_name");
+            mFilterDepartment = result.getString("filter_department");
+            mFilterOnline = result.getString("filter_online");
 
-
-            mMeteor.call("staffs.find", new Object[]{mFilterStaffName}, new ResultListener() {
+            mMeteor.call("staffs.find", new Object[]{mFilterStaffName, mFilterDepartment, mFilterOnline}, new ResultListener() {
                 @Override
                 public void onSuccess(String result) {
                     Log.d(TAG, "Call result: " + result);
@@ -218,10 +213,9 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObj = jsonArray.getJSONObject(i);
 
-                            String name = jsonObj.has("staff_name") ? jsonObj.getString("staff_name"): " ";
-                            String gender = jsonObj.has("gender") ?jsonObj.getString("gender"): " ";
+                            String name = jsonObj.has("staff_name") ? jsonObj.getString("staff_name") : " ";
+                            String gender = jsonObj.has("gender") ? jsonObj.getString("gender") : " ";
                             String date = jsonObj.has("join_work_date") ? jsonObj.getString("join_work_date") : "0";
-
 
                             Utils utils = Utils.getInstance(StaffListFragment.this.getContext());
                             name = utils.getName(name);

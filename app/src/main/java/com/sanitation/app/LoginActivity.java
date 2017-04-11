@@ -81,14 +81,13 @@ public class LoginActivity extends AppCompatActivity implements MeteorCallback {
         mProgressView = findViewById(R.id.login_progress);
 
 
-        Meteor.setLoggingEnabled(true);;
+        Meteor.setLoggingEnabled(true);
 
-        mMeteor = new Meteor(this, Constants.METEOR_SERVER_SOCKET,new InMemoryDatabase());
+        mMeteor = new Meteor(this, Constants.METEOR_SERVER_SOCKET, new InMemoryDatabase());
         mMeteor.addCallback(this);
         mMeteor.connect();
         showProgress(true);
     }
-
 
 
     /**
@@ -101,7 +100,6 @@ public class LoginActivity extends AppCompatActivity implements MeteorCallback {
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
-
 
 
         boolean cancel = false;
@@ -208,6 +206,7 @@ public class LoginActivity extends AppCompatActivity implements MeteorCallback {
     private String findStaffId() {
         return "";
     }
+
     /**
      * Shows the progress UI and hides the login form.
      */
@@ -245,7 +244,6 @@ public class LoginActivity extends AppCompatActivity implements MeteorCallback {
     }
 
 
-
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
@@ -280,9 +278,9 @@ public class LoginActivity extends AppCompatActivity implements MeteorCallback {
         Log.d(TAG, "onConnect");
 
         String subscriptionId = mMeteor.subscribe("users");
-        if(signedInAutomatically) {
+        if (signedInAutomatically) {
             // Store values at the time of the login attempt.
-            Log.d(TAG,  mMeteor.getUserId());
+            Log.d(TAG, mMeteor.getUserId());
             //start location tracker
             Intent externalActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(externalActivityIntent);

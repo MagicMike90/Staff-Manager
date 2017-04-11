@@ -3,7 +3,7 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="navigation_drawer_menu_notice">最新通知</string>
+    <string name="navigation_drawer_menu_notice">人员管理</string>
     <string name="navigation_drawer_menu_staff">人员管理</string>
 
 
