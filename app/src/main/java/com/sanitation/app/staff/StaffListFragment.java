@@ -203,7 +203,7 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
             mFilterDepartment = result.getString("filter_department");
             mFilterOnline = result.getString("filter_online");
 
-            mMeteor.call("staffs.find", new Object[]{mFilterStaffName, mFilterDepartment, mFilterOnline}, new ResultListener() {
+            mMeteor.call("staffs.find", new Object[]{mFilterStaffName, mFilterDepartment}, new ResultListener() {
                 @Override
                 public void onSuccess(String result) {
                     Log.d(TAG, "Call result: " + result);
