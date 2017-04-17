@@ -1,12 +1,7 @@
 package com.sanitation.app.notice;
 
-import android.util.Log;
-
-import com.sanitation.app.dummy.DummyContent;
-
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

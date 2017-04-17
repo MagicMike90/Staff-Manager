@@ -43,18 +43,18 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.SEARCH" />-->
-            <!--</intent-filter>-->
-            <!--<meta-data android:name="android.app.searchable"-->
-                <!--android:resource="@xml/searchable"/>-->
-            </activity>
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.SEARCH" /> -->
+            <!-- </intent-filter> -->
+            <!-- <meta-data android:name="android.app.searchable" -->
+            <!-- android:resource="@xml/searchable"/> -->
+        </activity>
         <activity
             android:name=".staff.StaffDetailActivity"
             android:label="@string/title_staff_detail"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".staff.StaffMainActivity"
             android:label="@string/title_activity_staff_main"
@@ -74,6 +74,12 @@
             android:name=".service.GPSService"
             android:enabled="true"
             android:exported="true" />
+
+        <activity
+            android:name=".staffsignin.StaffSignInAndOutActivity"
+            android:label="@string/title_activity_staff_sign_in_and_out"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

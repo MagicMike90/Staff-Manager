@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.sanitation.app.staffsignin.StaffSignInAndOutActivity"
+    tools:showIn="@layout/activity_staff_sign_in_and_out">
+
+    <com.stepstone.stepper.StepperLayout
+        android:id="@+id/stepperLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:ms_stepperType="dots"
+        app:ms_activeStepColor="#FFFFFF"
+        app:ms_inactiveStepColor="#006867"
+        app:ms_backButtonColor="#FFFFFF"
+        app:ms_nextButtonColor="#FFFFFF"
+        app:ms_completeButtonColor="#FFFFFF"
+        app:ms_bottomNavigationBackground="?attr/colorPrimary"
+        app:ms_backButtonText="上一步"
+        app:ms_nextButtonText="下一步"
+        app:ms_completeButtonText="完成"
+        app:ms_completeButtonBackground="@drawable/ms_button_background"
+        app:ms_showErrorStateEnabled="true" />
+
+
+</android.support.v7.widget.LinearLayoutCompat>

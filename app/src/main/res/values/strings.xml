@@ -29,6 +29,12 @@
     <string name="weather_live">实时</string>
     <string name="weather_report_time">发布时间</string>
     <string name="title_activity_staff_main">人员管理</string>
+
+    <string name="title_activity_supervisor_check_in">巡查员签到</string>
+    <string name="title_activity_supervisor_check_out">巡查员签退</string>
+    <string name="title_activity_cleaner_check_in">扫保人员签到</string>
+    <string name="title_activity_cleaner_check_out">扫保人员签退</string>
+
     <string name="section_format">Hello World from section: %1$d</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -36,4 +42,22 @@
     <string name="title_activity_notice_detail">通知详细内容</string>
     <string name="search_hint">搜索</string>
 
+
+    <string name="all">All</string>
+    <string name="createnote">Create note</string>
+    <string name="closedrawer">Close drawer</string>
+    <string name="favorites">Favorites</string>
+    <string name="notes">Notes</string>
+    <string name="opendrawer">Open drawer</string>
+    <string name="photo">Photo</string>
+    <string name="recording">Recording</string>
+    <string name="refresh">Refresh</string>
+    <string name="reminder">Reminder</string>
+    <string name="search">Search</string>
+    <string name="shared">Shared</string>
+    <string name="sheet_item_pressed">Item pressed</string>
+    <string name="snackbar_shared_msg">Gordon Wong shared a note with you.</string>
+    <string name="view">View</string>
+    <string name="title_activity_staff_sign_in_and_out">StaffSignInAndOut</string>
+    <string name="tab_title">Tab title</string>
 </resources>
