@@ -1,57 +1,41 @@
-/*
-Copyright 2016 StepStone Services
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
- */
-
 package com.sanitation.app.staffsignin.step.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
-import android.text.Html;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 
+import com.jaredrummler.materialspinner.MaterialSpinner;
+import com.sanitation.app.Constants;
 import com.sanitation.app.R;
-
 import com.sanitation.app.staffsignin.step.BaseFragment;
 import com.sanitation.app.staffsignin.step.OnNavigationBarListener;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
 
+/**
+ * Created by Michael on 4/17/17.
+ */
 
-public class StepFragmentSample extends BaseFragment implements Step {
-
-    private static final String CLICKS_KEY = "clicks";
-
-    private static final int TAP_THRESHOLD = 2;
+public class StepOneFragment extends BaseFragment implements Step {
+    private static final String TAG = "StepOneFragment";
+    private static final String DEPARTMENT = "department";
 
     private static final String LAYOUT_RESOURCE_ID_ARG_KEY = "messageResourceId";
 
-    private int i = 0;
 
-    Button button;
-
+    private String mSelectedDepartment;
 
     private OnNavigationBarListener onNavigationBarListener;
 
-    public static StepFragmentSample newInstance(@LayoutRes int layoutResId) {
+    public static StepOneFragment newInstance(@LayoutRes int layoutResId) {
         Bundle args = new Bundle();
         args.putInt(LAYOUT_RESOURCE_ID_ARG_KEY, layoutResId);
-        StepFragmentSample fragment = new StepFragmentSample();
+        StepOneFragment fragment = new StepOneFragment();
         fragment.setArguments(args);
+
+
         return fragment;
     }
 
@@ -64,23 +48,27 @@ public class StepFragmentSample extends BaseFragment implements Step {
     }
 
     @Override
-    public void onViewCreated(View view,  Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mSelectedDepartment = Constants.DEPARTMENT[0];
         if (savedInstanceState != null) {
-            i = savedInstanceState.getInt(CLICKS_KEY);
+            mSelectedDepartment = savedInstanceState.getString(DEPARTMENT);
         }
 
         updateNavigationBar();
 
-        button = (Button) view.findViewById(R.id.button);
-        button.setText(Html.fromHtml("Taps: <b>" + i + "</b>"));
-        button.setOnClickListener(new View.OnClickListener() {
+        MaterialSpinner department_spinner = (MaterialSpinner) view.findViewById(R.id.spinner_department);
+        department_spinner.setItems(Constants.DEPARTMENT);
+        department_spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+
             @Override
-            public void onClick(View view) {
-                button.setText(Html.fromHtml("Taps: <b>" + (++i) + "</b>"));
-                updateNavigationBar();
+            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                mSelectedDepartment = item;
+//                Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show();
             }
         });
+
     }
 
     @Override
@@ -90,11 +78,11 @@ public class StepFragmentSample extends BaseFragment implements Step {
 
     @Override
     public VerificationError verifyStep() {
-        return isAboveThreshold() ? null : new VerificationError("Click " + (TAP_THRESHOLD - i) + " more times!");
+        return isAboveThreshold() ? null : new VerificationError("It is empty!");
     }
 
     private boolean isAboveThreshold() {
-        return i >= TAP_THRESHOLD;
+        return mSelectedDepartment != "";
     }
 
     @Override
@@ -104,7 +92,7 @@ public class StepFragmentSample extends BaseFragment implements Step {
 
     @Override
     public void onError(VerificationError error) {
-        button.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.shake_error));
+//        button.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.shake_error));
     }
 
     private void updateNavigationBar() {
@@ -115,7 +103,7 @@ public class StepFragmentSample extends BaseFragment implements Step {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(CLICKS_KEY, i);
+        outState.putString(DEPARTMENT, mSelectedDepartment);
         super.onSaveInstanceState(outState);
     }
 

@@ -36,8 +36,6 @@ public abstract class AbstractStepperActivity extends AppCompatActivity implemen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setTitle("Stepper sample");
-
         setContentView(getLayoutResId());
 
         int startingStepPosition = savedInstanceState != null ? savedInstanceState.getInt(CURRENT_STEP_POSITION_KEY) : 0;

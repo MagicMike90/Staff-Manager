@@ -35,6 +35,10 @@
     <string name="title_activity_cleaner_check_in">扫保人员签到</string>
     <string name="title_activity_cleaner_check_out">扫保人员签退</string>
 
+    <string name="stepper_tab_one">选择部门</string>
+    <string name="stepper_tab_two">填写信息</string>
+    <string name="stepper_tab_three">上传图片</string>
+
     <string name="section_format">Hello World from section: %1$d</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -60,4 +64,5 @@
     <string name="view">View</string>
     <string name="title_activity_staff_sign_in_and_out">StaffSignInAndOut</string>
     <string name="tab_title">Tab title</string>
+    <string name="title_activity_camera">CameraActivity</string>
 </resources>

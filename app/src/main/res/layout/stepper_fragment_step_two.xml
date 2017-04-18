@@ -12,19 +12,23 @@
         android:background="#eeeeee"
         android:padding="16dp">
 
-        <TextView
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:text="step three" />
+            android:layout_margin="@dimen/text_margin">
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="16dp"
-            tools:text="Tap" />
+            <EditText
+                android:id="@+id/staff_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="填写姓名"
+                android:imeActionId="@+id/staff_name"
+                android:imeActionLabel="姓名"
+                android:imeOptions="actionUnspecified"
+                android:inputType="text"
+                android:maxLines="1" />
+
+        </android.support.design.widget.TextInputLayout>
 
     </FrameLayout>
 

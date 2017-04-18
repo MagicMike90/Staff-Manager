@@ -116,31 +116,6 @@ public class StaffFilterFragment extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        try {
-//            mListener = (OnCloseListener) activity;
-//        } catch (ClassCastException e) {
-//            throw new ClassCastException(activity.toString() + " must implement OnArticleSelectedListener");
-//        }
-
-//        if (context instanceof OnCloseListener) {
-//            mListener = (OnCloseListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnCloseListener");
-//        }
-
-//        try {
-//            mListener = (OnCloseListener) getTargetFragment();
-//        } catch (ClassCastException e) {
-//            throw new ClassCastException("Calling Fragment must implement OnAddFriendListener");
-//        }
-
-//        if (getTargetFragment() instanceof OnCloseListener) {
-//            mListener = (OnCloseListener) getTargetFragment();
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnCloseListener");
-//        }
     }
 
     @Override
