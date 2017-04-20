@@ -1,40 +1,40 @@
 package com.sanitation.app.staffsignin.step.fragment;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.miguelbcr.ui.rx_paparazzo2.entities.FileData;
-import com.miguelbcr.ui.rx_paparazzo2.entities.size.OriginalSize;
-import com.miguelbcr.ui.rx_paparazzo2.entities.size.Size;
 import com.sanitation.app.Constants;
-import com.sanitation.app.camera.CameraData;
+import com.sanitation.app.R;
+import com.sanitation.app.camera.PickerBuilder;
 import com.sanitation.app.staffsignin.step.BaseFragment;
 import com.sanitation.app.staffsignin.step.OnNavigationBarListener;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Michael on 4/17/17.
  */
 
-public class StepThreeFragment extends BaseFragment implements Step , CameraData{
+public class StepThreeFragment extends BaseFragment implements Step {
     private static final String TAG = "StepThreeFragment";
     private static final String DEPARTMENT = "department";
 
     private static final String LAYOUT_RESOURCE_ID_ARG_KEY = "messageResourceId";
-
     private String mSelectedDepartment;
 
     private OnNavigationBarListener onNavigationBarListener;
 
-    private static final String STATE_FILES = "FILES";
-    private ArrayList<FileData> fileDataList;
-    private Size size;
+
+    private ImageView mImageView;
+    private TextView mCameraButton;
+    private TextView mPhotoButton;
 
     public static StepThreeFragment newInstance(@LayoutRes int layoutResId) {
         Bundle args = new Bundle();
@@ -44,22 +44,17 @@ public class StepThreeFragment extends BaseFragment implements Step , CameraData
 
         return fragment;
     }
+
+
+
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-        fileDataList = new ArrayList<>();
-        if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey(STATE_FILES)) {
-                List files = (List) savedInstanceState.getSerializable(STATE_FILES);
-                fileDataList.addAll(files);
-            }
-        }
-
-        size = new OriginalSize();
-
-
+        outState.putString(DEPARTMENT, mSelectedDepartment);
     }
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -78,6 +73,52 @@ public class StepThreeFragment extends BaseFragment implements Step , CameraData
         }
 
         updateNavigationBar();
+
+        mImageView = (ImageView) view.findViewById(R.id.iv_image);
+        mCameraButton = (TextView)view.findViewById(R.id.fab_camera_crop);
+        mCameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new PickerBuilder(getActivity(), PickerBuilder.SELECT_FROM_CAMERA)
+                        .setOnImageReceivedListener(new PickerBuilder.onImageReceivedListener() {
+                            @Override
+                            public void onImageReceived(Uri imageUri) {
+                                Toast.makeText(getActivity(),"Got image - " + imageUri,Toast.LENGTH_LONG).show();
+                                mImageView.setImageURI(imageUri);
+                            }
+                        })
+                        .setImageName("testImage")
+                        .setImageFolderName("testFolder")
+                        .withTimeStamp(false)
+                        .setCropScreenColor(Color.BLACK)
+                        .start();
+            }
+        });
+
+        mPhotoButton = (TextView)view.findViewById(R.id.fab_pickup_image);
+        mPhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new PickerBuilder(getActivity(), PickerBuilder.SELECT_FROM_GALLERY)
+                        .setOnImageReceivedListener(new PickerBuilder.onImageReceivedListener() {
+                            @Override
+                            public void onImageReceived(Uri imageUri) {
+                                mImageView.setImageURI(imageUri);
+                                Toast.makeText(getActivity(),"Got image - " + imageUri,Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .setImageName("test")
+                        .setImageFolderName("testFolder")
+                        .setCropScreenColor(Color.CYAN)
+                        .setOnPermissionRefusedListener(new PickerBuilder.onPermissionRefusedListener() {
+                            @Override
+                            public void onPermissionRefused() {
+
+                            }
+                        })
+                        .start();
+            }
+        });
 
     }
 
@@ -111,24 +152,4 @@ public class StepThreeFragment extends BaseFragment implements Step , CameraData
         }
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putString(DEPARTMENT, mSelectedDepartment);
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public List<FileData> getFileDatas() {
-        return null;
-    }
-
-    @Override
-    public List<String> getFilePaths() {
-        return null;
-    }
-
-    @Override
-    public Size getSize() {
-        return null;
-    }
 }

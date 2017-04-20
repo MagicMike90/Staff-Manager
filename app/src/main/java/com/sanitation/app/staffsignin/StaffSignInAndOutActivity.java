@@ -2,16 +2,13 @@ package com.sanitation.app.staffsignin;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.sanitation.app.R;
 import com.sanitation.app.staffsignin.step.AbstractStepperActivity;
-import com.stepstone.stepper.StepperLayout;
 
 public class StaffSignInAndOutActivity extends AbstractStepperActivity {
 

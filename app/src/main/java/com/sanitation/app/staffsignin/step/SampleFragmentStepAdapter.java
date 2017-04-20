@@ -20,9 +20,6 @@ public class SampleFragmentStepAdapter extends AbstractFragmentStepAdapter {
 
     @Override
     public StepViewModel getViewModel(int position) {
-//        return new StepViewModel.Builder(context)
-//                .setTitle(R.string.tab_title)
-//                .create();
         int title = R.string.stepper_tab_one;
 
         switch (position) {
