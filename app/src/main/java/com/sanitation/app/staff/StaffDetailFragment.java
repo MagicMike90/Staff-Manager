@@ -20,6 +20,11 @@ public class StaffDetailFragment extends Fragment {
      * represents.
      */
     public static final String ARG_STAFF_ID = "id";
+    public static final String ARG_STAFF_NAME = "staff_name";
+    public static final String ARG_STAFF_GENDER = "gender";
+    public static final String ARG_STAFF_JOIN_WORK_DATE = "join_work_date";
+
+
     private Staff mStaffs;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -47,10 +52,13 @@ public class StaffDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.staff_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
-        TextView staff_detail =  (TextView) rootView.findViewById(R.id.staff_detail);
+        TextView staff_name =  (TextView) rootView.findViewById(R.id.staff_name);
+        TextView gender =  (TextView) rootView.findViewById(R.id.gender);
+        TextView join_work_date =  (TextView) rootView.findViewById(R.id.join_work_date);
 
-
+        staff_name.setText(getArguments().getString(ARG_STAFF_NAME));
+        gender.setText(getArguments().getString(ARG_STAFF_GENDER));
+        join_work_date.setText(getArguments().getString(ARG_STAFF_JOIN_WORK_DATE));
         return rootView;
     }
 }

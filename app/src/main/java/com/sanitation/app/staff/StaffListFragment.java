@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sanitation.app.MeteorDDP;
 import com.sanitation.app.R;
 import com.sanitation.app.Utils;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
@@ -24,6 +23,7 @@ import org.json.JSONObject;
 
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;
+import im.delight.android.ddp.MeteorSingleton;
 import im.delight.android.ddp.ResultListener;
 import im.delight.android.ddp.db.Collection;
 import im.delight.android.ddp.db.Database;
@@ -65,7 +65,7 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        mMeteor = MeteorDDP.getInstance(this.getContext()).getConnection();
+        mMeteor = MeteorSingleton.getInstance();
         mMeteor.addCallback(this);
         mMeteor.connect();
 
@@ -110,7 +110,7 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
     @Override
     public void onPause() {
         mMeteor.removeCallback(this);
-        super.onDestroy();
+        super.onPause();
         Log.d(TAG, "onPause");
 
     }

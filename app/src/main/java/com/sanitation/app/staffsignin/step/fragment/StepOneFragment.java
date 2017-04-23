@@ -11,6 +11,7 @@ import com.sanitation.app.Constants;
 import com.sanitation.app.R;
 import com.sanitation.app.staffsignin.step.BaseFragment;
 import com.sanitation.app.staffsignin.step.OnNavigationBarListener;
+import com.sanitation.app.staffsignin.step.StepInfoStorage;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
 
@@ -65,6 +66,7 @@ public class StepOneFragment extends BaseFragment implements Step {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
                 mSelectedDepartment = item;
+                StepInfoStorage.getInstance().department = item;
 //                Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show();
             }
         });

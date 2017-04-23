@@ -12,7 +12,6 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.sanitation.app.MeteorDDP;
 
 import org.json.JSONObject;
 
@@ -42,7 +41,6 @@ public class GPSService extends Service {
     private Meteor mMeteor;
 
     public GPSService() {
-//        mMeteor = MeteorDDP.getInstance(this).getConnection();
         mMeteor  = MeteorSingleton.getInstance();
         Log.d(TAG, "GPSService: constructor");
     }

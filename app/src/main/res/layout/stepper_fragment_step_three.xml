@@ -1,62 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center">
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/iv_filename"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:paddingBottom="10dp" />
-
-        <ImageView
-            android:id="@+id/iv_image"
-            android:layout_width="250px"
-            android:layout_height="250px"
-            android:layout_gravity="center_horizontal"
-            android:adjustViewBounds="true"
-            android:src="@mipmap/ic_launcher" />
-
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
+            <Button
                 android:id="@+id/fab_camera_crop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_margin="@dimen/fab_margin"
                 android:background="@color/colorAccent"
                 android:drawableLeft="@drawable/ic_menu_camera"
                 android:drawablePadding="5dp"
-                android:padding="5dp"
                 android:text="拍照上传"
                 android:textColor="@android:color/white" />
 
-            <TextView
+            <Button
                 android:id="@+id/fab_pickup_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/fab_margin"
                 android:layout_weight="1"
                 android:background="@color/colorAccent"
                 android:drawableLeft="@drawable/ic_menu_gallery"
                 android:drawablePadding="5dp"
-                android:padding="5dp"
                 android:text="选择图片上传"
                 android:textColor="@android:color/white" />
 
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/iv_image"
+            android:src="@mipmap/ic_launcher"
+            android:scaleType="fitCenter"/>
 
     </LinearLayout>
 

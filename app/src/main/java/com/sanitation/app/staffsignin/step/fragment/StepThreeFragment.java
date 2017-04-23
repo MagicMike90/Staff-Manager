@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,8 +34,8 @@ public class StepThreeFragment extends BaseFragment implements Step {
 
 
     private ImageView mImageView;
-    private TextView mCameraButton;
-    private TextView mPhotoButton;
+    private Button mCameraButton;
+    private Button mPhotoButton;
 
     public static StepThreeFragment newInstance(@LayoutRes int layoutResId) {
         Bundle args = new Bundle();
@@ -75,7 +76,7 @@ public class StepThreeFragment extends BaseFragment implements Step {
         updateNavigationBar();
 
         mImageView = (ImageView) view.findViewById(R.id.iv_image);
-        mCameraButton = (TextView)view.findViewById(R.id.fab_camera_crop);
+        mCameraButton = (Button)view.findViewById(R.id.fab_camera_crop);
         mCameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +96,7 @@ public class StepThreeFragment extends BaseFragment implements Step {
             }
         });
 
-        mPhotoButton = (TextView)view.findViewById(R.id.fab_pickup_image);
+        mPhotoButton = (Button)view.findViewById(R.id.fab_pickup_image);
         mPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

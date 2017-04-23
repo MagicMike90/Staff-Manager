@@ -26,12 +26,26 @@ import com.sanitation.app.R;
 import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
 
+import org.json.JSONObject;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TimeZone;
+
+import im.delight.android.ddp.Meteor;
+import im.delight.android.ddp.MeteorSingleton;
+import im.delight.android.ddp.ResultListener;
+
 
 public abstract class AbstractStepperActivity extends AppCompatActivity implements StepperLayout.StepperListener, OnNavigationBarListener {
     private static final String TAG = "AbstractStepperActivity";
     private static final String CURRENT_STEP_POSITION_KEY = "position";
 
     protected StepperLayout mStepperLayout;
+    private Meteor mMeteor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +57,8 @@ public abstract class AbstractStepperActivity extends AppCompatActivity implemen
         mStepperLayout = (StepperLayout) findViewById(R.id.stepperLayout);
         mStepperLayout.setAdapter(new SampleFragmentStepAdapter(getSupportFragmentManager(), this), startingStepPosition);
         mStepperLayout.setListener(this);
+
+        mMeteor = MeteorSingleton.getInstance();
     }
 
     protected abstract int getLayoutResId();
@@ -63,9 +79,43 @@ public abstract class AbstractStepperActivity extends AppCompatActivity implemen
         }
     }
 
+    private void checkin() {
+        try {
+            TimeZone tz = TimeZone.getTimeZone("UTC");
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
+            df.setTimeZone(tz);
+            String nowAsISO = df.format(new Date());
+
+
+            Map<String, Object> item = new HashMap<String, Object>();
+            item.put("user_id", mMeteor.getUserId());
+            item.put("staff_name", StepInfoStorage.getInstance().name);
+            item.put("date",nowAsISO);
+
+
+            Object[] queryParams = {item};
+
+            mMeteor.call("signInOut.insert", queryParams, new ResultListener() {
+                @Override
+                public void onSuccess(String result) {
+                    Log.d(TAG, "Call result: " + result);
+                }
+
+                @Override
+                public void onError(String error, String reason, String details) {
+                    Log.d(TAG, "Error: " + error + " " + reason + " " + details);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onCompleted(View completeButton) {
+        checkin();
         Toast.makeText(this, "onCompleted!", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override

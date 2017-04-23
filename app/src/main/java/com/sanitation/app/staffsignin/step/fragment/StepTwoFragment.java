@@ -3,14 +3,14 @@ package com.sanitation.app.staffsignin.step.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.EditText;
 
-import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.sanitation.app.Constants;
 import com.sanitation.app.R;
 import com.sanitation.app.staffsignin.step.BaseFragment;
 import com.sanitation.app.staffsignin.step.OnNavigationBarListener;
+import com.sanitation.app.staffsignin.step.StepInfoStorage;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
 
@@ -20,13 +20,16 @@ import com.stepstone.stepper.VerificationError;
 
 public class StepTwoFragment extends BaseFragment implements Step {
     private static final String TAG = "StepTwoFragment";
-    private static final String DEPARTMENT = "department";
+    private static final String STAFF_NAME = "staff_name";
 
     private static final String LAYOUT_RESOURCE_ID_ARG_KEY = "messageResourceId";
 
-    private String mSelectedDepartment;
+//    private String mSelectedDepartment;
 
     private OnNavigationBarListener onNavigationBarListener;
+
+    private EditText mNameView;
+    private String mStaffName;
 
     public static StepTwoFragment newInstance(@LayoutRes int layoutResId) {
         Bundle args = new Bundle();
@@ -49,9 +52,12 @@ public class StepTwoFragment extends BaseFragment implements Step {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mSelectedDepartment = Constants.DEPARTMENT[0];
+//        mSelectedDepartment = Constants.DEPARTMENT[0];
+        mNameView = (EditText) view.findViewById(R.id.password);
+        mStaffName = mNameView.getText().toString();
         if (savedInstanceState != null) {
-            mSelectedDepartment = savedInstanceState.getString(DEPARTMENT);
+            mStaffName = savedInstanceState.getString(STAFF_NAME);
+
         }
 
         updateNavigationBar();
@@ -69,7 +75,7 @@ public class StepTwoFragment extends BaseFragment implements Step {
     }
 
     private boolean isAboveThreshold() {
-        return mSelectedDepartment != "";
+        return mStaffName != "";
     }
 
     @Override
@@ -84,13 +90,16 @@ public class StepTwoFragment extends BaseFragment implements Step {
 
     private void updateNavigationBar() {
         if (onNavigationBarListener != null) {
+
+            mStaffName = mNameView.getText().toString();
+            StepInfoStorage.getInstance().name = mStaffName;
             onNavigationBarListener.onChangeEndButtonsEnabled(isAboveThreshold());
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putString(DEPARTMENT, mSelectedDepartment);
+        outState.putString(STAFF_NAME, mStaffName);
         super.onSaveInstanceState(outState);
     }
 }

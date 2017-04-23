@@ -13,12 +13,7 @@ import android.view.View;
 
 import com.sanitation.app.R;
 
-/**
- * An activity representing a single StaffFactory detail screen. This
- * activity is only used narrow width devices. On tablet-size devices,
- * item details are presented side-by-side with a list of items
- * in a {@link StaffListActivity}.
- */
+
 public class StaffDetailActivity extends AppCompatActivity {
 
     @Override
@@ -58,6 +53,13 @@ public class StaffDetailActivity extends AppCompatActivity {
             Bundle arguments = new Bundle();
             arguments.putString(StaffDetailFragment.ARG_STAFF_ID,
                     getIntent().getStringExtra(StaffDetailFragment.ARG_STAFF_ID));
+            arguments.putString(StaffDetailFragment.ARG_STAFF_NAME,
+                    getIntent().getStringExtra(StaffDetailFragment.ARG_STAFF_NAME));
+            arguments.putString(StaffDetailFragment.ARG_STAFF_GENDER,
+                    getIntent().getStringExtra(StaffDetailFragment.ARG_STAFF_GENDER));
+            arguments.putString(StaffDetailFragment.ARG_STAFF_JOIN_WORK_DATE,
+                    getIntent().getStringExtra(StaffDetailFragment.ARG_STAFF_JOIN_WORK_DATE));
+
             StaffDetailFragment fragment = new StaffDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
