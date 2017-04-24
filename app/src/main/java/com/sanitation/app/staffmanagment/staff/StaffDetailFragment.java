@@ -1,4 +1,4 @@
-package com.sanitation.app.staff;
+package com.sanitation.app.staffmanagment.staff;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sanitation.app.R;
-import com.sanitation.app.notice.Notice;
-import com.sanitation.app.notice.NoticeManager;
 
 
 public class StaffDetailFragment extends Fragment {

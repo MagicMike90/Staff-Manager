@@ -30,8 +30,8 @@ import im.delight.android.ddp.ResultListener;
 public class GPSService extends Service {
     private static final String TAG = "GPSService";
     private LocationManager mLocationManager = null;
-    private static final int LOCATION_INTERVAL = 100000;
-    private static final float LOCATION_DISTANCE = 10f;
+    private static final int LOCATION_INTERVAL = 1000;
+    private static final float LOCATION_DISTANCE = 100f;
     // flag for GPS status
     boolean isGPSEnabled = false;
 

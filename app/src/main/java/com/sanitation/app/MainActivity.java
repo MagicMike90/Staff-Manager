@@ -2,8 +2,6 @@ package com.sanitation.app;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -28,11 +26,8 @@ import com.amap.api.services.weather.WeatherSearch;
 import com.amap.api.services.weather.WeatherSearch.OnWeatherSearchListener;
 
 import com.amap.api.services.weather.WeatherSearchQuery;
-import com.sanitation.app.notice.NoticeListFragment;
 import com.sanitation.app.service.GPSService;
-import com.sanitation.app.staff.StaffListFragment;
-import com.ss.bottomnavigation.BottomNavigation;
-import com.ss.bottomnavigation.events.OnSelectedItemChangeListener;
+import com.sanitation.app.staffmanagment.staff.StaffListFragment;
 
 
 import java.util.List;

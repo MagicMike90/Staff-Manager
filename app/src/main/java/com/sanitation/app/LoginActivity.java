@@ -85,6 +85,9 @@ public class LoginActivity extends AppCompatActivity implements MeteorCallback {
         showProgress(true);
     }
 
+    private void getUser() {
+
+    }
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -199,10 +202,6 @@ public class LoginActivity extends AppCompatActivity implements MeteorCallback {
         return true;
     }
 
-    private String findStaffId() {
-        return "";
-    }
-
     /**
      * Shows the progress UI and hides the login form.
      */
@@ -277,6 +276,36 @@ public class LoginActivity extends AppCompatActivity implements MeteorCallback {
         if (signedInAutomatically) {
             // Store values at the time of the login attempt.
             Log.d(TAG, mMeteor.getUserId());
+
+
+//            Map<String, Object> user = new HashMap<String, Object>();
+//            user.put("_id", mMeteor.getUserId());
+//
+//            Object[] queryParams = {user};
+
+            mMeteor.call("user.findStaffId", new String[]{mMeteor.getUserId()}, new ResultListener() {
+                @Override
+                public void onSuccess(String result) {
+                    try {
+                        JSONObject jsonObj = new JSONObject(result);
+                        StaffInfo.getInstance().id = mMeteor.getUserId();
+
+                        JSONObject profile = new JSONObject(jsonObj.getString("profile"));
+                        StaffInfo.getInstance().staff_id = profile.getString("staff_id");
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Log.d(TAG, "Call result: " + result);
+                }
+
+                @Override
+                public void onError(String error, String reason, String details) {
+                    Log.d(TAG, "Error: " + error + " " + reason + " " + details);
+                }
+            });
+
+
             //start location tracker
             Intent externalActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(externalActivityIntent);

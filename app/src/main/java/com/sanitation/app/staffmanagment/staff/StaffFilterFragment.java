@@ -1,9 +1,7 @@
-package com.sanitation.app.staff;
+package com.sanitation.app.staffmanagment.staff;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -53,7 +51,7 @@ public class StaffFilterFragment extends DialogFragment {
 
         StaffNameView = (EditText)view.findViewById(R.id.staff_name);
 
-        //department selection
+        //staff_department selection
         MaterialSpinner department_spinner = (MaterialSpinner) view.findViewById(R.id.spinner_department);
         department_spinner.setItems(Constants.DEPARTMENT);
         department_spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
@@ -83,7 +81,7 @@ public class StaffFilterFragment extends DialogFragment {
             public void onClick(View view) {
 
 
-                // user name
+                // user staff_name
                 filter_name = StaffNameView.getText().toString();
 
                 JSONObject result = new JSONObject();
@@ -126,7 +124,7 @@ public class StaffFilterFragment extends DialogFragment {
 
 
     public interface OnCloseListener {
-        // TODO: Update argument type and name
+        // TODO: Update argument type and staff_name
         void OnCloseListener(JSONObject result);
     }
 }

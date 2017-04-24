@@ -1,4 +1,4 @@
-package com.sanitation.app.notice;
+package com.sanitation.app.staffmanagment.notice;
 
 import android.content.Context;
 import android.content.Intent;

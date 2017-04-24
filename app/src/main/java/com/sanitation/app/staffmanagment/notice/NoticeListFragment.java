@@ -1,4 +1,4 @@
-package com.sanitation.app.notice;
+package com.sanitation.app.staffmanagment.notice;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,10 +17,9 @@ import android.view.ViewGroup;
 
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
-import com.sanitation.app.Constants;
 import com.sanitation.app.R;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
-import com.sanitation.app.staffsignin.StaffSignInAndOutActivity;
+import com.sanitation.app.staffmanagment.staffsignin.StaffSignInAndOutActivity;
 import com.sanitation.app.widget.Fab;
 
 import im.delight.android.ddp.Meteor;

@@ -17,7 +17,7 @@ public class StaffInfo {
         }
         return mInstance;
     }
-
+    public String id;
     public String staff_name;
     public String staff_id;
     public String staff_department;

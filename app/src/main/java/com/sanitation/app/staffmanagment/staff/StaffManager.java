@@ -1,8 +1,4 @@
-package com.sanitation.app.staff;
-
-import android.util.Log;
-
-import com.sanitation.app.notice.Notice;
+package com.sanitation.app.staffmanagment.staff;
 
 import java.util.ArrayList;
 import java.util.Collections;

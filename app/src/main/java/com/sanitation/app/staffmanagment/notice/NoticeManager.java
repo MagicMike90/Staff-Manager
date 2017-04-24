@@ -1,4 +1,4 @@
-package com.sanitation.app.notice;
+package com.sanitation.app.staffmanagment.notice;
 
 import java.util.ArrayList;
 import java.util.Collections;

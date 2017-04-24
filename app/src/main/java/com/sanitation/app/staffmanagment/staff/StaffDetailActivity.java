@@ -1,4 +1,4 @@
-package com.sanitation.app.staff;
+package com.sanitation.app.staffmanagment.staff;
 
 import android.content.Intent;
 import android.os.Bundle;

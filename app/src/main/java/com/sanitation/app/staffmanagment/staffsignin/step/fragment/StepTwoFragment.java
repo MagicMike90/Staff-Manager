@@ -1,4 +1,4 @@
-package com.sanitation.app.staffsignin.step.fragment;
+package com.sanitation.app.staffmanagment.staffsignin.step.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,11 +6,10 @@ import android.support.annotation.LayoutRes;
 import android.view.View;
 import android.widget.EditText;
 
-import com.sanitation.app.Constants;
 import com.sanitation.app.R;
-import com.sanitation.app.staffsignin.step.BaseFragment;
-import com.sanitation.app.staffsignin.step.OnNavigationBarListener;
-import com.sanitation.app.staffsignin.step.StepInfoStorage;
+import com.sanitation.app.staffmanagment.staffsignin.step.BaseFragment;
+import com.sanitation.app.staffmanagment.staffsignin.step.OnNavigationBarListener;
+import com.sanitation.app.staffmanagment.staffsignin.step.StepInfoStorage;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
 
@@ -53,8 +52,9 @@ public class StepTwoFragment extends BaseFragment implements Step {
         super.onViewCreated(view, savedInstanceState);
 
 //        mSelectedDepartment = Constants.DEPARTMENT[0];
-        mNameView = (EditText) view.findViewById(R.id.password);
-        mStaffName = mNameView.getText().toString();
+        mNameView = (EditText) view.findViewById(R.id.staff_name);
+        mStaffName = mNameView.getText() != null ? mNameView.getText().toString() : "";
+
         if (savedInstanceState != null) {
             mStaffName = savedInstanceState.getString(STAFF_NAME);
 
@@ -92,7 +92,7 @@ public class StepTwoFragment extends BaseFragment implements Step {
         if (onNavigationBarListener != null) {
 
             mStaffName = mNameView.getText().toString();
-            StepInfoStorage.getInstance().name = mStaffName;
+            StepInfoStorage.getInstance().staff_name = mStaffName;
             onNavigationBarListener.onChangeEndButtonsEnabled(isAboveThreshold());
         }
     }

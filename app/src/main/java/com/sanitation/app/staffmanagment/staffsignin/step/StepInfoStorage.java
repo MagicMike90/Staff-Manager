@@ -1,8 +1,4 @@
-package com.sanitation.app.staffsignin.step;
-
-import android.content.Context;
-
-import com.sanitation.app.VolleySingleton;
+package com.sanitation.app.staffmanagment.staffsignin.step;
 
 /**
  * Created by Michael on 4/23/17.
@@ -22,6 +18,6 @@ public class StepInfoStorage {
         return mInstance;
     }
 
-    public String department;
-    public String name;
+    public String staff_department;
+    public String staff_name;
 }

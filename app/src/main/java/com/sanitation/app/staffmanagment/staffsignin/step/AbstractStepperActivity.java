@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-package com.sanitation.app.staffsignin.step;
+package com.sanitation.app.staffmanagment.staffsignin.step;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,17 +23,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.sanitation.app.R;
+import com.sanitation.app.StaffInfo;
 import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
 
-import org.json.JSONObject;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TimeZone;
 
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorSingleton;
@@ -81,21 +76,15 @@ public abstract class AbstractStepperActivity extends AppCompatActivity implemen
 
     private void checkin() {
         try {
-            TimeZone tz = TimeZone.getTimeZone("UTC");
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
-            df.setTimeZone(tz);
-            String nowAsISO = df.format(new Date());
+            Map<String, Object> user = new HashMap<String, Object>();
+            user.put("id", mMeteor.getUserId());
+            user.put("staff_name", StepInfoStorage.getInstance().staff_name);
+            user.put("staff_id", StaffInfo.getInstance().staff_id);
+            user.put("staff_department", StepInfoStorage.getInstance().staff_department);
 
+            Object[] queryParams = {user};
 
-            Map<String, Object> item = new HashMap<String, Object>();
-            item.put("user_id", mMeteor.getUserId());
-            item.put("staff_name", StepInfoStorage.getInstance().name);
-            item.put("date",nowAsISO);
-
-
-            Object[] queryParams = {item};
-
-            mMeteor.call("signInOut.insert", queryParams, new ResultListener() {
+            mMeteor.call("signInOut.mobile_insert", queryParams, new ResultListener() {
                 @Override
                 public void onSuccess(String result) {
                     Log.d(TAG, "Call result: " + result);

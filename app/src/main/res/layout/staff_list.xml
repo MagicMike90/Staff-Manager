@@ -16,7 +16,7 @@
         android:divider="@color/colorPrimary"
         android:dividerHeight="10dip"
         app:layoutManager="LinearLayoutManager"
-        tools:context="com.sanitation.app.staff.StaffListActivity"
+        tools:context=".staffmanagment.staff.StaffListActivity"
         tools:listitem="@layout/staff_list_content" />
 
 </android.support.v4.widget.SwipeRefreshLayout>

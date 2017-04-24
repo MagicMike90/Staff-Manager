@@ -55,18 +55,18 @@
             android:theme="@style/AppTheme.NoActionBar">
 
             <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.SEARCH" /> -->
+            <!-- <action android:staff_name="android.intent.action.SEARCH" /> -->
             <!-- </intent-filter> -->
-            <!-- <meta-data android:name="android.app.searchable" -->
+            <!-- <meta-data android:staff_name="android.app.searchable" -->
             <!-- android:resource="@xml/searchable"/> -->
         </activity>
         <activity
-            android:name=".staff.StaffDetailActivity"
+            android:name=".staffmanagment.staff.StaffDetailActivity"
             android:label="@string/title_staff_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".staff.StaffMainActivity"
+            android:name=".staffmanagment.staff.StaffMainActivity"
             android:label="@string/title_activity_staff_main"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -75,7 +75,7 @@
                 android:value="com.sanitation.app.MainActivity" />
         </activity>
         <activity
-            android:name=".notice.NoticeDetailActivity"
+            android:name=".staffmanagment.notice.NoticeDetailActivity"
             android:label="@string/title_activity_notice_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -86,7 +86,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".staffsignin.StaffSignInAndOutActivity"
+            android:name=".staffmanagment.staffsignin.StaffSignInAndOutActivity"
             android:label="@string/title_activity_staff_sign_in_and_out"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

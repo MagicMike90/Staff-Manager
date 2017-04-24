@@ -1,4 +1,4 @@
-package com.sanitation.app.staffsignin.step.fragment;
+package com.sanitation.app.staffmanagment.staffsignin.step.fragment;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,14 +8,13 @@ import android.support.annotation.LayoutRes;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sanitation.app.Constants;
 import com.sanitation.app.R;
 import com.sanitation.app.camera.PickerBuilder;
-import com.sanitation.app.staffsignin.step.BaseFragment;
-import com.sanitation.app.staffsignin.step.OnNavigationBarListener;
+import com.sanitation.app.staffmanagment.staffsignin.step.BaseFragment;
+import com.sanitation.app.staffmanagment.staffsignin.step.OnNavigationBarListener;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
 
@@ -25,7 +24,7 @@ import com.stepstone.stepper.VerificationError;
 
 public class StepThreeFragment extends BaseFragment implements Step {
     private static final String TAG = "StepThreeFragment";
-    private static final String DEPARTMENT = "department";
+    private static final String DEPARTMENT = "staff_department";
 
     private static final String LAYOUT_RESOURCE_ID_ARG_KEY = "messageResourceId";
     private String mSelectedDepartment;

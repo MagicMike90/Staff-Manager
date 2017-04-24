@@ -1,11 +1,4 @@
-package com.sanitation.app.staff;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import im.delight.android.ddp.MeteorCallback;
+package com.sanitation.app.staffmanagment.staff;
 
 public class Staff {
 

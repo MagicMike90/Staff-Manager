@@ -1,17 +1,16 @@
-package com.sanitation.app.staffsignin.step.fragment;
+package com.sanitation.app.staffmanagment.staffsignin.step.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.sanitation.app.Constants;
 import com.sanitation.app.R;
-import com.sanitation.app.staffsignin.step.BaseFragment;
-import com.sanitation.app.staffsignin.step.OnNavigationBarListener;
-import com.sanitation.app.staffsignin.step.StepInfoStorage;
+import com.sanitation.app.staffmanagment.staffsignin.step.BaseFragment;
+import com.sanitation.app.staffmanagment.staffsignin.step.OnNavigationBarListener;
+import com.sanitation.app.staffmanagment.staffsignin.step.StepInfoStorage;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
 
@@ -21,7 +20,7 @@ import com.stepstone.stepper.VerificationError;
 
 public class StepOneFragment extends BaseFragment implements Step {
     private static final String TAG = "StepOneFragment";
-    private static final String DEPARTMENT = "department";
+    private static final String DEPARTMENT = "staff_department";
 
     private static final String LAYOUT_RESOURCE_ID_ARG_KEY = "messageResourceId";
 
@@ -66,7 +65,7 @@ public class StepOneFragment extends BaseFragment implements Step {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
                 mSelectedDepartment = item;
-                StepInfoStorage.getInstance().department = item;
+                StepInfoStorage.getInstance().staff_department = item;
 //                Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show();
             }
         });
@@ -99,6 +98,7 @@ public class StepOneFragment extends BaseFragment implements Step {
 
     private void updateNavigationBar() {
         if (onNavigationBarListener != null) {
+            StepInfoStorage.getInstance().staff_department = mSelectedDepartment;
             onNavigationBarListener.onChangeEndButtonsEnabled(isAboveThreshold());
         }
     }
