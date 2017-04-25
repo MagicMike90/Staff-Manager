@@ -1,4 +1,4 @@
-package com.sanitation.app.staffmanagment.notice;
+package com.sanitation.app.staffmanagment.signhistory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,39 +9,39 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by Michael on 3/2/17.
  */
-public class NoticeManager {
+public class SignManager {
     private static final String TAG = "SignManager";
-    private static NoticeManager mInstance;
-    private List<Notice> mNotices;
-    public static final Map<String, Notice> NOTICE_MAP = new ConcurrentHashMap<String, Notice>();
+    private static SignManager mInstance;
+    private List<SignHistory> mNotices;
+    public static final Map<String, SignHistory> NOTICE_MAP = new ConcurrentHashMap<String, SignHistory>();
 
-    public static synchronized NoticeManager getInstance() {
+    public static synchronized SignManager getInstance() {
         if (mInstance == null)
-            mInstance = new NoticeManager();
+            mInstance = new SignManager();
 
         return mInstance;
     }
 
     public void init() {
-        mNotices = Collections.synchronizedList(new ArrayList<Notice>());
+        mNotices = Collections.synchronizedList(new ArrayList<SignHistory>());
     }
 
 
-    private NoticeManager() {
+    private SignManager() {
         init();
     }
 
     // retrieve array from anywhere
-    public List<Notice> getNotice() {
+    public List<SignHistory> getNotice() {
         return this.mNotices;
     }
 
-    public Notice getNotice(String id) {
+    public SignHistory getNotice(String id) {
         return NOTICE_MAP.get(id);
     }
 
     //Add element to array
-    public void addNotice(Notice value) {
+    public void addNotice(SignHistory value) {
 //        Log.d(TAG, "addNotice");
         NOTICE_MAP.put(value.id,value);
         mNotices.add(value);

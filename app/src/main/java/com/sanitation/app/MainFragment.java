@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sanitation.app.staffmanagment.notice.NoticeListFragment;
+import com.sanitation.app.staffmanagment.signhistory.SignListFragment;
 import com.sanitation.app.staffmanagment.staff.StaffListFragment;
 import com.ss.bottomnavigation.BottomNavigation;
 import com.ss.bottomnavigation.events.OnSelectedItemChangeListener;
@@ -84,7 +85,7 @@ public class MainFragment extends Fragment {
                         fragmentClass = StaffListFragment.class;
                         break;
                     case R.id.tab_camera:
-
+                        fragmentClass = SignListFragment.class;
                         break;
                 }
                 try {

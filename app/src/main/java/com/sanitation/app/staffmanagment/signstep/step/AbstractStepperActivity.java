@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-package com.sanitation.app.staffmanagment.staffsignin.step;
+package com.sanitation.app.staffmanagment.signstep.step;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

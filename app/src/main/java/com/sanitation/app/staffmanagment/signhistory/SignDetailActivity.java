@@ -1,4 +1,4 @@
-package com.sanitation.app.staffmanagment.notice;
+package com.sanitation.app.staffmanagment.signhistory;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.view.MenuItem;
 
 import com.sanitation.app.R;
 
-public class NoticeDetailActivity extends AppCompatActivity {
+public class SignDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +29,8 @@ public class NoticeDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(NoticeDetailFragment.ARG_ID,
-                    getIntent().getStringExtra(NoticeDetailFragment.ARG_ID));
+            arguments.putString(SignDetailFragment.ARG_ID,
+                    getIntent().getStringExtra(SignDetailFragment.ARG_ID));
 //            arguments.putString(SignDetailFragment.ARG_TITLE,
 //                    getIntent().getStringExtra(SignDetailFragment.ARG_TITLE));
 //            arguments.putString(SignDetailFragment.ARG_CONTENT,
@@ -38,7 +38,7 @@ public class NoticeDetailActivity extends AppCompatActivity {
 //            arguments.putString(SignDetailFragment.ARG_DATE,
 //                    getIntent().getStringExtra(SignDetailFragment.ARG_DATE));
 
-            NoticeDetailFragment fragment = new NoticeDetailFragment();
+            SignDetailFragment fragment = new SignDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.notice_detail_container, fragment)
@@ -50,7 +50,7 @@ public class NoticeDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            NavUtils.navigateUpTo(this, new Intent(this, NoticeDetailActivity.class));
+            NavUtils.navigateUpTo(this, new Intent(this, SignDetailActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

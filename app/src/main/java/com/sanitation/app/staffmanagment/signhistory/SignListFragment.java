@@ -1,11 +1,9 @@
-package com.sanitation.app.staffmanagment.notice;
+package com.sanitation.app.staffmanagment.signhistory;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,11 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
-import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
 import com.sanitation.app.R;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
 import com.sanitation.app.staffmanagment.signstep.StaffSignInAndOutActivity;
-import com.sanitation.app.widget.Fab;
 
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;
@@ -30,13 +26,12 @@ import im.delight.android.ddp.db.Database;
 import im.delight.android.ddp.db.Document;
 
 
-
-public class NoticeListFragment extends Fragment implements MeteorCallback {
+public class SignListFragment extends Fragment implements MeteorCallback {
     private static final String TAG = "SignListFragment";
 
 
     private RecyclerView mRecyclerView;
-    private NoticeListFragmentAdapter mViewAdapter;
+    private SignListFragmentAdapter mViewAdapter;
 
     private SearchView searchView = null;
     private String mSearchbarHint;
@@ -53,12 +48,12 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public NoticeListFragment() {
+    public SignListFragment() {
     }
 
 
-    public static NoticeListFragment newInstance() {
-        NoticeListFragment fragment = new NoticeListFragment();
+    public static SignListFragment newInstance() {
+        SignListFragment fragment = new SignListFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -82,27 +77,16 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_notice_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_sign_list, container, false);
 
         // Set the adapter
 
         Context context = view.getContext();
         mRecyclerView = (RecyclerView) view.findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        mRecyclerView.setAdapter(new NoticeListFragmentAdapter(NoticeManager.getInstance().getNotice()));
+        mRecyclerView.setAdapter(new SignListFragmentAdapter(SignManager.getInstance().getNotice()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this.getContext(), LinearLayoutManager.VERTICAL));
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-
-        setupFab(view);
 
         return view;
     }
@@ -127,43 +111,10 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
 //        return super.onOptionsItemSelected(item);
 //    }
 
-    private void setupFab(View view) {
-
-        Fab fab = (Fab) view.findViewById(R.id.fab);
-        View sheetView = view.findViewById(R.id.fab_sheet);
-        View overlay = view.findViewById(R.id.overlay);
-        int sheetColor = getResources().getColor(R.color.background_card);
-        int fabColor = getResources().getColor(R.color.theme_accent);
-
-        // Create material sheet FAB
-        materialSheetFab = new MaterialSheetFab<>(fab, sheetView, overlay, sheetColor, fabColor);
-
-        // Set material sheet event listener
-        materialSheetFab.setEventListener(new MaterialSheetFabEventListener() {
-            @Override
-            public void onShowSheet() {
-                // Save current status bar color
-                statusBarColor = getStatusBarColor();
-                // Set darker status bar color to match the dim overlay
-                setStatusBarColor(getResources().getColor(R.color.theme_primary_dark2));
-            }
-
-            @Override
-            public void onHideSheet() {
-                // Restore status bar color
-                setStatusBarColor(statusBarColor);
-            }
-        });
-
-        // Set material sheet item click listeners
-        view.findViewById(R.id.fab_sheet_item_type_1).setOnClickListener(mOnClickListener);
-        view.findViewById(R.id.fab_sheet_item_type_2).setOnClickListener(mOnClickListener);
-        view.findViewById(R.id.fab_sheet_item_type_3).setOnClickListener(mOnClickListener);
-        view.findViewById(R.id.fab_sheet_item_type_4).setOnClickListener(mOnClickListener);
-    }
 
     private class OnClickListener implements View.OnClickListener {
         int type = R.string.title_activity_supervisor_check_in;
+
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
@@ -182,7 +133,7 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
             }
             materialSheetFab.hideSheet();
 
-            Intent intent = new Intent(NoticeListFragment.this.getContext(), StaffSignInAndOutActivity.class);
+            Intent intent = new Intent(SignListFragment.this.getContext(), StaffSignInAndOutActivity.class);
             intent.putExtra(StaffSignInAndOutActivity.CHECK_IN_AN_OUT_TYPE, type);
             startActivity(intent);
         }
@@ -223,7 +174,7 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
     public void onConnect(boolean signedInAutomatically) {
         Log.d(TAG, "onConnect");
 
-        mSubscribeId = mMeteor.subscribe("notices");
+        mSubscribeId = mMeteor.subscribe("signInOut");
     }
 
     @Override
@@ -242,23 +193,25 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
 
         try {
             Database database = mMeteor.getDatabase();
-            Collection collection = database.getCollection("notices");
-            NoticeManager.getInstance().init();
+            Collection collection = database.getCollection("signInOut");
+            SignManager.getInstance().init();
 
             int limit = 30;
             int offset = 0;
             Document[] documents = collection.find(limit, offset);
             for (Document d : documents) {
-                String name = d.getField("title").toString();
-                String content = d.getField("content").toString().replace("编辑时间", "");
-                String time = d.getField("time").toString();
-
-                NoticeManager.getInstance().addNotice(new Notice(d.getId(), name, content, time));
+                String name = d.getField("staff_name").toString();
+                Log.d(TAG, name + " name ");
+                String staff_department = d.getField("staff_department").toString();
+                Log.d(TAG, staff_department);
+                String time = d.getField("createdAt").toString();
+                Log.d(TAG, time);
+                SignManager.getInstance().addNotice(new SignHistory(d.getId(), name, staff_department, time));
             }
         } catch (Exception e) {
             Log.d(TAG, Log.getStackTraceString(e));
         }
-        mViewAdapter = new NoticeListFragmentAdapter(NoticeManager.getInstance().getNotice());
+        mViewAdapter = new SignListFragmentAdapter(SignManager.getInstance().getNotice());
         mRecyclerView.setAdapter(mViewAdapter);
         mViewAdapter.notifyDataSetChanged();
     }

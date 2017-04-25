@@ -1,4 +1,4 @@
-package com.sanitation.app.staffmanagment.notice;
+package com.sanitation.app.staffmanagment.signhistory;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import com.sanitation.app.R;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class NoticeDetailFragment extends Fragment {
+public class SignDetailFragment extends Fragment {
     private static final String TAG = "SignDetailFragment";
 
     public static final String ARG_ID = "id";
@@ -22,8 +22,8 @@ public class NoticeDetailFragment extends Fragment {
     public static final String ARG_CONTENT = "content";
     public static final String ARG_DATE = "date";
 
-    private Notice mNotice;
-    public NoticeDetailFragment() {
+    private SignHistory mSignHistory;
+    public SignDetailFragment() {
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,10 +38,10 @@ public class NoticeDetailFragment extends Fragment {
 //        }
 
         if (getArguments().containsKey(ARG_ID)) {
-            mNotice = NoticeManager.getInstance().getNotice(getArguments().getString(ARG_ID));
+            mSignHistory = SignManager.getInstance().getNotice(getArguments().getString(ARG_ID));
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mNotice.title);
+                appBarLayout.setTitle(mSignHistory.title);
             }
         }
 
@@ -49,14 +49,14 @@ public class NoticeDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_notice_detail, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_sign_detail, container, false);
 //        if (getArguments().containsKey(ARG_CONTENT)) {
 //            TextView content = (TextView) rootView.findViewById(R.id.content);
 //            content.setText(getArguments().getString(ARG_CONTENT));
 //        }
         if (getArguments().containsKey(ARG_ID)) {
             TextView content = (TextView) rootView.findViewById(R.id.content);
-            content.setText(mNotice.content);
+            content.setText(mSignHistory.content);
         }
         return rootView;
     }
