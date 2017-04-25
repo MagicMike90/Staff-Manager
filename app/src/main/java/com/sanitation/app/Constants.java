@@ -22,6 +22,11 @@ public class Constants {
     public static final int CLEANER_SIGN_IN = 1;
     public static final int CLEANER_SIGN_OUT = 1;
   }
+  public class SignType {
+    public static final String SIGN_IN = "签到";
+    public static final String SIGN_OUT = "签退";
+  }
+
   public class StaffRole {
     public static final String SUPERVISOR = "巡查员";
     public static final String CLEANER = "扫保人员";

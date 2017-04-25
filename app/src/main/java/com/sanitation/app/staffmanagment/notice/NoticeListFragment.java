@@ -172,17 +172,22 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
                 case R.id.fab_sheet_item_type_1:
                     type = R.string.title_activity_supervisor_check_in;
                     StepInfoStorage.getInstance().staff_role = Constants.StaffRole.SUPERVISOR;
+                    StepInfoStorage.getInstance().type = Constants.SignType.SIGN_IN;
                     break;
                 case R.id.fab_sheet_item_type_2:
                     type = R.string.title_activity_supervisor_check_out;
+                    StepInfoStorage.getInstance().type = Constants.SignType.SIGN_OUT;
                     StepInfoStorage.getInstance().staff_role = Constants.StaffRole.SUPERVISOR;
                     break;
                 case R.id.fab_sheet_item_type_3:
                     type = R.string.title_activity_cleaner_check_in;
+                    StepInfoStorage.getInstance().type = Constants.SignType.SIGN_IN;
                     StepInfoStorage.getInstance().staff_role = Constants.StaffRole.CLEANER;
+
                     break;
                 case R.id.fab_sheet_item_type_4:
                     type = R.string.title_activity_cleaner_check_out;
+                    StepInfoStorage.getInstance().type = Constants.SignType.SIGN_OUT;
                     StepInfoStorage.getInstance().staff_role = Constants.StaffRole.CLEANER;
                     break;
             }
