@@ -18,7 +18,7 @@ public class NoticeDetailFragment extends Fragment {
     private static final String TAG = "SignDetailFragment";
 
     public static final String ARG_ID = "id";
-    public static final String ARG_TITLE = "title";
+    public static final String ARG_TITLE = "staff_name";
     public static final String ARG_CONTENT = "content";
     public static final String ARG_DATE = "date";
 

@@ -18,7 +18,8 @@ public class SignDetailFragment extends Fragment {
     private static final String TAG = "SignDetailFragment";
 
     public static final String ARG_ID = "id";
-    public static final String ARG_TITLE = "title";
+    public static final String ARG_TITLE = "staff_name";
+    public static final String ARG_DEPARTMENT = "department";
     public static final String ARG_CONTENT = "content";
     public static final String ARG_DATE = "date";
 
@@ -38,10 +39,10 @@ public class SignDetailFragment extends Fragment {
 //        }
 
         if (getArguments().containsKey(ARG_ID)) {
-            mSignHistory = SignManager.getInstance().getNotice(getArguments().getString(ARG_ID));
+            mSignHistory = SignManager.getInstance().getSigns(getArguments().getString(ARG_ID));
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mSignHistory.title);
+                appBarLayout.setTitle(mSignHistory.staff_name);
             }
         }
 
@@ -55,8 +56,14 @@ public class SignDetailFragment extends Fragment {
 //            content.setText(getArguments().getString(ARG_CONTENT));
 //        }
         if (getArguments().containsKey(ARG_ID)) {
-            TextView content = (TextView) rootView.findViewById(R.id.content);
-            content.setText(mSignHistory.content);
+            TextView name = (TextView) rootView.findViewById(R.id.staff_name);
+            name.setText(mSignHistory.staff_name);
+
+            TextView content = (TextView) rootView.findViewById(R.id.department);
+            content.setText(mSignHistory.department);
+
+            TextView date = (TextView) rootView.findViewById(R.id.date);
+            date.setText(mSignHistory.date);
         }
         return rootView;
     }

@@ -31,7 +31,8 @@ public class SignListFragmentAdapter extends RecyclerView.Adapter<SignListFragme
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mTitleView.setText(mValues.get(position).title);
+        holder.mTitleView.setText(mValues.get(position).staff_name);
+        holder.mDepartmentView.setText(mValues.get(position).department);
         holder.mDateView.setText(mValues.get(position).date);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -40,8 +41,8 @@ public class SignListFragmentAdapter extends RecyclerView.Adapter<SignListFragme
                 Context context = v.getContext();
                 Intent intent = new Intent(context, SignDetailActivity.class);
                 intent.putExtra(SignDetailFragment.ARG_ID, holder.mItem.id);
-                intent.putExtra(SignDetailFragment.ARG_TITLE, holder.mItem.title);
-                intent.putExtra(SignDetailFragment.ARG_CONTENT, holder.mItem.content);
+                intent.putExtra(SignDetailFragment.ARG_TITLE, holder.mItem.staff_name);
+                intent.putExtra(SignDetailFragment.ARG_DEPARTMENT, holder.mItem.department);
                 intent.putExtra(SignDetailFragment.ARG_DATE, holder.mItem.date);
                 context.startActivity(intent);
             }
@@ -56,6 +57,7 @@ public class SignListFragmentAdapter extends RecyclerView.Adapter<SignListFragme
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mTitleView;
+        public final TextView mDepartmentView;
         public final TextView mDateView;
         public SignHistory mItem;
 
@@ -63,6 +65,7 @@ public class SignListFragmentAdapter extends RecyclerView.Adapter<SignListFragme
             super(view);
             mView = view;
             mTitleView = (TextView) view.findViewById(R.id.title);
+            mDepartmentView = (TextView) view.findViewById(R.id.label_department);
             mDateView = (TextView) view.findViewById(R.id.date);
         }
 

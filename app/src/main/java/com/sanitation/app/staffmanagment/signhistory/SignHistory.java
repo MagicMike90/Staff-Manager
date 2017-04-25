@@ -6,19 +6,21 @@ package com.sanitation.app.staffmanagment.signhistory;
 
 public class SignHistory {
     public final String id;
-    public final String title;
-    public final String content;
+    public final String staff_name;
+    public final String department;
+//    public final String content;
     public final String date;
 
-    public SignHistory(String id, String title, String content, String date) {
+    public SignHistory(String id, String title, String department, String date) {
         this.id = id;
-        this.title = title;
-        this.content = content;
+        this.staff_name = title;
+        this.department = department;
+//        this.content = content;
         this.date = date;
     }
 
     @Override
     public String toString() {
-        return content;
+        return department;
     }
 }

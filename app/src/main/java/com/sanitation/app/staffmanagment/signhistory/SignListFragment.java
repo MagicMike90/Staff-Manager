@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.sanitation.app.R;
+import com.sanitation.app.Utils;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
 import com.sanitation.app.staffmanagment.signstep.StaffSignInAndOutActivity;
 
@@ -84,7 +85,7 @@ public class SignListFragment extends Fragment implements MeteorCallback {
         Context context = view.getContext();
         mRecyclerView = (RecyclerView) view.findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        mRecyclerView.setAdapter(new SignListFragmentAdapter(SignManager.getInstance().getNotice()));
+        mRecyclerView.setAdapter(new SignListFragmentAdapter(SignManager.getInstance().getSigns()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this.getContext(), LinearLayoutManager.VERTICAL));
 
 
@@ -195,23 +196,24 @@ public class SignListFragment extends Fragment implements MeteorCallback {
             Database database = mMeteor.getDatabase();
             Collection collection = database.getCollection("signInOut");
             SignManager.getInstance().init();
+            Utils utils = Utils.getInstance(this.getContext());
 
             int limit = 30;
             int offset = 0;
             Document[] documents = collection.find(limit, offset);
             for (Document d : documents) {
                 String name = d.getField("staff_name").toString();
-                Log.d(TAG, name + " name ");
+
                 String staff_department = d.getField("staff_department").toString();
-                Log.d(TAG, staff_department);
-                String time = d.getField("createdAt").toString();
-                Log.d(TAG, time);
-                SignManager.getInstance().addNotice(new SignHistory(d.getId(), name, staff_department, time));
+
+                String time = utils.getDateStr(d.getField("createdAt").toString());
+
+                SignManager.getInstance().addSign(new SignHistory(d.getId(), name, staff_department, time));
             }
         } catch (Exception e) {
             Log.d(TAG, Log.getStackTraceString(e));
         }
-        mViewAdapter = new SignListFragmentAdapter(SignManager.getInstance().getNotice());
+        mViewAdapter = new SignListFragmentAdapter(SignManager.getInstance().getSigns());
         mRecyclerView.setAdapter(mViewAdapter);
         mViewAdapter.notifyDataSetChanged();
     }

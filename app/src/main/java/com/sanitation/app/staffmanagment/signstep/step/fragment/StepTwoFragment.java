@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.sanitation.app.R;
-import com.sanitation.app.staffmanagment.signstep.step.BaseFragment;
 import com.sanitation.app.staffmanagment.signstep.step.OnNavigationBarListener;
 import com.sanitation.app.staffmanagment.signstep.step.StepInfoStorage;
 import com.stepstone.stepper.Step;
@@ -73,11 +72,14 @@ public class StepTwoFragment extends BaseFragment implements Step {
     @Override
     public VerificationError verifyStep() {
         Log.d(TAG, String.valueOf(isAboveThreshold()));
+
         return isAboveThreshold() ? null : new VerificationError("姓名不能为空!");
     }
 
     private boolean isAboveThreshold() {
-        Log.d(TAG, mStaffName);
+        mStaffName = mNameView.getText().toString();
+        StepInfoStorage.getInstance().staff_name = mStaffName;
+        Log.d(TAG,mStaffName);
         return !mStaffName.isEmpty();
     }
 
@@ -93,9 +95,6 @@ public class StepTwoFragment extends BaseFragment implements Step {
 
     private void updateNavigationBar() {
         if (onNavigationBarListener != null) {
-
-            mStaffName = mNameView.getText().toString();
-            StepInfoStorage.getInstance().staff_name = mStaffName;
             onNavigationBarListener.onChangeEndButtonsEnabled(isAboveThreshold());
         }
     }

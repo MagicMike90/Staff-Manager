@@ -8,7 +8,6 @@ import android.view.View;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.sanitation.app.Constants;
 import com.sanitation.app.R;
-import com.sanitation.app.staffmanagment.signstep.step.BaseFragment;
 import com.sanitation.app.staffmanagment.signstep.step.OnNavigationBarListener;
 import com.sanitation.app.staffmanagment.signstep.step.StepInfoStorage;
 import com.stepstone.stepper.Step;

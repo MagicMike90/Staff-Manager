@@ -32,17 +32,17 @@ public class SignManager {
     }
 
     // retrieve array from anywhere
-    public List<SignHistory> getNotice() {
+    public List<SignHistory> getSigns() {
         return this.mNotices;
     }
 
-    public SignHistory getNotice(String id) {
+    public SignHistory getSigns(String id) {
         return NOTICE_MAP.get(id);
     }
 
     //Add element to array
-    public void addNotice(SignHistory value) {
-//        Log.d(TAG, "addNotice");
+    public void addSign(SignHistory value) {
+//        Log.d(TAG, "addSign");
         NOTICE_MAP.put(value.id,value);
         mNotices.add(value);
     }
