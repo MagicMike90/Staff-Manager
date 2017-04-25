@@ -1,4 +1,4 @@
-package com.sanitation.app.staffmanagment.signstep.step.fragment;
+package com.sanitation.app.staffmanagment.sign.step.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.sanitation.app.R;
-import com.sanitation.app.staffmanagment.signstep.step.OnNavigationBarListener;
-import com.sanitation.app.staffmanagment.signstep.step.StepInfoStorage;
+import com.sanitation.app.staffmanagment.sign.step.OnNavigationBarListener;
+import com.sanitation.app.staffmanagment.sign.step.StepInfoStorage;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
 

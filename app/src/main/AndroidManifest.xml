@@ -86,7 +86,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".staffmanagment.signstep.StaffSignInAndOutActivity"
+            android:name=".staffmanagment.sign.StaffSignInAndOutActivity"
             android:label="@string/title_activity_staff_sign_in_and_out"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

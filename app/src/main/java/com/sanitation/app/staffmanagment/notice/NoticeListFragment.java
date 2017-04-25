@@ -17,9 +17,11 @@ import android.view.ViewGroup;
 
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
+import com.sanitation.app.Constants;
 import com.sanitation.app.R;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
-import com.sanitation.app.staffmanagment.signstep.StaffSignInAndOutActivity;
+import com.sanitation.app.staffmanagment.sign.StaffSignInAndOutActivity;
+import com.sanitation.app.staffmanagment.sign.step.StepInfoStorage;
 import com.sanitation.app.widget.Fab;
 
 import im.delight.android.ddp.Meteor;
@@ -169,15 +171,19 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
             switch (v.getId()) {
                 case R.id.fab_sheet_item_type_1:
                     type = R.string.title_activity_supervisor_check_in;
+                    StepInfoStorage.getInstance().staff_role = Constants.StaffRole.SUPERVISOR;
                     break;
                 case R.id.fab_sheet_item_type_2:
                     type = R.string.title_activity_supervisor_check_out;
+                    StepInfoStorage.getInstance().staff_role = Constants.StaffRole.SUPERVISOR;
                     break;
                 case R.id.fab_sheet_item_type_3:
                     type = R.string.title_activity_cleaner_check_in;
+                    StepInfoStorage.getInstance().staff_role = Constants.StaffRole.CLEANER;
                     break;
                 case R.id.fab_sheet_item_type_4:
                     type = R.string.title_activity_cleaner_check_out;
+                    StepInfoStorage.getInstance().staff_role = Constants.StaffRole.CLEANER;
                     break;
             }
             materialSheetFab.hideSheet();

@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-package com.sanitation.app.staffmanagment.signstep.step;
+package com.sanitation.app.staffmanagment.sign.step;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -80,7 +80,10 @@ public abstract class AbstractStepperActivity extends AppCompatActivity implemen
             user.put("id", mMeteor.getUserId());
             user.put("staff_name", StepInfoStorage.getInstance().staff_name);
             user.put("staff_id", StaffInfo.getInstance().staff_id);
-            user.put("staff_department", StepInfoStorage.getInstance().staff_department);
+            user.put("staff_role", StepInfoStorage.getInstance().staff_role);
+            user.put("type", StepInfoStorage.getInstance().type);
+            user.put("latitude", StepInfoStorage.getInstance().latitude);
+            user.put("longitude", StepInfoStorage.getInstance().longitude);
 
             Object[] queryParams = {user};
 

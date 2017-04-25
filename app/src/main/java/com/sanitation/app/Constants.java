@@ -22,4 +22,9 @@ public class Constants {
     public static final int CLEANER_SIGN_IN = 1;
     public static final int CLEANER_SIGN_OUT = 1;
   }
+  public class StaffRole {
+    public static final String SUPERVISOR = "巡查员";
+    public static final String CLEANER = "扫保人员";
+  }
+
 }

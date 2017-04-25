@@ -13,6 +13,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 
+import com.sanitation.app.staffmanagment.sign.step.StepInfoStorage;
+
 import org.json.JSONObject;
 
 import java.text.DateFormat;
@@ -70,6 +72,9 @@ public class GPSService extends Service {
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
                 df.setTimeZone(tz);
                 String nowAsISO = df.format(new Date());
+
+                StepInfoStorage.getInstance().latitude = location.getLatitude();
+                StepInfoStorage.getInstance().longitude = location.getLongitude();
 
                 JSONObject locationJSON = new JSONObject();
                 locationJSON.put("latitude", location.getLatitude());

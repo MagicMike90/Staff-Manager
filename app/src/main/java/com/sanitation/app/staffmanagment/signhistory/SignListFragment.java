@@ -17,7 +17,7 @@ import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.sanitation.app.R;
 import com.sanitation.app.Utils;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
-import com.sanitation.app.staffmanagment.signstep.StaffSignInAndOutActivity;
+import com.sanitation.app.staffmanagment.sign.StaffSignInAndOutActivity;
 
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;

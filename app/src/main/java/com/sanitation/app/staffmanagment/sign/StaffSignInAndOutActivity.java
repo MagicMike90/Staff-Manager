@@ -1,4 +1,4 @@
-package com.sanitation.app.staffmanagment.signstep;
+package com.sanitation.app.staffmanagment.sign;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.sanitation.app.R;
-import com.sanitation.app.staffmanagment.signstep.step.AbstractStepperActivity;
-import com.sanitation.app.staffmanagment.signstep.step.StepInfoStorage;
+import com.sanitation.app.staffmanagment.sign.step.AbstractStepperActivity;
+import com.sanitation.app.staffmanagment.sign.step.StepInfoStorage;
 
 public class StaffSignInAndOutActivity extends AbstractStepperActivity {
 
@@ -26,7 +26,6 @@ public class StaffSignInAndOutActivity extends AbstractStepperActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             int title = getIntent().getIntExtra(CHECK_IN_AN_OUT_TYPE,0);
-            StepInfoStorage.getInstance().sign_type = title;
             setTitle(title);
         }
     }
