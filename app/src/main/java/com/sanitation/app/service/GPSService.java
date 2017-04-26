@@ -68,10 +68,10 @@ public class GPSService extends Service {
             mLastLocation.set(location);
 
             try {
-                TimeZone tz = TimeZone.getTimeZone("UTC");
-                DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
-                df.setTimeZone(tz);
-                String nowAsISO = df.format(new Date());
+//                TimeZone tz = TimeZone.getTimeZone("UTC");
+//                DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
+//                df.setTimeZone(tz);
+//                String nowAsISO = df.format(new Date());
 
                 StepInfoStorage.getInstance().latitude = location.getLatitude();
                 StepInfoStorage.getInstance().longitude = location.getLongitude();
@@ -79,7 +79,7 @@ public class GPSService extends Service {
                 JSONObject locationJSON = new JSONObject();
                 locationJSON.put("latitude", location.getLatitude());
                 locationJSON.put("longitude", location.getLongitude());
-                locationJSON.put("time", nowAsISO);
+//                locationJSON.put("time", nowAsISO);
 
                 Map<String, Object> item = new HashMap<String, Object>();
                 item.put("user_id", mMeteor.getUserId());

@@ -18,7 +18,6 @@ public class StepInfoStorage {
         return mInstance;
     }
 
-    public int sign_type;
     public String staff_department;
     public String staff_name;
     public String staff_role;
