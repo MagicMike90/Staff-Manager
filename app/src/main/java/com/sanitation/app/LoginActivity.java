@@ -278,25 +278,25 @@ public class LoginActivity extends AppCompatActivity implements MeteorCallback {
             Log.d(TAG, mMeteor.getUserId());
 
 
-//            Map<String, Object> user = new HashMap<String, Object>();
-//            user.put("_id", mMeteor.getUserId());
-//
-//            Object[] queryParams = {user};
-
             mMeteor.call("user.findStaffId", new String[]{mMeteor.getUserId()}, new ResultListener() {
                 @Override
                 public void onSuccess(String result) {
                     try {
-                        JSONObject jsonObj = new JSONObject(result);
+                        JSONObject staff = new JSONObject(result);
                         StaffInfo.getInstance().id = mMeteor.getUserId();
-
-                        JSONObject profile = new JSONObject(jsonObj.getString("profile"));
-                        StaffInfo.getInstance().staff_id = profile.getString("staff_id");
+                        StaffInfo.getInstance().staff_name = staff.getString("staff_name");
+                        StaffInfo.getInstance().staff_id = staff.getString("staff_id");
+                        StaffInfo.getInstance().role = staff.getString("role");
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     Log.d(TAG, "Call result: " + result);
+                    //start location tracker
+                    Intent externalActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(externalActivityIntent);
+
+                    finish();
                 }
 
                 @Override
@@ -306,10 +306,7 @@ public class LoginActivity extends AppCompatActivity implements MeteorCallback {
             });
 
 
-            //start location tracker
-            Intent externalActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(externalActivityIntent);
-            finish();
+
         }
         showProgress(false);
     }

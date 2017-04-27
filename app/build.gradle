@@ -29,6 +29,8 @@ dependencies {
     compile files('libs/AMap_Location_V3.3.0_20170118.jar')
 
 
+
+
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:support-v4:25.2.0'
@@ -41,12 +43,11 @@ dependencies {
     compile 'com.ss.bottomnavigation:bottomnavigation:1.5.1'
     compile 'com.gordonwong:material-sheet-fab:1.2.1'
     compile 'com.stepstone.stepper:material-stepper:3.2.0'
-
     compile 'com.yalantis:ucrop:2.2.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
-
     testCompile 'junit:junit:4.12'
 }
+
 
 
 

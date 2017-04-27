@@ -61,12 +61,12 @@
             <!-- android:resource="@xml/searchable"/> -->
         </activity>
         <activity
-            android:name=".staffmanagment.staff.StaffDetailActivity"
+            android:name=".staffmanagement.staff.StaffDetailActivity"
             android:label="@string/title_staff_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".staffmanagment.staff.StaffMainActivity"
+            android:name=".staffmanagement.staff.StaffMainActivity"
             android:label="@string/title_activity_staff_main"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -75,7 +75,7 @@
                 android:value="com.sanitation.app.MainActivity" />
         </activity>
         <activity
-            android:name=".staffmanagment.notice.NoticeDetailActivity"
+            android:name=".staffmanagement.notice.NoticeDetailActivity"
             android:label="@string/title_activity_notice_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -86,7 +86,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".staffmanagment.sign.StaffSignInAndOutActivity"
+            android:name=".staffmanagement.sign.StaffSignInAndOutActivity"
             android:label="@string/title_activity_staff_sign_in_and_out"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -103,8 +103,14 @@
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
-            android:name=".staffmanagment.signhistory.SignDetailActivity"
+            android:name=".staffmanagement.signhistory.SignDetailActivity"
             android:label="@string/title_activity_sign_detail"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".eventmanagement.EventDetailActivity"
+            android:label="@string/title_activity_event_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>

@@ -9,9 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sanitation.app.staffmanagment.notice.NoticeListFragment;
-import com.sanitation.app.staffmanagment.signhistory.SignListFragment;
-import com.sanitation.app.staffmanagment.staff.StaffListFragment;
+import com.sanitation.app.staffmanagement.notice.NoticeListFragment;
+import com.sanitation.app.staffmanagement.signhistory.SignListFragment;
+import com.sanitation.app.staffmanagement.staff.StaffListFragment;
 import com.ss.bottomnavigation.BottomNavigation;
 import com.ss.bottomnavigation.events.OnSelectedItemChangeListener;
 

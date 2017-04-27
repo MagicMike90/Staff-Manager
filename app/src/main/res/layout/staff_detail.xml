@@ -7,7 +7,7 @@
     android:padding="16dp"
     android:textIsSelectable="true"
     android:orientation="vertical"
-    tools:context=".staffmanagment.staff.StaffDetailFragment">
+    tools:context=".staffmanagement.staff.StaffDetailFragment">
 
     <TextView
         android:id="@+id/staff_name"
