@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sanitation.app.R;
+import com.sanitation.app.eventmanagement.event.detail.EventDetailActivity;
+import com.sanitation.app.eventmanagement.event.detail.EventDetailFragment;
+import com.sanitation.app.eventmanagement.model.Event;
 
 import java.util.List;
 

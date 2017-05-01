@@ -1,4 +1,4 @@
-package com.sanitation.app.eventmanagement;
+package com.sanitation.app.eventmanagement.event.detail;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.sanitation.app">
 
@@ -90,27 +91,28 @@
             android:label="@string/title_activity_staff_sign_in_and_out"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".camera.TempActivity"
             android:label="@string/title_activity_temp"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".staffmanagement.signhistory.SignDetailActivity"
             android:label="@string/title_activity_sign_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
-            android:name=".eventmanagement.EventDetailActivity"
+            android:name=".eventmanagement.event.detail.EventDetailActivity"
             android:label="@string/title_activity_event_detail"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".eventmanagement.event.upload.UploadEventActivity"
+            android:label="@string/title_activity_upload_event"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>

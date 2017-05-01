@@ -28,7 +28,6 @@ import com.amap.api.services.weather.WeatherSearch.OnWeatherSearchListener;
 import com.amap.api.services.weather.WeatherSearchQuery;
 import com.sanitation.app.eventmanagement.EventListFragment;
 import com.sanitation.app.service.GPSService;
-import com.sanitation.app.staffmanagement.staff.StaffListFragment;
 
 
 import java.util.List;

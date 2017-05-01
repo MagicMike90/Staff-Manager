@@ -4,7 +4,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_notice"
-            android:icon="@drawable/ic_menu_notice"
+            android:icon="@android:drawable/ic_menu_manage"
             android:title="@string/navigation_drawer_menu_notice" />
         <item
             android:id="@+id/nav_camera"
@@ -23,13 +23,13 @@
         <!--android:icon="@drawable/ic_menu_manage"-->
         <!--android:staff_name="事件上传" />-->
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="成绩考核" />
-        <item
             android:id="@+id/nav_share"
             android:icon="@drawable/ic_menu_share"
             android:title="部件管理" />
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="成绩考核" />
         <item
             android:id="@+id/nav_send"
             android:icon="@drawable/ic_menu_send"

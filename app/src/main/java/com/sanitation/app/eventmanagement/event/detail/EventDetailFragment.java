@@ -1,4 +1,4 @@
-package com.sanitation.app.eventmanagement;
+package com.sanitation.app.eventmanagement.event.detail;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sanitation.app.R;
+import com.sanitation.app.eventmanagement.model.Event;
+import com.sanitation.app.eventmanagement.model.EventManager;
 
 /**
  * A placeholder fragment containing a simple view.

@@ -20,6 +20,9 @@ import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
 import com.sanitation.app.Constants;
 import com.sanitation.app.R;
 import com.sanitation.app.Utils;
+import com.sanitation.app.eventmanagement.event.upload.UploadEventActivity;
+import com.sanitation.app.eventmanagement.model.Event;
+import com.sanitation.app.eventmanagement.model.EventManager;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
 import com.sanitation.app.staffmanagement.sign.StaffSignInAndOutActivity;
 import com.sanitation.app.staffmanagement.sign.step.StepInfoStorage;
@@ -74,7 +77,6 @@ public class EventListFragment extends Fragment implements MeteorCallback {
 
         mMeteor = MeteorSingleton.getInstance();
 //        mMeteor = new Meteor(getContext(), Constants.METEOR_SERVER_SOCKET,new InMemoryDatabase());
-        mMeteor.addCallback(this);
 
         mOnClickListener = new OnClickListener();
     }
@@ -157,10 +159,7 @@ public class EventListFragment extends Fragment implements MeteorCallback {
         });
 
         // Set material sheet item click listeners
-        view.findViewById(R.id.fab_sheet_item_type_1).setOnClickListener(mOnClickListener);
-        view.findViewById(R.id.fab_sheet_item_type_2).setOnClickListener(mOnClickListener);
-        view.findViewById(R.id.fab_sheet_item_type_3).setOnClickListener(mOnClickListener);
-        view.findViewById(R.id.fab_sheet_item_type_4).setOnClickListener(mOnClickListener);
+        view.findViewById(R.id.upload_event).setOnClickListener(mOnClickListener);
     }
 
     private class OnClickListener implements View.OnClickListener {
@@ -168,31 +167,15 @@ public class EventListFragment extends Fragment implements MeteorCallback {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.fab_sheet_item_type_1:
+                case R.id.upload_event:
                     type = R.string.title_activity_supervisor_check_in;
                     StepInfoStorage.getInstance().staff_role = Constants.StaffRole.SUPERVISOR;
                     StepInfoStorage.getInstance().type = Constants.SignType.SIGN_IN;
                     break;
-                case R.id.fab_sheet_item_type_2:
-                    type = R.string.title_activity_supervisor_check_out;
-                    StepInfoStorage.getInstance().type = Constants.SignType.SIGN_OUT;
-                    StepInfoStorage.getInstance().staff_role = Constants.StaffRole.SUPERVISOR;
-                    break;
-                case R.id.fab_sheet_item_type_3:
-                    type = R.string.title_activity_cleaner_check_in;
-                    StepInfoStorage.getInstance().type = Constants.SignType.SIGN_IN;
-                    StepInfoStorage.getInstance().staff_role = Constants.StaffRole.CLEANER;
-
-                    break;
-                case R.id.fab_sheet_item_type_4:
-                    type = R.string.title_activity_cleaner_check_out;
-                    StepInfoStorage.getInstance().type = Constants.SignType.SIGN_OUT;
-                    StepInfoStorage.getInstance().staff_role = Constants.StaffRole.CLEANER;
-                    break;
             }
             materialSheetFab.hideSheet();
 
-            Intent intent = new Intent(EventListFragment.this.getContext(), StaffSignInAndOutActivity.class);
+            Intent intent = new Intent(EventListFragment.this.getContext(), UploadEventActivity.class);
             intent.putExtra(StaffSignInAndOutActivity.CHECK_IN_AN_OUT_TYPE, type);
             startActivity(intent);
         }
@@ -214,14 +197,15 @@ public class EventListFragment extends Fragment implements MeteorCallback {
     @Override
     public void onResume() {
         super.onResume();
+        mMeteor.addCallback(this);
         mMeteor.connect();
         Log.d(TAG, "onResume");
     }
 
     @Override
     public void onPause() {
-        mMeteor.removeCallback(this);
         super.onPause();
+        mMeteor.removeCallback(this);
         Log.d(TAG, "onPause");
     }
 
