@@ -1,5 +1,6 @@
 package com.sanitation.app.eventmanagement.event.upload;
 
+import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.sanitation.app.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -16,13 +19,16 @@ import java.util.List;
  */
 
 public class EventUploadFragmentAdapter extends RecyclerView.Adapter<EventUploadFragmentAdapter.ViewHolder> {
+    private Context mContext;
     private List<Uri> mUris;
 
     void setData(List<Uri> uris) {
         mUris = uris;
         notifyDataSetChanged();
     }
-    public EventUploadFragmentAdapter(List<Uri> uris) {
+
+    public EventUploadFragmentAdapter(Context context, List<Uri> uris) {
+        mContext = context;
         mUris = uris;
     }
 
@@ -38,7 +44,14 @@ public class EventUploadFragmentAdapter extends RecyclerView.Adapter<EventUpload
     @Override
     public void onBindViewHolder(EventUploadFragmentAdapter.ViewHolder holder, int position) {
         Uri uri = mUris.get(position);
-        holder.mUri.setImageURI(uri);
+//        Picasso.with(mContext).load(uri).resize(600, 200)
+//                .centerInside().into(holder.mImage);
+        Glide.with(mContext)
+                .load(uri)
+                .centerCrop()
+                .crossFade()
+                .into(holder.mImage);
+//        holder.mImage.setImageURI(uri);
     }
 
     @Override
@@ -48,11 +61,11 @@ public class EventUploadFragmentAdapter extends RecyclerView.Adapter<EventUpload
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView mUri;
+        private ImageView mImage;
 
-        ViewHolder(View uri) {
-            super(uri);
-            mUri = (ImageView)uri;
+        ViewHolder(View view) {
+            super(view);
+            mImage = (ImageView) view.findViewById(R.id.uploaded_image);
         }
     }
 }

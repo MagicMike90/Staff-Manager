@@ -1,17 +1,30 @@
 package com.sanitation.app.eventmanagement.event.upload;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.sanitation.app.R;
 import com.sanitation.app.eventmanagement.event.detail.EventDetailActivity;
+import com.zhihu.matisse.Matisse;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UploadEventActivity extends AppCompatActivity {
+    private final static String TAG = "UploadEventActivity";
+
+    private static final int REQUEST_CODE_CHOOSE = 23;
+    UploadEventFragment mUploadEventFragment;
+
+    private List<Uri> mUris = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,9 +33,9 @@ public class UploadEventActivity extends AppCompatActivity {
 
         setupToolBar();
 
-        UploadEventFragment fragment = new UploadEventFragment();
+        mUploadEventFragment = new UploadEventFragment();
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, fragment)
+                .add(R.id.fragment_container, mUploadEventFragment)
                 .commit();
 
     }
@@ -47,5 +60,17 @@ public class UploadEventActivity extends AppCompatActivity {
             actionBar.setHomeButtonEnabled(true);
         }
 
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        mUploadEventFragment.onActivityResult(requestCode, resultCode, data);
+
+//        super.onActivityResult(requestCode, resultCode, data);
+//        Log.d(TAG, "onActivityResult");
+//        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+//            mUris = Matisse.obtainResult(data);
+//            Log.d(TAG, "mSelected: " + mUris);
+//        }
     }
 }
