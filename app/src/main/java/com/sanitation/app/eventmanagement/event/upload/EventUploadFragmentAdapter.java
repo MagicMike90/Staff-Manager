@@ -48,7 +48,7 @@ public class EventUploadFragmentAdapter extends RecyclerView.Adapter<EventUpload
 //                .centerInside().into(holder.mImage);
         Glide.with(mContext)
                 .load(uri)
-                .centerCrop()
+                .centerCrop().override(600, 600)
                 .crossFade()
                 .into(holder.mImage);
 //        holder.mImage.setImageURI(uri);

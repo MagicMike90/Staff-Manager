@@ -24,6 +24,9 @@ import com.sanitation.app.staffmanagement.sign.StaffSignInAndOutActivity;
 import com.sanitation.app.staffmanagement.sign.step.StepInfoStorage;
 import com.sanitation.app.widget.Fab;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;
 import im.delight.android.ddp.MeteorSingleton;
@@ -222,6 +225,7 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
     @Override
     public void onPause() {
         mMeteor.removeCallback(this);
+        mMeteor.disconnect();
         super.onPause();
         Log.d(TAG, "onPause");
     }
@@ -239,14 +243,15 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
 
     @Override
     public void onConnect(boolean signedInAutomatically) {
-        Log.d(TAG, "onConnect");
-
+        Log.d(TAG, "onConnect:" + mSubscribeId);
+        NoticeManager.getInstance().init();
         mSubscribeId = mMeteor.subscribe("notices");
     }
 
     @Override
     public void onDisconnect() {
-
+        Log.d(TAG, "onDisconnect");
+        mMeteor.unsubscribe("notices");
     }
 
     @Override
@@ -256,29 +261,23 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
 
     @Override
     public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
-        Log.d(TAG, "onDataAdded");
+        Log.d(TAG, "onDataAdded：" + newValuesJson);
 
-        try {
-            Database database = mMeteor.getDatabase();
-            Collection collection = database.getCollection("notices");
-            NoticeManager.getInstance().init();
+        if (!newValuesJson.contains("username")) {
+            try {
+                JSONObject newVal = new JSONObject(newValuesJson);
+                String name = newVal.getString("title").toString();
+                String content = newVal.getString("content").toString();
+                String time = newVal.getString("time").toString();
 
-            int limit = 30;
-            int offset = 0;
-            Document[] documents = collection.find(limit, offset);
-            for (Document d : documents) {
-                String name = d.getField("title").toString();
-                String content = d.getField("content").toString().replace("编辑时间", "");
-                String time = d.getField("time").toString();
-
-                NoticeManager.getInstance().addNotice(new Notice(d.getId(), name, content, time));
+                NoticeManager.getInstance().addNotice(new Notice(documentID, name, content, time));
+            } catch (JSONException e) {
+                Log.d(TAG, Log.getStackTraceString(e));
             }
-        } catch (Exception e) {
-            Log.d(TAG, Log.getStackTraceString(e));
+
+            mViewAdapter = new NoticeListFragmentAdapter(NoticeManager.getInstance().getNotice());
+            mRecyclerView.setAdapter(mViewAdapter);
         }
-        mViewAdapter = new NoticeListFragmentAdapter(NoticeManager.getInstance().getNotice());
-        mRecyclerView.setAdapter(mViewAdapter);
-        mViewAdapter.notifyDataSetChanged();
     }
 
     @Override

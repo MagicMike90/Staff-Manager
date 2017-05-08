@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import com.sanitation.app.R;
 import com.sanitation.app.Utils;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
+import com.sanitation.app.staffmanagement.notice.Notice;
+import com.sanitation.app.staffmanagement.notice.NoticeManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,9 +68,6 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
         setHasOptionsMenu(true);
 
         mMeteor = MeteorSingleton.getInstance();
-        mMeteor.addCallback(this);
-        mMeteor.connect();
-
         mStaffFilterFragment = StaffFilterFragment.newInstance();
     }
 
@@ -108,8 +107,18 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mMeteor.addCallback(this);
+        mMeteor.connect();
+
+        Log.d(TAG, "onResume");
+    }
+
+    @Override
     public void onPause() {
         mMeteor.removeCallback(this);
+        mMeteor.disconnect();
         super.onPause();
         Log.d(TAG, "onPause");
 
@@ -130,12 +139,16 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
     @Override
     public void onConnect(boolean signedInAutomatically) {
         Log.d(TAG, "conConnect");
+
+        StaffManager.getInstance().init();
         mSubscribe = mMeteor.subscribe("staffs");
     }
 
     @Override
     public void onDisconnect() {
         Log.d(TAG, "onDisconnect");
+
+        mMeteor.unsubscribe("staffs");
     }
 
     @Override
@@ -145,21 +158,29 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
 
     @Override
     public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
-        Log.d(TAG, "onDataAdded collectionName: " + collectionName);
+        Log.d(TAG, "onDataAdded：" + newValuesJson);
 
-        Database database = mMeteor.getDatabase();
-        int limit = 30;
-        int offset = 0;
-
-
-        Collection collection = database.getCollection(collectionName);
-        Document[] documents = collection.find(limit, offset);
-        if (documents.length != 0) {
+        if(!newValuesJson.contains("username")) {
             try {
-                processData(documents);
-            } catch (Exception e) {
+                JSONObject newVal = new JSONObject(newValuesJson);
+                String staff_name = newVal.has("staff_name")? newVal.getString("staff_name").toString() : "null";
+                String gender = newVal.has("gender")? newVal.getString("gender").toString() : "null";
+                String join_work_date = newVal.has("join_work_date")? newVal.getString("join_work_date") : "0";
+
+                Utils utils = Utils.getInstance(this.getContext());
+                staff_name = utils.getName(staff_name);
+                gender = utils.getGender(gender);
+                join_work_date = utils.getDateStr(join_work_date);
+
+                StaffManager.getInstance().addStaffs(new Staff(documentID, staff_name, gender, join_work_date));
+            } catch (JSONException e) {
                 Log.d(TAG, Log.getStackTraceString(e));
             }
+
+
+            mViewAdapter = new StaffListFragmentAdapter(StaffManager.getInstance().getStaffs());
+            mRecyclerView.setAdapter(mViewAdapter);
+            mViewAdapter.notifyDataSetChanged();
         }
     }
 
