@@ -165,6 +165,7 @@ public class SignListFragment extends Fragment implements MeteorCallback {
     @Override
     public void onPause() {
         mMeteor.removeCallback(this);
+        mMeteor.disconnect();
         super.onPause();
         Log.d(TAG, "onPause");
     }
@@ -190,7 +191,7 @@ public class SignListFragment extends Fragment implements MeteorCallback {
 
     @Override
     public void onDisconnect() {
-
+        mMeteor.unsubscribe("signInOut");
     }
 
     @Override

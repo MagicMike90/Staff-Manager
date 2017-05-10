@@ -27,6 +27,8 @@ import com.sanitation.app.widget.Fab;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;
 import im.delight.android.ddp.MeteorSingleton;
@@ -35,17 +37,12 @@ import im.delight.android.ddp.db.Database;
 import im.delight.android.ddp.db.Document;
 
 
-
-public class NoticeListFragment extends Fragment implements MeteorCallback {
+public class NoticeListFragment extends Fragment {
     private static final String TAG = "NoticeListFragment";
 
 
     private RecyclerView mRecyclerView;
     private NoticeListFragmentAdapter mViewAdapter;
-
-    private SearchView searchView = null;
-    private String mSearchbarHint;
-    private SearchView.OnQueryTextListener queryTextListener;
 
     private Meteor mMeteor;
     private String mSubscribeId;
@@ -72,14 +69,8 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setHasOptionsMenu(true);
-//        mMeteor = MeteorDDP.getInstance(this.getContext()).getConnection();
 
         mMeteor = MeteorSingleton.getInstance();
-//        mMeteor = new Meteor(getContext(), Constants.METEOR_SERVER_SOCKET,new InMemoryDatabase());
-
-
-//        mMeteor.connect();
         mOnClickListener = new OnClickListener();
     }
 
@@ -90,47 +81,18 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
         View view = inflater.inflate(R.layout.fragment_notice_list, container, false);
 
         // Set the adapter
-
         Context context = view.getContext();
         mRecyclerView = (RecyclerView) view.findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        mRecyclerView.setAdapter(new NoticeListFragmentAdapter(NoticeManager.getInstance().getNotice()));
+        mViewAdapter = new NoticeListFragmentAdapter(NoticeManager.getInstance().getNotice());
+        mRecyclerView.setAdapter(mViewAdapter);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this.getContext(), LinearLayoutManager.VERTICAL));
-
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
 
         setupFab(view);
 
         return view;
     }
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        MenuItem searchItem = menu.findItem(R.id.action_search);
-//        searchItem.setVisible(true);
-//        super.onCreateOptionsMenu(menu, inflater);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.action_search:
-//                SignFilterDialogFragment dialog = SignFilterDialogFragment.newInstance();
-//                dialog.show(getFragmentManager(), "dialog");
-//
-//                return false;
-//            default:
-//                break;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
     private void setupFab(View view) {
 
@@ -169,6 +131,7 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
 
     private class OnClickListener implements View.OnClickListener {
         int type = R.string.title_activity_supervisor_check_in;
+
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
@@ -214,79 +177,8 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
         }
         return 0;
     }
-    @Override
-    public void onResume() {
-        super.onResume();
-        mMeteor.addCallback(this);
-        mMeteor.connect();
 
-        Log.d(TAG, "onResume");
-    }
-    @Override
-    public void onPause() {
-        mMeteor.removeCallback(this);
-        mMeteor.disconnect();
-        super.onPause();
-        Log.d(TAG, "onPause");
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-
-    @Override
-    public void onConnect(boolean signedInAutomatically) {
-        Log.d(TAG, "onConnect:" + mSubscribeId);
-        NoticeManager.getInstance().init();
-        mSubscribeId = mMeteor.subscribe("notices");
-    }
-
-    @Override
-    public void onDisconnect() {
-        Log.d(TAG, "onDisconnect");
-        mMeteor.unsubscribe("notices");
-    }
-
-    @Override
-    public void onException(Exception e) {
-
-    }
-
-    @Override
-    public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
-        Log.d(TAG, "onDataAdded：" + newValuesJson);
-
-        if (!newValuesJson.contains("username")) {
-            try {
-                JSONObject newVal = new JSONObject(newValuesJson);
-                String name = newVal.getString("title").toString();
-                String content = newVal.getString("content").toString();
-                String time = newVal.getString("time").toString();
-
-                NoticeManager.getInstance().addNotice(new Notice(documentID, name, content, time));
-            } catch (JSONException e) {
-                Log.d(TAG, Log.getStackTraceString(e));
-            }
-
-            mViewAdapter = new NoticeListFragmentAdapter(NoticeManager.getInstance().getNotice());
-            mRecyclerView.setAdapter(mViewAdapter);
-        }
-    }
-
-    @Override
-    public void onDataChanged(String collectionName, String documentID, String updatedValuesJson, String removedValuesJson) {
-
-    }
-
-    @Override
-    public void onDataRemoved(String collectionName, String documentID) {
-
+    public void updateList(List<Notice> notices) {
+        mViewAdapter.updateList(notices);
     }
 }

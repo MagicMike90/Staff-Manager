@@ -26,6 +26,9 @@ import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -49,10 +52,12 @@ import static android.app.Activity.RESULT_OK;
  * A placeholder fragment containing a simple view.
  */
 public class UploadEventFragment extends Fragment implements MeteorCallback  {
-    private final static String TAG = "UploadEventFragment";
+    private static final String TAG = "UploadEventFragment";
     private RecyclerView mGridView;
     private RecyclerView mRecyclerView;
     private FormBuildHelper mFormBuilder;
+    private FormElement element12;
+    private List<FormObject> formItems = new ArrayList<>();
 
     private EventUploadFragmentAdapter mAdapter;
 
@@ -63,8 +68,8 @@ public class UploadEventFragment extends Fragment implements MeteorCallback  {
     private static int MAX_SELECTED_IMAGE_SIZE = 8;
     private Meteor mMeteor;
     private String mSubscribeId;
-    private ArrayList<EventType> mEventTypes;
-    private ArrayList<String> mEventTypeNames;
+    private ArrayList<EventType> mEventTypes = new ArrayList<>();
+    private ArrayList<String> mEventTypeNames = new ArrayList<>();
 
     public UploadEventFragment() {
 
@@ -112,8 +117,25 @@ public class UploadEventFragment extends Fragment implements MeteorCallback  {
         });
 
         mMeteor = MeteorSingleton.getInstance();
+//        mMeteor.removeCallbacks();
+//        mMeteor.addCallback(this);
+//        mMeteor.connect();
+//        if(!mMeteor.isConnected())mMeteor.connect();
 
+        Object[] queryParams = {};
+        mMeteor.call("event.getEventType", queryParams, new ResultListener() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d(TAG, "Call result: " + result);
+            }
 
+            @Override
+            public void onError(String error, String reason, String details) {
+                Log.d(TAG, "Error: " + error + " " + reason + " " + details);
+            }
+        });
+
+        setupForm();
         return view;
     }
 
@@ -148,14 +170,17 @@ public class UploadEventFragment extends Fragment implements MeteorCallback  {
 
     private void setupForm() {
         FormElement element11 = FormElement.createInstance().setType(FormElement.TYPE_EDITTEXT_TEXT_SINGLELINE).setTitle("事件描述");
-        FormElement element12 = FormElement.createInstance().setType(FormElement.TYPE_EDITTEXT_TEXT_SINGLELINE).setTitle("事件类型");
+
+
+        element12 = FormElement.createInstance().setType(FormElement.TYPE_SPINNER_DROPDOWN).setTitle("事件类型");
+
         FormElement element13 = FormElement.createInstance().setType(FormElement.TYPE_EDITTEXT_TEXT_SINGLELINE).setTitle("上传人");
+
         ArrayList<String> departments = new ArrayList<>(Arrays.asList(Constants.DEPARTMENT));
         FormElement element14 = FormElement.createInstance().setType(FormElement.TYPE_SPINNER_DROPDOWN).setTitle("部门").setOptions(departments);
         FormElement element15 = FormElement.createInstance().setType(FormElement.TYPE_EDITTEXT_NUMBER).setTitle("扣除分数").setValue("0");
 
 
-        List<FormObject> formItems = new ArrayList<>();
         formItems.add(element11);
         formItems.add(element12);
         formItems.add(element13);
@@ -169,8 +194,6 @@ public class UploadEventFragment extends Fragment implements MeteorCallback  {
     @Override
     public void onResume() {
         super.onResume();
-        mMeteor.addCallback(this);
-        mMeteor.connect();
         Log.d(TAG, "onResume");
     }
     @Override
@@ -214,24 +237,38 @@ public class UploadEventFragment extends Fragment implements MeteorCallback  {
     public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
         Log.d(TAG, "onDataAdded");
 
-        try {
-            Database database = mMeteor.getDatabase();
-            Collection collection = database.getCollection("event_types");
+//        try {
+//            Database database = mMeteor.getDatabase();
+//            Collection collection = database.getCollection("event_types");
+//
+//            Document[] documents = collection.find();
+//            for (Document d : documents) {
+//                Log.d(TAG,d.toString());
+//                String name = d.getField("name").toString();
+//                String duration = d.getField("duration").toString();
+//                String description = d.getField("description").toString();
+//
+//            }
+//        } catch (Exception e) {
+//            Log.d(TAG, Log.getStackTraceString(e));
+//        }
 
-            Document[] documents = collection.find();
-            for (Document d : documents) {
-                Log.d(TAG,d.toString());
-                String name = d.getField("name").toString();
-                String duration = d.getField("duration").toString();
-                String description = d.getField("description").toString();
-                EventType temp = new EventType(name,description,duration);
-
-                mEventTypes.add(temp);
-                mEventTypeNames.add(name);
-            }
-        } catch (Exception e) {
-            Log.d(TAG, Log.getStackTraceString(e));
-        }
+//        if(!newValuesJson.contains("username")) {
+//            try {
+//                JSONObject newVal = new JSONObject(newValuesJson);
+//                String name = newVal.has("name") ? newVal.getString("name").toString() : "null";
+//                String duration = newVal.has("duration") ? newVal.getString("duration").toString() : "null";
+//                String description = newVal.has("description") ? newVal.getString("description") : "0";
+//
+//                EventType temp = new EventType(name,description,duration);
+//                mEventTypes.add(temp);
+//                mEventTypeNames.add(name);
+//            } catch (JSONException e) {
+//                Log.d(TAG, Log.getStackTraceString(e));
+//            }
+//            element12.setOptions(mEventTypeNames);
+//            mFormBuilder.refreshView();
+//        }
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.sanitation.app.R;
+import com.sanitation.app.staffmanagement.notice.Notice;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class StaffListFragmentAdapter extends RecyclerView.Adapter<StaffListFragmentAdapter.ViewHolder> implements Filterable {
 
-    private final List<Staff> mStaffList;
+    private List<Staff> mStaffList;
     private final List<Staff> mFilteredStaffList;
     private StaffFilter mStaffFilter;
 
@@ -27,7 +28,10 @@ public class StaffListFragmentAdapter extends RecyclerView.Adapter<StaffListFrag
         mStaffList = items;
         this.mFilteredStaffList = new ArrayList<>();
     }
-
+    public void updateList(List<Staff> staffs) {
+        mStaffList = staffs;
+        notifyDataSetChanged();
+    }
     @Override
     public StaffListFragmentAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())

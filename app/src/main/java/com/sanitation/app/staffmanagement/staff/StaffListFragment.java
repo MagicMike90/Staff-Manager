@@ -17,21 +17,18 @@ import com.sanitation.app.R;
 import com.sanitation.app.Utils;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
 import com.sanitation.app.staffmanagement.notice.Notice;
-import com.sanitation.app.staffmanagement.notice.NoticeManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import im.delight.android.ddp.Meteor;
-import im.delight.android.ddp.MeteorCallback;
 import im.delight.android.ddp.MeteorSingleton;
 import im.delight.android.ddp.ResultListener;
-import im.delight.android.ddp.db.Collection;
-import im.delight.android.ddp.db.Database;
-import im.delight.android.ddp.db.Document;
 
-public class StaffListFragment extends Fragment implements MeteorCallback, StaffFilterFragment.OnCloseListener {
+public class StaffListFragment extends Fragment implements StaffFilterFragment.OnCloseListener {
     private static final String TAG = "StaffListFragment";
     private static final int DIALOG_REQ_CODE = 1;
 
@@ -80,7 +77,8 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
         Context context = view.getContext();
         mRecyclerView = (RecyclerView) view.findViewById(R.id.staff_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        mRecyclerView.setAdapter(new StaffListFragmentAdapter(StaffManager.getInstance().getStaffs()));
+        mViewAdapter = new StaffListFragmentAdapter(StaffManager.getInstance().getStaffs());
+        mRecyclerView.setAdapter(mViewAdapter);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this.getContext(), LinearLayoutManager.VERTICAL));
 
         return view;
@@ -104,116 +102,6 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mMeteor.addCallback(this);
-        mMeteor.connect();
-
-        Log.d(TAG, "onResume");
-    }
-
-    @Override
-    public void onPause() {
-        mMeteor.removeCallback(this);
-        mMeteor.disconnect();
-        super.onPause();
-        Log.d(TAG, "onPause");
-
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-
-    @Override
-    public void onConnect(boolean signedInAutomatically) {
-        Log.d(TAG, "conConnect");
-
-        StaffManager.getInstance().init();
-        mSubscribe = mMeteor.subscribe("staffs");
-    }
-
-    @Override
-    public void onDisconnect() {
-        Log.d(TAG, "onDisconnect");
-
-        mMeteor.unsubscribe("staffs");
-    }
-
-    @Override
-    public void onException(Exception e) {
-        Log.d(TAG, "onException");
-    }
-
-    @Override
-    public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
-        Log.d(TAG, "onDataAdded：" + newValuesJson);
-
-        if(!newValuesJson.contains("username")) {
-            try {
-                JSONObject newVal = new JSONObject(newValuesJson);
-                String staff_name = newVal.has("staff_name")? newVal.getString("staff_name").toString() : "null";
-                String gender = newVal.has("gender")? newVal.getString("gender").toString() : "null";
-                String join_work_date = newVal.has("join_work_date")? newVal.getString("join_work_date") : "0";
-
-                Utils utils = Utils.getInstance(this.getContext());
-                staff_name = utils.getName(staff_name);
-                gender = utils.getGender(gender);
-                join_work_date = utils.getDateStr(join_work_date);
-
-                StaffManager.getInstance().addStaffs(new Staff(documentID, staff_name, gender, join_work_date));
-            } catch (JSONException e) {
-                Log.d(TAG, Log.getStackTraceString(e));
-            }
-
-
-            mViewAdapter = new StaffListFragmentAdapter(StaffManager.getInstance().getStaffs());
-            mRecyclerView.setAdapter(mViewAdapter);
-            mViewAdapter.notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    public void onDataChanged(String collectionName, String documentID, String updatedValuesJson, String removedValuesJson) {
-        Log.d(TAG, "onDataChanged");
-    }
-
-    @Override
-    public void onDataRemoved(String collectionName, String documentID) {
-
-    }
-
-    private void processData(Document[] documents) {
-        StaffManager.getInstance().init();
-        for (Document d : documents) {
-            String name = d.getField("staff_name") != null ? d.getField("staff_name").toString() : "";
-            String gender = d.getField("gender") != null ? d.getField("gender").toString() : "";
-            String date = d.getField("join_work_date") != null ? d.getField("join_work_date").toString() : "0";
-
-
-            Utils utils = Utils.getInstance(this.getContext());
-            name = utils.getName(name);
-            gender = utils.getGender(gender);
-            date = utils.getDateStr(date);
-
-            StaffManager.getInstance().addStaffs(new Staff(d.getId(), name, gender, date));
-        }
-
-
-        mViewAdapter = new StaffListFragmentAdapter(StaffManager.getInstance().getStaffs());
-        mRecyclerView.setAdapter(mViewAdapter);
-        mViewAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -263,5 +151,9 @@ public class StaffListFragment extends Fragment implements MeteorCallback, Staff
             e.printStackTrace();
         }
         Log.d(TAG, result.toString());
+    }
+
+    public void updateList(List<Staff> staffs) {
+        mViewAdapter.updateList(staffs);
     }
 }

@@ -44,14 +44,12 @@ public class EventUploadFragmentAdapter extends RecyclerView.Adapter<EventUpload
     @Override
     public void onBindViewHolder(EventUploadFragmentAdapter.ViewHolder holder, int position) {
         Uri uri = mUris.get(position);
-//        Picasso.with(mContext).load(uri).resize(600, 200)
-//                .centerInside().into(holder.mImage);
+
         Glide.with(mContext)
                 .load(uri)
                 .centerCrop().override(600, 600)
                 .crossFade()
                 .into(holder.mImage);
-//        holder.mImage.setImageURI(uri);
     }
 
     @Override

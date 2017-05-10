@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,12 +26,12 @@ import com.sanitation.app.staffmanagement.sign.StaffSignInAndOutActivity;
 import com.sanitation.app.staffmanagement.sign.step.StepInfoStorage;
 import com.sanitation.app.widget.Fab;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;
 import im.delight.android.ddp.MeteorSingleton;
-import im.delight.android.ddp.db.Collection;
-import im.delight.android.ddp.db.Database;
-import im.delight.android.ddp.db.Document;
 
 
 public class EventListFragment extends Fragment implements MeteorCallback {
@@ -72,11 +70,7 @@ public class EventListFragment extends Fragment implements MeteorCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setHasOptionsMenu(true);
-//        mMeteor = MeteorDDP.getInstance(this.getContext()).getConnection();
-
         mMeteor = MeteorSingleton.getInstance();
-//        mMeteor = new Meteor(getContext(), Constants.METEOR_SERVER_SOCKET,new InMemoryDatabase());
 
         mOnClickListener = new OnClickListener();
     }
@@ -95,40 +89,11 @@ public class EventListFragment extends Fragment implements MeteorCallback {
         mRecyclerView.setAdapter(new EventListFragmentAdapter(EventManager.getInstance().getEvents()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this.getContext(), LinearLayoutManager.VERTICAL));
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
 
         setupFab(view);
 
         return view;
     }
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        MenuItem searchItem = menu.findItem(R.id.action_search);
-//        searchItem.setVisible(true);
-//        super.onCreateOptionsMenu(menu, inflater);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.action_search:
-//                SignFilterDialogFragment dialog = SignFilterDialogFragment.newInstance();
-//                dialog.show(getFragmentManager(), "dialog");
-//
-//                return false;
-//            default:
-//                break;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
     private void setupFab(View view) {
 
@@ -197,6 +162,9 @@ public class EventListFragment extends Fragment implements MeteorCallback {
     @Override
     public void onResume() {
         super.onResume();
+
+        if(mMeteor.isConnected())  Log.d(TAG, "isConnected");
+        mMeteor.removeCallbacks();
         mMeteor.addCallback(this);
         mMeteor.connect();
         Log.d(TAG, "onResume");
@@ -204,8 +172,9 @@ public class EventListFragment extends Fragment implements MeteorCallback {
 
     @Override
     public void onPause() {
-        super.onPause();
         mMeteor.removeCallback(this);
+        mMeteor.disconnect();
+        super.onPause();
         Log.d(TAG, "onPause");
     }
 
@@ -223,7 +192,7 @@ public class EventListFragment extends Fragment implements MeteorCallback {
     @Override
     public void onConnect(boolean signedInAutomatically) {
         Log.d(TAG, "onConnect");
-
+        EventManager.getInstance().init();
         mSubscribeId = mMeteor.subscribe("events");
     }
 
@@ -239,32 +208,29 @@ public class EventListFragment extends Fragment implements MeteorCallback {
 
     @Override
     public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
-        Log.d(TAG, "onDataAdded");
+        Log.d(TAG, "onDataAdded：" + newValuesJson);
 
-        try {
-            Database database = mMeteor.getDatabase();
-            Collection collection = database.getCollection("events");
-            EventManager.getInstance().init();
 
-            Document[] documents = collection.find();
-            for (Document d : documents) {
-                Log.d(TAG,d.toString());
-                String description = d.getField("description").toString();
-                String status = d.getField("status").toString();
-                String upload_time = d.getField("upload_time").toString();
-
-                Utils utils = Utils.getInstance(this.getContext());
+        if(!newValuesJson.contains("username")) {
+            Utils utils = Utils.getInstance(this.getContext());
+            try {
+                JSONObject newVal = new JSONObject(newValuesJson);
+                String description = newVal.has("description")? newVal.getString("description").toString() : "null";
+                String status = newVal.has("status")? newVal.getString("status").toString() : "null";
+                String upload_time = newVal.has("upload_time")? newVal.getString("upload_time") : "0";
 
                 upload_time = utils.getDateStr(upload_time);
 
-                EventManager.getInstance().addNotice(new Event(d.getId(), description,description, upload_time,status));
+                EventManager.getInstance().addNotice(new Event(documentID, description,description, upload_time,status));
+            } catch (JSONException e) {
+                Log.d(TAG, Log.getStackTraceString(e));
             }
-        } catch (Exception e) {
-            Log.d(TAG, Log.getStackTraceString(e));
+
+
+            mViewAdapter = new EventListFragmentAdapter(EventManager.getInstance().getEvents());
+            mRecyclerView.setAdapter(mViewAdapter);
+            mViewAdapter.notifyDataSetChanged();
         }
-        mViewAdapter = new EventListFragmentAdapter(EventManager.getInstance().getEvents());
-        mRecyclerView.setAdapter(mViewAdapter);
-        mViewAdapter.notifyDataSetChanged();
     }
 
     @Override

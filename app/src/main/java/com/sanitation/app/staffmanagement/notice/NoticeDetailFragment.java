@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +19,10 @@ public class NoticeDetailFragment extends Fragment {
     private static final String TAG = "NoticeDetailFragment";
 
     public static final String ARG_ID = "id";
-    public static final String ARG_TITLE = "staff_name";
+    public static final String ARG_TITLE = "title";
     public static final String ARG_CONTENT = "content";
     public static final String ARG_DATE = "date";
 
-    private Notice mNotice;
     public NoticeDetailFragment() {
     }
     @Override
@@ -37,11 +37,12 @@ public class NoticeDetailFragment extends Fragment {
 //            }
 //        }
 
-        if (getArguments().containsKey(ARG_ID)) {
-            mNotice = NoticeManager.getInstance().getNotice(getArguments().getString(ARG_ID));
+        if (getArguments().containsKey(ARG_TITLE)) {
+//            mNotice = NoticeManager.getInstance().getNotice(getArguments().getString(ARG_ID));
+            String title = getArguments().getString(ARG_TITLE);
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mNotice.title);
+                appBarLayout.setTitle(title);
             }
         }
 
@@ -54,9 +55,10 @@ public class NoticeDetailFragment extends Fragment {
 //            TextView content = (TextView) rootView.findViewById(R.id.content);
 //            content.setText(getArguments().getString(ARG_CONTENT));
 //        }
-        if (getArguments().containsKey(ARG_ID)) {
+        Log.d(TAG, getArguments().toString());
+        if (getArguments().containsKey(ARG_CONTENT)) {
             TextView content = (TextView) rootView.findViewById(R.id.content);
-            content.setText(mNotice.content);
+            content.setText(getArguments().getString(ARG_CONTENT));
         }
         return rootView;
     }
