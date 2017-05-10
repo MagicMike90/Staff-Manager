@@ -1,4 +1,6 @@
-package com.sanitation.app.staffmanagement.notice;
+package com.sanitation.app.factory.notice;
+
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,10 +12,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by Michael on 3/2/17.
  */
 public class NoticeManager {
-    private static final String TAG = "SignManager";
+    private static final String TAG = "NoticeManager";
     private static NoticeManager mInstance;
     private List<Notice> mNotices;
-    public static final Map<String, Notice> NOTICE_MAP = new ConcurrentHashMap<String, Notice>();
+    private Map<String, Notice> NOTICE_MAP = new ConcurrentHashMap<String, Notice>();
 
     public static synchronized NoticeManager getInstance() {
         if (mInstance == null)
@@ -24,6 +26,7 @@ public class NoticeManager {
 
     public void init() {
         mNotices = Collections.synchronizedList(new ArrayList<Notice>());
+        NOTICE_MAP = new ConcurrentHashMap<String, Notice>();
     }
 
 
@@ -32,7 +35,7 @@ public class NoticeManager {
     }
 
     // retrieve array from anywhere
-    public List<Notice> getNotice() {
+    public List<Notice> getNotices() {
         return this.mNotices;
     }
 
@@ -43,7 +46,11 @@ public class NoticeManager {
     //Add element to array
     public void addNotice(Notice value) {
 //        Log.d(TAG, "addSign");
-        NOTICE_MAP.put(value.id,value);
-        mNotices.add(value);
+        if(!NOTICE_MAP.containsKey(value.id)) {
+            Log.d(TAG, "put");
+            NOTICE_MAP.put(value.id,value);
+            mNotices.add(value);
+        }
     }
+
 }

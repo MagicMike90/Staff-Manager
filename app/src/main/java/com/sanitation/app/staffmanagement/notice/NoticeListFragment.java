@@ -4,12 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,22 +16,17 @@ import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
 import com.sanitation.app.Constants;
 import com.sanitation.app.R;
+import com.sanitation.app.factory.notice.Notice;
+import com.sanitation.app.factory.notice.NoticeManager;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
 import com.sanitation.app.staffmanagement.sign.StaffSignInAndOutActivity;
 import com.sanitation.app.staffmanagement.sign.step.StepInfoStorage;
 import com.sanitation.app.widget.Fab;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.List;
 
 import im.delight.android.ddp.Meteor;
-import im.delight.android.ddp.MeteorCallback;
 import im.delight.android.ddp.MeteorSingleton;
-import im.delight.android.ddp.db.Collection;
-import im.delight.android.ddp.db.Database;
-import im.delight.android.ddp.db.Document;
 
 
 public class NoticeListFragment extends Fragment {
@@ -84,7 +76,7 @@ public class NoticeListFragment extends Fragment {
         Context context = view.getContext();
         mRecyclerView = (RecyclerView) view.findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        mViewAdapter = new NoticeListFragmentAdapter(NoticeManager.getInstance().getNotice());
+        mViewAdapter = new NoticeListFragmentAdapter(NoticeManager.getInstance().getNotices());
         mRecyclerView.setAdapter(mViewAdapter);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this.getContext(), LinearLayoutManager.VERTICAL));
 
@@ -179,6 +171,7 @@ public class NoticeListFragment extends Fragment {
     }
 
     public void updateList(List<Notice> notices) {
+        Log.d(TAG, "updateList: " + notices.toString());
         mViewAdapter.updateList(notices);
     }
 }

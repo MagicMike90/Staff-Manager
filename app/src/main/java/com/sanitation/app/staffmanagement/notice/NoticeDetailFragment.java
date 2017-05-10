@@ -55,7 +55,6 @@ public class NoticeDetailFragment extends Fragment {
 //            TextView content = (TextView) rootView.findViewById(R.id.content);
 //            content.setText(getArguments().getString(ARG_CONTENT));
 //        }
-        Log.d(TAG, getArguments().toString());
         if (getArguments().containsKey(ARG_CONTENT)) {
             TextView content = (TextView) rootView.findViewById(R.id.content);
             content.setText(getArguments().getString(ARG_CONTENT));

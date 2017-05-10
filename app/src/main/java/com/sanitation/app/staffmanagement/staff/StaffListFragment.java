@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import com.sanitation.app.R;
 import com.sanitation.app.Utils;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
-import com.sanitation.app.staffmanagement.notice.Notice;
 
 import org.json.JSONArray;
 import org.json.JSONException;

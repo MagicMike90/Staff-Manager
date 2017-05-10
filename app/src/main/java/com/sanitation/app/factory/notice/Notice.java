@@ -1,4 +1,4 @@
-package com.sanitation.app.staffmanagement.notice;
+package com.sanitation.app.factory.notice;
 
 /**
  * Created by Michael on 2/27/17.

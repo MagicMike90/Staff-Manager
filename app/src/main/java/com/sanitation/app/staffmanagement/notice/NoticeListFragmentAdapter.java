@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sanitation.app.R;
+import com.sanitation.app.factory.notice.Notice;
 
 import java.util.List;
 
