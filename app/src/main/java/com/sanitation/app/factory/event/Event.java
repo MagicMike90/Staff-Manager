@@ -1,4 +1,4 @@
-package com.sanitation.app.eventmanagement.model;
+package com.sanitation.app.factory.event;
 
 /**
  * Created by Michael on 2/27/17.

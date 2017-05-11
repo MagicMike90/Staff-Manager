@@ -13,33 +13,24 @@ import android.view.ViewGroup;
 
 import com.sanitation.app.factory.notice.Notice;
 import com.sanitation.app.factory.notice.NoticeManager;
+import com.sanitation.app.factory.signhistory.SignHistory;
 import com.sanitation.app.factory.signhistory.SignManager;
+import com.sanitation.app.factory.staff.Staff;
 import com.sanitation.app.factory.staff.StaffManager;
 import com.sanitation.app.staffmanagement.notice.NoticeListFragment;
-import com.sanitation.app.factory.signhistory.SignHistory;
 import com.sanitation.app.staffmanagement.signhistory.SignListFragment;
-import com.sanitation.app.factory.staff.Staff;
 import com.sanitation.app.staffmanagement.staff.StaffListFragment;
 import com.ss.bottomnavigation.BottomNavigation;
 import com.ss.bottomnavigation.events.OnSelectedItemChangeListener;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorCallback;
 import im.delight.android.ddp.MeteorSingleton;
-import im.delight.android.ddp.ResultListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MainFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class MainFragment extends Fragment implements MeteorCallback {
     private static final String TAG = "MainFragment";
 
@@ -117,7 +108,7 @@ public class MainFragment extends Fragment implements MeteorCallback {
         super.onResume();
         mMeteor.removeCallbacks();
         mMeteor.addCallback(this);
-        mMeteor.connect();
+        mMeteor.reconnect();
 
         Log.d(TAG, "onResume");
     }
@@ -125,6 +116,8 @@ public class MainFragment extends Fragment implements MeteorCallback {
     @Override
     public void onPause() {
         super.onPause();
+        mMeteor.removeCallback(this);
+        mMeteor.disconnect();
         Log.d(TAG, "onPause");
     }
 

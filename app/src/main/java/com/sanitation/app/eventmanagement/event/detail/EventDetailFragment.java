@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sanitation.app.R;
-import com.sanitation.app.eventmanagement.model.Event;
-import com.sanitation.app.eventmanagement.model.EventManager;
+import com.sanitation.app.factory.event.Event;
+import com.sanitation.app.factory.event.EventManager;
 
 /**
  * A placeholder fragment containing a simple view.

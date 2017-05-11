@@ -11,17 +11,23 @@ import android.widget.TextView;
 import com.sanitation.app.R;
 import com.sanitation.app.eventmanagement.event.detail.EventDetailActivity;
 import com.sanitation.app.eventmanagement.event.detail.EventDetailFragment;
-import com.sanitation.app.eventmanagement.model.Event;
+import com.sanitation.app.factory.event.Event;
+import com.sanitation.app.factory.staff.Staff;
 
 import java.util.List;
 
 
 public class EventListFragmentAdapter extends RecyclerView.Adapter<EventListFragmentAdapter.ViewHolder> {
 
-    private final List<Event> mEvents;
+    private List<Event> mEvents;
 
     public EventListFragmentAdapter(List<Event> items) {
         mEvents = items;
+    }
+
+    public void updateList(List<Event> events) {
+        mEvents = events;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -30,6 +36,7 @@ public class EventListFragmentAdapter extends RecyclerView.Adapter<EventListFrag
                 .inflate(R.layout.fragment_event_list_item, parent, false);
         return new ViewHolder(view);
     }
+
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {

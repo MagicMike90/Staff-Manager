@@ -1,4 +1,4 @@
-package com.sanitation.app.eventmanagement.model;
+package com.sanitation.app.factory.event;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -19,8 +19,8 @@ import com.sanitation.app.Constants;
 import com.sanitation.app.R;
 import com.sanitation.app.Utils;
 import com.sanitation.app.eventmanagement.event.upload.UploadEventActivity;
-import com.sanitation.app.eventmanagement.model.Event;
-import com.sanitation.app.eventmanagement.model.EventManager;
+import com.sanitation.app.factory.event.Event;
+import com.sanitation.app.factory.event.EventManager;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
 import com.sanitation.app.staffmanagement.sign.StaffSignInAndOutActivity;
 import com.sanitation.app.staffmanagement.sign.step.StepInfoStorage;
@@ -86,7 +86,8 @@ public class EventListFragment extends Fragment implements MeteorCallback {
         Context context = view.getContext();
         mRecyclerView = (RecyclerView) view.findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        mRecyclerView.setAdapter(new EventListFragmentAdapter(EventManager.getInstance().getEvents()));
+        mViewAdapter = new EventListFragmentAdapter(EventManager.getInstance().getEvents());
+        mRecyclerView.setAdapter(mViewAdapter);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this.getContext(), LinearLayoutManager.VERTICAL));
 
 
@@ -162,20 +163,18 @@ public class EventListFragment extends Fragment implements MeteorCallback {
     @Override
     public void onResume() {
         super.onResume();
-
-        if(mMeteor.isConnected())  Log.d(TAG, "isConnected");
         mMeteor.removeCallbacks();
         mMeteor.addCallback(this);
-        mMeteor.connect();
+        mMeteor.reconnect();
         Log.d(TAG, "onResume");
     }
 
     @Override
     public void onPause() {
-        mMeteor.removeCallback(this);
-        mMeteor.disconnect();
         super.onPause();
         Log.d(TAG, "onPause");
+        mMeteor.removeCallback(this);
+        mMeteor.disconnect();
     }
 
     @Override
@@ -210,7 +209,6 @@ public class EventListFragment extends Fragment implements MeteorCallback {
     public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
         Log.d(TAG, "onDataAdded：" + newValuesJson);
 
-
         if(!newValuesJson.contains("username")) {
             Utils utils = Utils.getInstance(this.getContext());
             try {
@@ -226,10 +224,7 @@ public class EventListFragment extends Fragment implements MeteorCallback {
                 Log.d(TAG, Log.getStackTraceString(e));
             }
 
-
-            mViewAdapter = new EventListFragmentAdapter(EventManager.getInstance().getEvents());
-            mRecyclerView.setAdapter(mViewAdapter);
-            mViewAdapter.notifyDataSetChanged();
+            mViewAdapter.updateList(EventManager.getInstance().getEvents());
         }
     }
 
