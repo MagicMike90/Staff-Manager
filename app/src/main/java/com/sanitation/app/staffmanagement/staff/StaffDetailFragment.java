@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sanitation.app.R;
+import com.sanitation.app.factory.staff.Staff;
+import com.sanitation.app.factory.staff.StaffManager;
 
 
 public class StaffDetailFragment extends Fragment {

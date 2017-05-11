@@ -11,6 +11,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.sanitation.app.R;
+import com.sanitation.app.factory.staff.Staff;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

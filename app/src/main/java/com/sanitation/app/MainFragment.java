@@ -13,10 +13,12 @@ import android.view.ViewGroup;
 
 import com.sanitation.app.factory.notice.Notice;
 import com.sanitation.app.factory.notice.NoticeManager;
+import com.sanitation.app.factory.signhistory.SignManager;
+import com.sanitation.app.factory.staff.StaffManager;
 import com.sanitation.app.staffmanagement.notice.NoticeListFragment;
-import com.sanitation.app.staffmanagement.signhistory.SignHistory;
+import com.sanitation.app.factory.signhistory.SignHistory;
 import com.sanitation.app.staffmanagement.signhistory.SignListFragment;
-import com.sanitation.app.staffmanagement.staff.Staff;
+import com.sanitation.app.factory.staff.Staff;
 import com.sanitation.app.staffmanagement.staff.StaffListFragment;
 import com.ss.bottomnavigation.BottomNavigation;
 import com.ss.bottomnavigation.events.OnSelectedItemChangeListener;
@@ -46,13 +48,9 @@ public class MainFragment extends Fragment implements MeteorCallback {
     private Meteor mMeteor;
 
     private NoticeListFragment mNoticeListFragment;
-//    private List<Notice> mNotices;
-
     private StaffListFragment mStaffListFragment;
-    private List<Staff> mStaffs;
-
     private SignListFragment mSignListFragment;
-    private List<SignHistory> mSigns;
+
 
     public MainFragment() {
         // Required empty public constructor
@@ -84,105 +82,31 @@ public class MainFragment extends Fragment implements MeteorCallback {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         BottomNavigation bottomNavigation = (BottomNavigation) view.findViewById(R.id.bottom_navigation);
 
+        mNoticeListFragment = NoticeListFragment.newInstance();
+        mStaffListFragment = StaffListFragment.newInstance();
+        mSignListFragment = SignListFragment.newInstance();
+
         bottomNavigation.setOnSelectedItemChangeListener(new OnSelectedItemChangeListener() {
             @Override
             public void onSelectedItemChanged(int itemId) {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                Class fragmentClass = NoticeListFragment.class;
-//                Fragment fragment = null;
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                Object[] queryParams = {};
                 switch (itemId) {
                     case R.id.tab_home:
-//                        fragmentClass = NoticeListFragment.class;
-                        mNoticeListFragment = NoticeListFragment.newInstance();
+
                         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
                         transaction.replace(R.id.child_fragment_container, mNoticeListFragment).commit();
-
-
-//                        mMeteor.call("notices.getAll", queryParams, new ResultListener() {
-//                            @Override
-//                            public void onSuccess(String result) {
-//                                Log.d(TAG, "Call result: " + result);
-//                                try {
-//                                    JSONArray res = new JSONArray(result);
-//                                    for (int i = 0; i < res.length(); i++) {
-//                                        JSONObject obj = res.getJSONObject(i);
-//                                        String id = obj.getString("_id");
-//                                        String name = obj.getString("title");
-//                                        String content = obj.getString("content");
-//                                        String time = obj.getString("updateAt");
-//                                        time = mUtils.getDateStr(time);
-//                                        mNotices.add(new Notice(id, name, content, time));
-//                                    }
-//                                    mNoticeListFragment.updateList(mNotices);
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onError(String error, String reason, String details) {
-//                                Log.d(TAG, "Error: " + error + " " + reason + " " + details);
-//                            }
-//                        });
                         break;
                     case R.id.tab_images:
-//                        fragmentClass = StaffListFragment.class;
-                        mStaffListFragment = mStaffListFragment.newInstance();
 
                         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
                         transaction.replace(R.id.child_fragment_container, mStaffListFragment).commit();
-
-
-                        mStaffs = new ArrayList<>();
-                        mMeteor.call("staffs.getAll", queryParams, new ResultListener() {
-                            @Override
-                            public void onSuccess(String result) {
-                                Log.d(TAG, "Call result: " + result);
-                                try {
-                                    JSONArray res = new JSONArray(result);
-                                    for (int i = 0; i < res.length(); i++) {
-                                        JSONObject obj = res.getJSONObject(i);
-                                        String id = obj.getString("_id");
-
-
-                                        String staff_name = obj.has("staff_name") ? obj.getString("staff_name").toString() : "null";
-                                        String gender = obj.has("gender") ? obj.getString("gender").toString() : "null";
-                                        String join_work_date = obj.has("join_work_date") ? obj.getString("join_work_date") : "0";
-
-
-                                        staff_name = mUtils.getName(staff_name);
-                                        gender = mUtils.getGender(gender);
-                                        join_work_date = mUtils.getDateStr(join_work_date);
-
-                                        mStaffs.add(new Staff(id, staff_name, gender, join_work_date));
-                                    }
-                                    mStaffListFragment.updateList(mStaffs);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onError(String error, String reason, String details) {
-                                Log.d(TAG, "Error: " + error + " " + reason + " " + details);
-                            }
-                        });
-
                         break;
                     case R.id.tab_camera:
-//                        fragmentClass = SignListFragment.class;
+                        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+                        transaction.replace(R.id.child_fragment_container, mSignListFragment).commit();
                         break;
                 }
-//                try {
-//                    fragment = (Fragment) fragmentClass.newInstance();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//                FragmentTransaction transaction = fragmentManager.beginTransaction();
-//                transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
-//                transaction.replace(R.id.child_fragment_container, fragment).commit();
             }
         });
         return view;
@@ -194,7 +118,6 @@ public class MainFragment extends Fragment implements MeteorCallback {
         mMeteor.removeCallbacks();
         mMeteor.addCallback(this);
         mMeteor.connect();
-
 
         Log.d(TAG, "onResume");
     }
@@ -213,8 +136,8 @@ public class MainFragment extends Fragment implements MeteorCallback {
         mMeteor.subscribe(Constants.MongoCollection.SIGN);
 
         NoticeManager.getInstance().init();
-        mStaffs = new ArrayList<>();
-        mSigns = new ArrayList<>();
+        StaffManager.getInstance().init();
+        SignManager.getInstance().init();
     }
 
     @Override
@@ -230,6 +153,8 @@ public class MainFragment extends Fragment implements MeteorCallback {
     @Override
     public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
 //        Log.d(TAG, "onDataAdded:" + collectionName + " : " + newValuesJson);
+        Fragment fragment = getFragmentManager().findFragmentById(R.id.child_fragment_container);
+
         switch (collectionName) {
             case Constants.MongoCollection.NOTICE:
                 try {
@@ -240,18 +165,46 @@ public class MainFragment extends Fragment implements MeteorCallback {
                     String time = obj.getString("updateAt");
                     time = mUtils.getDateStr(time);
 
-                    Log.d(TAG,"onDataAdded");
                     NoticeManager.getInstance().addNotice(new Notice(id, name, content, time));
-                    mNoticeListFragment.updateList(NoticeManager.getInstance().getNotices());
+                    if (fragment instanceof NoticeListFragment)
+                        mNoticeListFragment.updateList(NoticeManager.getInstance().getNotices());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
                 break;
             case Constants.MongoCollection.STAFF:
+                JSONObject staff = null;
+                try {
+                    staff = new JSONObject(newValuesJson);
+                    String name = staff.has("staff_name") ? staff.getString("staff_name") : " ";
+                    String gender = staff.has("gender") ? staff.getString("gender") : " ";
+                    String date = staff.has("join_work_date") ? staff.getString("join_work_date") : "0";
+
+                    name = mUtils.getName(name);
+                    gender = mUtils.getGender(gender);
+                    date = mUtils.getDateStr(date);
+
+                    StaffManager.getInstance().addStaffs(new Staff(documentID, name, gender, date));
+                    if (fragment instanceof StaffListFragment)
+                        mStaffListFragment.updateList(StaffManager.getInstance().getStaffs());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 break;
             case Constants.MongoCollection.SIGN:
+                try {
+                    JSONObject newVal = new JSONObject(newValuesJson);
+                    String staff_name = newVal.has("staff_name") ? newVal.getString("staff_name").toString() : "null";
+                    String staff_department = newVal.has("staff_department") ? newVal.getString("staff_department").toString() : "null";
+                    String createdAt = newVal.has("createdAt") ? mUtils.getDateStr(newVal.getString("createdAt")) : "0";
+
+                    SignManager.getInstance().addSign(new SignHistory(collectionName, staff_name, staff_department, createdAt));
+                    if (fragment instanceof SignListFragment)
+                        mSignListFragment.updateList(SignManager.getInstance().getSigns());
+                } catch (JSONException e) {
+                    Log.d(TAG, Log.getStackTraceString(e));
+                }
+
                 break;
         }
     }

@@ -15,24 +15,18 @@ import android.view.ViewGroup;
 
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.sanitation.app.R;
-import com.sanitation.app.Utils;
+import com.sanitation.app.factory.signhistory.SignHistory;
+import com.sanitation.app.factory.signhistory.SignManager;
+import com.sanitation.app.factory.staff.Staff;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
 import com.sanitation.app.staffmanagement.sign.StaffSignInAndOutActivity;
-import com.sanitation.app.staffmanagement.staff.Staff;
-import com.sanitation.app.staffmanagement.staff.StaffManager;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.List;
 
-import im.delight.android.ddp.Meteor;
-import im.delight.android.ddp.MeteorCallback;
 import im.delight.android.ddp.MeteorSingleton;
-import im.delight.android.ddp.db.Collection;
-import im.delight.android.ddp.db.Database;
-import im.delight.android.ddp.db.Document;
 
 
-public class SignListFragment extends Fragment implements MeteorCallback {
+public class SignListFragment extends Fragment{
     private static final String TAG = "SignListFragment";
 
 
@@ -43,8 +37,6 @@ public class SignListFragment extends Fragment implements MeteorCallback {
     private String mSearchbarHint;
     private SearchView.OnQueryTextListener queryTextListener;
 
-    private Meteor mMeteor;
-    private String mSubscribeId;
 
     private MaterialSheetFab materialSheetFab;
     private int statusBarColor;
@@ -68,8 +60,6 @@ public class SignListFragment extends Fragment implements MeteorCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mMeteor = MeteorSingleton.getInstance();
 
         mOnClickListener = new OnClickListener();
     }
@@ -156,16 +146,12 @@ public class SignListFragment extends Fragment implements MeteorCallback {
     @Override
     public void onResume() {
         super.onResume();
-        mMeteor.addCallback(this);
-        mMeteor.connect();
-
         Log.d(TAG, "onResume");
     }
 
     @Override
     public void onPause() {
-        mMeteor.removeCallback(this);
-        mMeteor.disconnect();
+
         super.onPause();
         Log.d(TAG, "onPause");
     }
@@ -181,75 +167,7 @@ public class SignListFragment extends Fragment implements MeteorCallback {
     }
 
 
-    @Override
-    public void onConnect(boolean signedInAutomatically) {
-        Log.d(TAG, "onConnect");
-
-        SignManager.getInstance().init();
-        mSubscribeId = mMeteor.subscribe("signInOut");
-    }
-
-    @Override
-    public void onDisconnect() {
-        mMeteor.unsubscribe("signInOut");
-    }
-
-    @Override
-    public void onException(Exception e) {
-
-    }
-
-    @Override
-    public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
-        Log.d(TAG, "onDataAdded: " + newValuesJson);
-        if (!newValuesJson.contains("username")) {
-            try {
-                Utils utils = Utils.getInstance(this.getContext());
-
-                JSONObject newVal = new JSONObject(newValuesJson);
-                String staff_name = newVal.has("staff_name") ? newVal.getString("staff_name").toString() : "null";
-                String staff_department = newVal.has("staff_department") ? newVal.getString("staff_department").toString() : "null";
-                String createdAt = newVal.has("createdAt") ? utils.getDateStr(newVal.getString("createdAt")) : "0";
-
-
-                SignManager.getInstance().addSign(new SignHistory(collectionName, staff_name, staff_department, createdAt));
-            } catch (JSONException e) {
-                Log.d(TAG, Log.getStackTraceString(e));
-            }
-        }
-//        try {
-//            Database database = mMeteor.getDatabase();
-//            Collection collection = database.getCollection("signInOut");
-//            SignManager.getInstance().init();
-//            Utils utils = Utils.getInstance(this.getContext());
-//
-//
-//            Document[] documents = collection.find();
-//            for (Document d : documents) {
-//                Log.d(TAG, d.toString());
-//                String name = d.getField("staff_name").toString();
-//
-//                String staff_department = d.getField("staff_department").toString();
-//
-//                String time = utils.getDateStr(d.getField("createdAt").toString());
-//
-//                SignManager.getInstance().addSign(new SignHistory(d.getId(), name, staff_department, time));
-//            }
-//        } catch (Exception e) {
-//            Log.d(TAG, Log.getStackTraceString(e));
-//        }
-        mViewAdapter = new SignListFragmentAdapter(SignManager.getInstance().getSigns());
-        mRecyclerView.setAdapter(mViewAdapter);
-        mViewAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onDataChanged(String collectionName, String documentID, String updatedValuesJson, String removedValuesJson) {
-
-    }
-
-    @Override
-    public void onDataRemoved(String collectionName, String documentID) {
-
+    public void updateList(List<SignHistory> signs) {
+        mViewAdapter.updateList(signs);
     }
 }

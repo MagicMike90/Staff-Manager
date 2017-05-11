@@ -9,13 +9,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sanitation.app.R;
+import com.sanitation.app.factory.signhistory.SignHistory;
+import com.sanitation.app.factory.staff.Staff;
 
 import java.util.List;
 
 
 public class SignListFragmentAdapter extends RecyclerView.Adapter<SignListFragmentAdapter.ViewHolder> {
 
-    private final List<SignHistory> mValues;
+    private List<SignHistory> mValues;
 
     public SignListFragmentAdapter(List<SignHistory> items) {
         mValues = items;
@@ -26,6 +28,10 @@ public class SignListFragmentAdapter extends RecyclerView.Adapter<SignListFragme
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_sign_list_item, parent, false);
         return new ViewHolder(view);
+    }
+    public void updateList(List<SignHistory> signs) {
+        mValues = signs;
+        notifyDataSetChanged();
     }
 
     @Override

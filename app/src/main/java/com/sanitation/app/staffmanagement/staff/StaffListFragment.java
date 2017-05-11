@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 
 import com.sanitation.app.R;
 import com.sanitation.app.Utils;
+import com.sanitation.app.factory.staff.Staff;
+import com.sanitation.app.factory.staff.StaffManager;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
 
 import org.json.JSONArray;

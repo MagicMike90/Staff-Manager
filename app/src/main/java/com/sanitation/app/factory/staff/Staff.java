@@ -1,4 +1,4 @@
-package com.sanitation.app.staffmanagement.staff;
+package com.sanitation.app.factory.staff;
 
 public class Staff {
 

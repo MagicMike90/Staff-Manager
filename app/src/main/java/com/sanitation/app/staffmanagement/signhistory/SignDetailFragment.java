@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sanitation.app.R;
+import com.sanitation.app.factory.signhistory.SignHistory;
+import com.sanitation.app.factory.signhistory.SignManager;
 
 /**
  * A placeholder fragment containing a simple view.

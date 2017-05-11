@@ -1,4 +1,4 @@
-package com.sanitation.app.staffmanagement.signhistory;
+package com.sanitation.app.factory.signhistory;
 
 /**
  * Created by Michael on 2/27/17.
