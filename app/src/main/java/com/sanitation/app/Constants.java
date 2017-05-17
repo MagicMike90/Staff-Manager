@@ -38,6 +38,9 @@ public class Constants {
         public static final String NOTICE = "notices";
         public static final String STAFF = "staffs";
         public static final String SIGN = "signInOut";
+
+        public static final String EVENT = "events";
+        public static final String EVENT_TYPE = "event_types";
     }
 
 }

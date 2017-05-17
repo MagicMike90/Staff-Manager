@@ -21,6 +21,9 @@ import com.sanitation.app.Utils;
 import com.sanitation.app.eventmanagement.event.upload.UploadEventActivity;
 import com.sanitation.app.factory.event.Event;
 import com.sanitation.app.factory.event.EventManager;
+import com.sanitation.app.factory.eventtype.EventType;
+import com.sanitation.app.factory.eventtype.EventTypeManager;
+import com.sanitation.app.factory.notice.NoticeManager;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
 import com.sanitation.app.staffmanagement.sign.StaffSignInAndOutActivity;
 import com.sanitation.app.staffmanagement.sign.step.StepInfoStorage;
@@ -52,6 +55,9 @@ public class EventListFragment extends Fragment implements MeteorCallback {
     private int statusBarColor;
     private OnClickListener mOnClickListener;
 
+    private Context mContext;
+    private Utils mUtils;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -73,6 +79,8 @@ public class EventListFragment extends Fragment implements MeteorCallback {
         mMeteor = MeteorSingleton.getInstance();
 
         mOnClickListener = new OnClickListener();
+        mContext = this.getContext();
+        mUtils = Utils.getInstance(mContext);
     }
 
 
@@ -130,6 +138,7 @@ public class EventListFragment extends Fragment implements MeteorCallback {
 
     private class OnClickListener implements View.OnClickListener {
         int type = R.string.title_activity_supervisor_check_in;
+
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
@@ -192,7 +201,8 @@ public class EventListFragment extends Fragment implements MeteorCallback {
     public void onConnect(boolean signedInAutomatically) {
         Log.d(TAG, "onConnect");
         EventManager.getInstance().init();
-        mSubscribeId = mMeteor.subscribe("events");
+        mSubscribeId = mMeteor.subscribe(Constants.MongoCollection.EVENT);
+        mMeteor.subscribe(Constants.MongoCollection.EVENT_TYPE);
     }
 
     @Override
@@ -207,24 +217,36 @@ public class EventListFragment extends Fragment implements MeteorCallback {
 
     @Override
     public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
-        Log.d(TAG, "onDataAdded：" + newValuesJson);
+        Log.d(TAG, "onDataAdded：" + collectionName);
+        switch (collectionName) {
+            case Constants.MongoCollection.EVENT:
+                try {
+                    JSONObject newVal = new JSONObject(newValuesJson);
+                    String description = newVal.has("description") ? newVal.getString("description").toString() : "null";
+                    String status = newVal.has("status") ? newVal.getString("status").toString() : "null";
+                    String upload_time = newVal.has("upload_time") ? newVal.getString("upload_time") : "0";
 
-        if(!newValuesJson.contains("username")) {
-            Utils utils = Utils.getInstance(this.getContext());
-            try {
-                JSONObject newVal = new JSONObject(newValuesJson);
-                String description = newVal.has("description")? newVal.getString("description").toString() : "null";
-                String status = newVal.has("status")? newVal.getString("status").toString() : "null";
-                String upload_time = newVal.has("upload_time")? newVal.getString("upload_time") : "0";
+                    upload_time = mUtils.getDateStr(upload_time);
 
-                upload_time = utils.getDateStr(upload_time);
+                    EventManager.getInstance().addNotice(new Event(documentID, description, description, upload_time, status));
+                    mViewAdapter.updateList(EventManager.getInstance().getEvents());
+                } catch (JSONException e) {
+                    Log.d(TAG, Log.getStackTraceString(e));
+                }
+                break;
+            case Constants.MongoCollection.EVENT_TYPE:
+                Log.d(TAG, Constants.MongoCollection.EVENT_TYPE + "onDataAdded: " + newValuesJson);
+                try {
+                    JSONObject newVal = new JSONObject(newValuesJson);
+                    String name = newVal.has("name") ? newVal.getString("name").toString() : "null";
+                    String description = newVal.has("description") ? newVal.getString("description").toString() : "null";
+                    String duration = newVal.has("duration") ? newVal.getString("duration") : "0";
 
-                EventManager.getInstance().addNotice(new Event(documentID, description,description, upload_time,status));
-            } catch (JSONException e) {
-                Log.d(TAG, Log.getStackTraceString(e));
-            }
-
-            mViewAdapter.updateList(EventManager.getInstance().getEvents());
+                    EventTypeManager.getInstance().addEventType(new EventType(documentID, name, description, duration));
+                } catch (JSONException e) {
+                    Log.d(TAG, Log.getStackTraceString(e));
+                }
+                break;
         }
     }
 

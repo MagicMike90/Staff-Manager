@@ -17,6 +17,8 @@ import android.widget.Button;
 import com.sanitation.app.Constants;
 import com.sanitation.app.R;
 import com.sanitation.app.StaffInfo;
+import com.sanitation.app.factory.eventtype.EventType;
+import com.sanitation.app.factory.eventtype.EventTypeManager;
 import com.sanitation.app.staffmanagement.sign.step.StepInfoStorage;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -41,26 +43,21 @@ import static android.app.Activity.RESULT_OK;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class UploadEventFragment extends Fragment implements MeteorCallback  {
+public class UploadEventFragment extends Fragment{
     private static final String TAG = "UploadEventFragment";
     private RecyclerView mGridView;
     private RecyclerView mRecyclerView;
     private FormBuildHelper mFormBuilder;
-    private FormElement element12;
     private List<FormObject> formItems = new ArrayList<>();
 
     private EventUploadFragmentAdapter mAdapter;
 
     private List<Uri> mUris = new ArrayList<>();
-
     private static final int REQUEST_CODE_CHOOSE = 23;
-
     private static int MAX_SELECTED_IMAGE_SIZE = 8;
-    private Meteor mMeteor;
-    private String mSubscribeId;
-    private ArrayList<EventType> mEventTypes = new ArrayList<>();
-    private ArrayList<String> mEventTypeNames = new ArrayList<>();
 
+
+    private  Meteor mMeteor;
     public UploadEventFragment() {
 
     }
@@ -107,23 +104,6 @@ public class UploadEventFragment extends Fragment implements MeteorCallback  {
         });
 
         mMeteor = MeteorSingleton.getInstance();
-//        mMeteor.removeCallbacks();
-//        mMeteor.addCallback(this);
-//        mMeteor.connect();
-//        if(!mMeteor.isConnected())mMeteor.connect();
-
-        Object[] queryParams = {};
-        mMeteor.call("event.getEventType", queryParams, new ResultListener() {
-            @Override
-            public void onSuccess(String result) {
-                Log.d(TAG, "Call result: " + result);
-            }
-
-            @Override
-            public void onError(String error, String reason, String details) {
-                Log.d(TAG, "Error: " + error + " " + reason + " " + details);
-            }
-        });
 
         setupForm();
         return view;
@@ -160,23 +140,17 @@ public class UploadEventFragment extends Fragment implements MeteorCallback  {
 
     private void setupForm() {
         FormElement element11 = FormElement.createInstance().setType(FormElement.TYPE_EDITTEXT_TEXT_SINGLELINE).setTitle("事件描述");
-
-
-        element12 = FormElement.createInstance().setType(FormElement.TYPE_SPINNER_DROPDOWN).setTitle("事件类型");
-
+        FormElement element12 = FormElement.createInstance().setType(FormElement.TYPE_SPINNER_DROPDOWN).setTitle("事件类型").setOptions(EventTypeManager.getInstance().getEventTypeNames());
         FormElement element13 = FormElement.createInstance().setType(FormElement.TYPE_EDITTEXT_TEXT_SINGLELINE).setTitle("上传人");
-
         ArrayList<String> departments = new ArrayList<>(Arrays.asList(Constants.DEPARTMENT));
         FormElement element14 = FormElement.createInstance().setType(FormElement.TYPE_SPINNER_DROPDOWN).setTitle("部门").setOptions(departments);
         FormElement element15 = FormElement.createInstance().setType(FormElement.TYPE_EDITTEXT_NUMBER).setTitle("扣除分数").setValue("0");
-
 
         formItems.add(element11);
         formItems.add(element12);
         formItems.add(element13);
         formItems.add(element14);
         formItems.add(element15);
-
 
         mFormBuilder.addFormElements(formItems);
         mFormBuilder.refreshView();
@@ -189,8 +163,6 @@ public class UploadEventFragment extends Fragment implements MeteorCallback  {
     @Override
     public void onPause() {
         super.onPause();
-        mMeteor.removeCallback(this);
-        mMeteor.disconnect();
         Log.d(TAG, "onPause");
     }
 
@@ -206,68 +178,4 @@ public class UploadEventFragment extends Fragment implements MeteorCallback  {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 
-    @Override
-    public void onConnect(boolean signedInAutomatically) {
-        Log.d(TAG, "onConnect：" +mSubscribeId);
-
-        mSubscribeId = mMeteor.subscribe("event_types");
-    }
-
-    @Override
-    public void onDisconnect() {
-        mMeteor.unsubscribe("event_types");
-    }
-
-    @Override
-    public void onException(Exception e) {
-
-    }
-
-    @Override
-    public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
-        Log.d(TAG, "onDataAdded");
-
-//        try {
-//            Database database = mMeteor.getDatabase();
-//            Collection collection = database.getCollection("event_types");
-//
-//            Document[] documents = collection.find();
-//            for (Document d : documents) {
-//                Log.d(TAG,d.toString());
-//                String name = d.getField("name").toString();
-//                String duration = d.getField("duration").toString();
-//                String description = d.getField("description").toString();
-//
-//            }
-//        } catch (Exception e) {
-//            Log.d(TAG, Log.getStackTraceString(e));
-//        }
-
-//        if(!newValuesJson.contains("username")) {
-//            try {
-//                JSONObject newVal = new JSONObject(newValuesJson);
-//                String name = newVal.has("name") ? newVal.getString("name").toString() : "null";
-//                String duration = newVal.has("duration") ? newVal.getString("duration").toString() : "null";
-//                String description = newVal.has("description") ? newVal.getString("description") : "0";
-//
-//                EventType temp = new EventType(name,description,duration);
-//                mEventTypes.add(temp);
-//                mEventTypeNames.add(name);
-//            } catch (JSONException e) {
-//                Log.d(TAG, Log.getStackTraceString(e));
-//            }
-//            element12.setOptions(mEventTypeNames);
-//            mFormBuilder.refreshView();
-//        }
-    }
-
-    @Override
-    public void onDataChanged(String collectionName, String documentID, String updatedValuesJson, String removedValuesJson) {
-
-    }
-
-    @Override
-    public void onDataRemoved(String collectionName, String documentID) {
-
-    }
 }
