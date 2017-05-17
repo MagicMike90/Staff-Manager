@@ -1,0 +1,42 @@
+[
+    {
+        "merged": "/Users/Michael/AndroidStudioProjects/Sanitation/form-master/build/intermediates/res/merged/release/color-v23/abc_tint_spinner.xml",
+        "source": "/Users/Michael/.android/build-cache/544dd52335b8db297089d243737b9acbe77b8378/output/res/color-v23/abc_tint_spinner.xml"
+    },
+    {
+        "merged": "/Users/Michael/AndroidStudioProjects/Sanitation/form-master/build/intermediates/res/merged/release/color-v23/abc_tint_switch_thumb.xml",
+        "source": "/Users/Michael/.android/build-cache/544dd52335b8db297089d243737b9acbe77b8378/output/res/color-v23/abc_tint_switch_thumb.xml"
+    },
+    {
+        "merged": "/Users/Michael/AndroidStudioProjects/Sanitation/form-master/build/intermediates/res/merged/release/color-v23/abc_tint_btn_checkable.xml",
+        "source": "/Users/Michael/.android/build-cache/544dd52335b8db297089d243737b9acbe77b8378/output/res/color-v23/abc_tint_btn_checkable.xml"
+    },
+    {
+        "merged": "/Users/Michael/AndroidStudioProjects/Sanitation/form-master/build/intermediates/res/merged/release/color-v23/abc_tint_edittext.xml",
+        "source": "/Users/Michael/.android/build-cache/544dd52335b8db297089d243737b9acbe77b8378/output/res/color-v23/abc_tint_edittext.xml"
+    },
+    {
+        "merged": "/Users/Michael/AndroidStudioProjects/Sanitation/form-master/build/intermediates/res/merged/release/color-v23/abc_tint_switch_track.xml",
+        "source": "/Users/Michael/.android/build-cache/544dd52335b8db297089d243737b9acbe77b8378/output/res/color-v23/abc_tint_switch_track.xml"
+    },
+    {
+        "merged": "/Users/Michael/AndroidStudioProjects/Sanitation/form-master/build/intermediates/res/merged/release/color-v23/abc_btn_colored_borderless_text_material.xml",
+        "source": "/Users/Michael/.android/build-cache/544dd52335b8db297089d243737b9acbe77b8378/output/res/color-v23/abc_btn_colored_borderless_text_material.xml"
+    },
+    {
+        "merged": "/Users/Michael/AndroidStudioProjects/Sanitation/form-master/build/intermediates/res/merged/release/color-v23/abc_tint_default.xml",
+        "source": "/Users/Michael/.android/build-cache/544dd52335b8db297089d243737b9acbe77b8378/output/res/color-v23/abc_tint_default.xml"
+    },
+    {
+        "merged": "/Users/Michael/AndroidStudioProjects/Sanitation/form-master/build/intermediates/res/merged/release/color-v23/abc_btn_colored_text_material.xml",
+        "source": "/Users/Michael/.android/build-cache/544dd52335b8db297089d243737b9acbe77b8378/output/res/color-v23/abc_btn_colored_text_material.xml"
+    },
+    {
+        "merged": "/Users/Michael/AndroidStudioProjects/Sanitation/form-master/build/intermediates/res/merged/release/color-v23/abc_color_highlight_material.xml",
+        "source": "/Users/Michael/.android/build-cache/544dd52335b8db297089d243737b9acbe77b8378/output/res/color-v23/abc_color_highlight_material.xml"
+    },
+    {
+        "merged": "/Users/Michael/AndroidStudioProjects/Sanitation/form-master/build/intermediates/res/merged/release/color-v23/abc_tint_seek_thumb.xml",
+        "source": "/Users/Michael/.android/build-cache/544dd52335b8db297089d243737b9acbe77b8378/output/res/color-v23/abc_tint_seek_thumb.xml"
+    }
+]

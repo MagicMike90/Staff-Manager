@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorFormMasterDivider">#DDDDDD</color>
+    <color name="colorFormMasterElementBackground">#FFFFFF</color>
+    <color name="colorFormMasterElementTextTitle">#222222</color>
+    <color name="colorFormMasterElementTextValue">#000000</color>
+    <color name="colorFormMasterHeaderBackground">#DDDDDD</color>
+    <color name="colorFormMasterHeaderText">#000000</color>
+    <dimen name="elementTextTitleSize">14sp</dimen>
+    <dimen name="elementTextValueSize">13sp</dimen>
+    <dimen name="headerTextSize">15sp</dimen>
+    <string name="app_name">Form Master</string>
+</resources>
