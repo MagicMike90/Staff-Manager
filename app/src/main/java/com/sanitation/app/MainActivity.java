@@ -1,5 +1,6 @@
 package com.sanitation.app;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -53,7 +54,9 @@ public class MainActivity extends AppCompatActivity
     private String cityname = "沈阳市";//天气搜索的城市，可以写名称或adcode；
 
     private NavigationView mNavigationView;
-    private Meteor mMeteor;
+    private Fragment mCurrentFragment;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,7 +167,6 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        Fragment fragment = null;
         Class fragmentClass = MainFragment.class;
         // Handle navigation view item clicks here.
         int id = item.getItemId();
@@ -195,13 +197,13 @@ public class MainActivity extends AppCompatActivity
         }
 
         try {
-            fragment = (Fragment) fragmentClass.newInstance();
+            mCurrentFragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, mCurrentFragment).commit();
         // Highlight the selected item has been done by NavigationView
         item.setChecked(true);
         setTitle(item.getTitle());
@@ -233,5 +235,11 @@ public class MainActivity extends AppCompatActivity
     public void onWeatherForecastSearched(LocalWeatherForecastResult localWeatherForecastResult, int i) {
 
     }
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(mCurrentFragment instanceof MainFragment) {
+            ((MainFragment)mCurrentFragment).onActivityResult(requestCode,resultCode,data);
+        }
+    }
 }

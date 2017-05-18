@@ -74,4 +74,5 @@
     <string name="user_did_not_grant_permissions">User has not accepted permissions</string>
     <string name="user_did_not_grant_permissions_never_ask">User has not accepted permissions with never ask. Go to settings</string>
     <string name="title_activity_upload_event">事件上传</string>
+    <string name="title_activity_staff_filter">搜索员工</string>
 </resources>

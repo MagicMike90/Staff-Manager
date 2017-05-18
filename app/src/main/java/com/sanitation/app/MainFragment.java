@@ -1,7 +1,9 @@
 package com.sanitation.app;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -42,6 +44,12 @@ public class MainFragment extends Fragment implements MeteorCallback {
     private StaffListFragment mStaffListFragment;
     private SignListFragment mSignListFragment;
 
+
+    public static final int STAFF_FRAGMENT_RESULT = 1;
+    public static final String STAFF_FILTER_NAME = "staff_name";
+    public static final String STAFF_FILTER_DEPARTMENT = "department";
+    public static final String STAFF_FILTER_TIME = "sign_time";
+    public static final String STAFF_FILTER_LATE = "late";
 
     public MainFragment() {
         // Required empty public constructor
@@ -219,5 +227,23 @@ public class MainFragment extends Fragment implements MeteorCallback {
     @Override
     public void onDataRemoved(String collectionName, String documentID) {
         Log.d(TAG, "onDataRemoved");
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "onActivityResult");
+        switch (requestCode) {
+            case STAFF_FRAGMENT_RESULT: {
+                if (resultCode == Activity.RESULT_OK) {
+                    String name = data.getStringExtra(STAFF_FILTER_NAME);
+                    String department = data.getStringExtra(STAFF_FILTER_DEPARTMENT);
+                    String time = data.getStringExtra(STAFF_FILTER_TIME);
+                    String late = data.getStringExtra(STAFF_FILTER_LATE);
+                    Fragment fragment = getFragmentManager().findFragmentById(R.id.child_fragment_container);
+
+                    Log.d(TAG, "name: " + name);
+                }
+                break;
+            }
+        }
     }
 }
