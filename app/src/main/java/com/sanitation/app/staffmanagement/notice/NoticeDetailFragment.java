@@ -19,7 +19,7 @@ public class NoticeDetailFragment extends Fragment {
     private static final String TAG = "NoticeDetailFragment";
 
     public static final String ARG_ID = "id";
-    public static final String ARG_TITLE = "title";
+    public static final String ARG_TITLE = "description";
     public static final String ARG_CONTENT = "content";
     public static final String ARG_DATE = "date";
 
@@ -30,10 +30,10 @@ public class NoticeDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         Activity activity = this.getActivity();
-//        if (getArguments().containsKey(ARG_TITLE)) {
+//        if (getArguments().containsKey(ARG_DESCRIPTION)) {
 //            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
 //            if (appBarLayout != null) {
-//                appBarLayout.setTitle(getArguments().getString(ARG_TITLE));
+//                appBarLayout.setTitle(getArguments().getString(ARG_DESCRIPTION));
 //            }
 //        }
 

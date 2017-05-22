@@ -153,7 +153,7 @@ public class MainFragment extends Fragment implements MeteorCallback {
 
     @Override
     public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
-//        Log.d(TAG, "onDataAdded:" + collectionName + " : " + newValuesJson);
+        Log.d(TAG, "onDataAdded:" + collectionName + " : " + newValuesJson);
         Fragment fragment = getFragmentManager().findFragmentById(R.id.child_fragment_container);
 
         switch (collectionName) {
@@ -165,6 +165,8 @@ public class MainFragment extends Fragment implements MeteorCallback {
                     String content = obj.getString("content");
                     String time = obj.getString("updateAt");
                     time = mUtils.getDateStr(time);
+
+                    Log.d(TAG,name);
 
                     NoticeManager.getInstance().addNotice(new Notice(id, name, content, time));
                     if (fragment instanceof NoticeListFragment)

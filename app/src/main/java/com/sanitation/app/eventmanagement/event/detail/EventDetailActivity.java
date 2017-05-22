@@ -31,8 +31,8 @@ public class EventDetailActivity extends AppCompatActivity {
             Bundle arguments = new Bundle();
             arguments.putString(EventDetailFragment.ARG_ID,
                     getIntent().getStringExtra(EventDetailFragment.ARG_ID));
-//            arguments.putString(SignDetailFragment.ARG_TITLE,
-//                    getIntent().getStringExtra(SignDetailFragment.ARG_TITLE));
+//            arguments.putString(SignDetailFragment.ARG_DESCRIPTION,
+//                    getIntent().getStringExtra(SignDetailFragment.ARG_DESCRIPTION));
 //            arguments.putString(SignDetailFragment.ARG_CONTENT,
 //                    getIntent().getStringExtra(SignDetailFragment.ARG_CONTENT));
 //            arguments.putString(SignDetailFragment.ARG_DATE,

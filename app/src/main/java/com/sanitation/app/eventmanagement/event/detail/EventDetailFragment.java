@@ -20,10 +20,12 @@ public class EventDetailFragment extends Fragment {
     private static final String TAG = "SignDetailFragment";
 
     public static final String ARG_ID = "id";
-    public static final String ARG_TITLE = "staff_name";
-    public static final String ARG_CONTENT = "content";
-    public static final String ARG_DATE = "date";
+    public static final String ARG_DESCRIPTION = "staff_name";
+    public static final String ARG_TYPE = "type";
     public static final String ARG_STATUS = "status";
+    public static final String ARG_UPLOAD_TIME = "upload_time";
+    public static final String ARG_DURATION = "duration";
+
 
     private Event mEvents;
     public EventDetailFragment() {
@@ -33,10 +35,10 @@ public class EventDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         Activity activity = this.getActivity();
-//        if (getArguments().containsKey(ARG_TITLE)) {
+//        if (getArguments().containsKey(ARG_DESCRIPTION)) {
 //            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
 //            if (appBarLayout != null) {
-//                appBarLayout.setTitle(getArguments().getString(ARG_TITLE));
+//                appBarLayout.setTitle(getArguments().getString(ARG_DESCRIPTION));
 //            }
 //        }
 
@@ -44,7 +46,7 @@ public class EventDetailFragment extends Fragment {
             mEvents = EventManager.getInstance().getEvents(getArguments().getString(ARG_ID));
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mEvents.title);
+                appBarLayout.setTitle(mEvents.description);
             }
         }
 
@@ -58,8 +60,19 @@ public class EventDetailFragment extends Fragment {
 //            content.setText(getArguments().getString(ARG_CONTENT));
 //        }
         if (getArguments().containsKey(ARG_ID)) {
-            TextView content = (TextView) rootView.findViewById(R.id.content);
-            content.setText(mEvents.content);
+            TextView title = (TextView) rootView.findViewById(R.id.description);
+            title.setText(mEvents.description);
+
+
+            TextView status = (TextView) rootView.findViewById(R.id.status);
+            status.setText(mEvents.status);
+
+            TextView date = (TextView) rootView.findViewById(R.id.upload_time);
+            date.setText(mEvents.upload_time);
+
+            TextView content = (TextView) rootView.findViewById(R.id.duration);
+            content.setText(mEvents.duration);
+
         }
         return rootView;
     }

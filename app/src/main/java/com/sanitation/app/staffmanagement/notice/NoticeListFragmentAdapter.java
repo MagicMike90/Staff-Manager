@@ -56,7 +56,7 @@ public class NoticeListFragmentAdapter extends RecyclerView.Adapter<NoticeListFr
                 Intent intent = new Intent(context, NoticeDetailActivity.class);
                 intent.putExtras(bundle);
 //                intent.putExtra(NoticeDetailFragment.ARG_ID, holder.mItem.id);
-//                intent.putExtra(NoticeDetailFragment.ARG_TITLE, holder.mItem.title);
+//                intent.putExtra(NoticeDetailFragment.ARG_DESCRIPTION, holder.mItem.description);
 //                intent.putExtra(NoticeDetailFragment.ARG_CONTENT, holder.mItem.content);
 //                intent.putExtra(NoticeDetailFragment.ARG_DATE, holder.mItem.date);
                 context.startActivity(intent);

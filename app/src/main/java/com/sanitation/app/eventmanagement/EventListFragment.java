@@ -222,13 +222,15 @@ public class EventListFragment extends Fragment implements MeteorCallback {
             case Constants.MongoCollection.EVENT:
                 try {
                     JSONObject newVal = new JSONObject(newValuesJson);
+                    String type = newVal.has("type") ? newVal.getString("type").toString() : "null";
                     String description = newVal.has("description") ? newVal.getString("description").toString() : "null";
                     String status = newVal.has("status") ? newVal.getString("status").toString() : "null";
                     String upload_time = newVal.has("upload_time") ? newVal.getString("upload_time") : "0";
+                    String duration = newVal.has("duration") ? newVal.getString("duration") : "0";
 
                     upload_time = mUtils.getDateStr(upload_time);
 
-                    EventManager.getInstance().addNotice(new Event(documentID, description, description, upload_time, status));
+                    EventManager.getInstance().addNotice(new Event(documentID, type, status, description, upload_time, duration));
                     mViewAdapter.updateList(EventManager.getInstance().getEvents());
                 } catch (JSONException e) {
                     Log.d(TAG, Log.getStackTraceString(e));

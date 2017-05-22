@@ -12,7 +12,6 @@ import com.sanitation.app.R;
 import com.sanitation.app.eventmanagement.event.detail.EventDetailActivity;
 import com.sanitation.app.eventmanagement.event.detail.EventDetailFragment;
 import com.sanitation.app.factory.event.Event;
-import com.sanitation.app.factory.staff.Staff;
 
 import java.util.List;
 
@@ -41,8 +40,8 @@ public class EventListFragmentAdapter extends RecyclerView.Adapter<EventListFrag
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mEvents.get(position);
-        holder.mTitleView.setText(mEvents.get(position).title);
-        holder.mDateView.setText(mEvents.get(position).date);
+        holder.mTitleView.setText(mEvents.get(position).description);
+        holder.mDateView.setText(mEvents.get(position).upload_time);
         holder.mStatusView.setText(mEvents.get(position).status);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -51,10 +50,11 @@ public class EventListFragmentAdapter extends RecyclerView.Adapter<EventListFrag
                 Context context = v.getContext();
                 Intent intent = new Intent(context, EventDetailActivity.class);
                 intent.putExtra(EventDetailFragment.ARG_ID, holder.mItem.id);
-                intent.putExtra(EventDetailFragment.ARG_TITLE, holder.mItem.title);
-                intent.putExtra(EventDetailFragment.ARG_CONTENT, holder.mItem.content);
-                intent.putExtra(EventDetailFragment.ARG_DATE, holder.mItem.date);
+                intent.putExtra(EventDetailFragment.ARG_DESCRIPTION, holder.mItem.description);
+                intent.putExtra(EventDetailFragment.ARG_TYPE, holder.mItem.type);
                 intent.putExtra(EventDetailFragment.ARG_STATUS, holder.mItem.status);
+                intent.putExtra(EventDetailFragment.ARG_UPLOAD_TIME, holder.mItem.upload_time);
+                intent.putExtra(EventDetailFragment.ARG_DURATION, holder.mItem.duration);
                 context.startActivity(intent);
             }
         });

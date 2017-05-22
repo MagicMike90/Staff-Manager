@@ -6,21 +6,27 @@ package com.sanitation.app.factory.event;
 
 public class Event {
     public final String id;
-    public final String title;
-    public final String content;
-    public final String date;
-    public final String status;
 
-    public Event(String id, String title, String content, String date, String status) {
+    public final String type;
+    public final String status;
+    public final String description;
+
+    public final String upload_time;
+    public final String duration;
+
+
+    public Event(String id, String type, String status, String description, String upload_time, String duration) {
         this.id = id;
-        this.title = title;
-        this.content = content;
-        this.date = date;
+        this.type = type;
+        this.description = description;
         this.status = status;
+
+        this.upload_time = upload_time;
+        this.duration = duration;
     }
 
     @Override
     public String toString() {
-        return content;
+        return description;
     }
 }
