@@ -4,33 +4,81 @@
     style="?android:attr/textAppearanceLarge"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="16dp"
     android:textIsSelectable="true"
-    android:orientation="vertical"
     tools:context=".staffmanagement.staff.StaffDetailFragment">
 
-    <TextView
-        android:id="@+id/staff_name"
-        style="?android:attr/textAppearanceLarge"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:textIsSelectable="true"/>
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/gender"
-        style="?android:attr/textAppearanceLarge"
+        <TextView
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="16dp"
+            android:text="姓名"
+            android:textIsSelectable="true" />
+
+        <TextView
+            android:id="@+id/staff_name"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="16dp"
+            android:textIsSelectable="true" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:textIsSelectable="true"/>
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/join_work_date"
-        style="?android:attr/textAppearanceLarge"
+        <TextView
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="16dp"
+            android:text="性别"
+            android:textIsSelectable="true" />
+
+        <TextView
+            android:id="@+id/gender"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="16dp"
+            android:textIsSelectable="true" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:textIsSelectable="true"/>
+        android:orientation="horizontal">
 
+        <TextView
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="16dp"
+            android:text="入职时间"
+            android:textIsSelectable="true" />
+
+        <TextView
+            android:id="@+id/join_work_date"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:padding="16dp"
+            android:textIsSelectable="true" />
+    </LinearLayout>
 </LinearLayout>

@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sanitation.app.R;
+import com.sanitation.app.factory.notice.Notice;
+import com.sanitation.app.factory.notice.NoticeManager;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -22,6 +24,8 @@ public class NoticeDetailFragment extends Fragment {
     public static final String ARG_TITLE = "description";
     public static final String ARG_CONTENT = "content";
     public static final String ARG_DATE = "date";
+
+    private Notice mNotice;
 
     public NoticeDetailFragment() {
     }
@@ -38,7 +42,7 @@ public class NoticeDetailFragment extends Fragment {
 //        }
 
         if (getArguments().containsKey(ARG_TITLE)) {
-//            mNotice = NoticeManager.getInstance().getNotice(getArguments().getString(ARG_ID));
+            mNotice = NoticeManager.getInstance().getNotice(getArguments().getString(ARG_ID));
             String title = getArguments().getString(ARG_TITLE);
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
@@ -56,8 +60,11 @@ public class NoticeDetailFragment extends Fragment {
 //            content.setText(getArguments().getString(ARG_CONTENT));
 //        }
         if (getArguments().containsKey(ARG_CONTENT)) {
+            TextView updateAt = (TextView) rootView.findViewById(R.id.updateAt);
+            updateAt.setText(mNotice.date);
+
             TextView content = (TextView) rootView.findViewById(R.id.content);
-            content.setText(getArguments().getString(ARG_CONTENT));
+            content.setText(mNotice.content);
         }
         return rootView;
     }
