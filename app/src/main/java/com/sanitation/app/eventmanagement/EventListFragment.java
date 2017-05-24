@@ -23,7 +23,6 @@ import com.sanitation.app.factory.event.Event;
 import com.sanitation.app.factory.event.EventManager;
 import com.sanitation.app.factory.eventtype.EventType;
 import com.sanitation.app.factory.eventtype.EventTypeManager;
-import com.sanitation.app.factory.notice.NoticeManager;
 import com.sanitation.app.recyclerview.DividerItemDecoration;
 import com.sanitation.app.staffmanagement.sign.StaffSignInAndOutActivity;
 import com.sanitation.app.staffmanagement.sign.step.StepInfoStorage;

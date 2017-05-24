@@ -117,6 +117,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.sanitation.app.MainActivity" />
         </activity>
+        <activity
+            android:name=".eventmanagement.event.detail.EventFinishActivity"
+            android:label="@string/title_activity_event_finish"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

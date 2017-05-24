@@ -36,7 +36,7 @@ public class EventManager {
         return this.mEvents;
     }
 
-    public Event getEvents(String id) {
+    public Event getEvent(String id) {
         return EVENT_MAP.get(id);
     }
 

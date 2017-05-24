@@ -7,11 +7,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.sanitation.app.R;
 
 public class EventDetailActivity extends AppCompatActivity {
-
+    private EventDetailFragment mEventDetailFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,12 +40,27 @@ public class EventDetailActivity extends AppCompatActivity {
 //            arguments.putString(SignDetailFragment.ARG_DATE,
 //                    getIntent().getStringExtra(SignDetailFragment.ARG_DATE));
 
-            EventDetailFragment fragment = new EventDetailFragment();
-            fragment.setArguments(arguments);
+            mEventDetailFragment = new EventDetailFragment();
+            mEventDetailFragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.notice_detail_container, fragment)
+                    .add(R.id.notice_detail_container, mEventDetailFragment)
                     .commit();
         }
+        Button finish_event =  (Button) findViewById(R.id.finish_event);
+        finish_event.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+//                EventFinishFragment fragment = new EventFinishFragment();
+//                Bundle arguments = new Bundle();
+//                arguments.putString(EventDetailFragment.ARG_ID,
+//                        getIntent().getStringExtra(EventDetailFragment.ARG_ID));
+//                fragment.setArguments(arguments);
+//                getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.notice_detail_container, fragment)
+//                        .commit();
+            }
+        });
     }
 
     @Override
@@ -54,5 +71,9 @@ public class EventDetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mEventDetailFragment.onActivityResult(requestCode, resultCode, data);
     }
 }
