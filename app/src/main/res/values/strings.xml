@@ -76,4 +76,5 @@
     <string name="title_activity_upload_event">事件上传</string>
     <string name="title_activity_staff_filter">搜索员工</string>
     <string name="title_activity_event_finish">EventFinishActivity</string>
+    <string name="title_activity_assessment">AssessmentActivity</string>
 </resources>

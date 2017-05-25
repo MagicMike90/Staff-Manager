@@ -120,6 +120,10 @@
         <activity
             android:name=".eventmanagement.event.detail.EventFinishActivity"
             android:label="@string/title_activity_event_finish"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".assessment.AssessmentActivity"
+            android:label="@string/title_activity_assessment"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

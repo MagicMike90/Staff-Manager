@@ -27,7 +27,9 @@ import com.amap.api.services.weather.WeatherSearch;
 import com.amap.api.services.weather.WeatherSearch.OnWeatherSearchListener;
 
 import com.amap.api.services.weather.WeatherSearchQuery;
+import com.sanitation.app.assessment.AssessmentActivity;
 import com.sanitation.app.eventmanagement.EventListFragment;
+import com.sanitation.app.eventmanagement.event.detail.EventDetailActivity;
 import com.sanitation.app.service.GPSService;
 
 
@@ -189,8 +191,10 @@ public class MainActivity extends AppCompatActivity
 //        } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
-
+            Intent intent = new Intent(MainActivity.this, AssessmentActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_share) {
+
 
         } else if (id == R.id.nav_send) {
 
