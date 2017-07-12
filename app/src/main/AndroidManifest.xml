@@ -64,12 +64,12 @@
             <!-- android:resource="@xml/searchable"/> -->
         </activity>
         <activity
-            android:name=".staffmanagement.staff.StaffDetailActivity"
+            android:name=".fragments.staffmanagement.staff.StaffDetailActivity"
             android:label="@string/title_staff_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".staffmanagement.notice.NoticeDetailActivity"
+            android:name=".notice.NoticeDetailActivity"
             android:label="@string/title_activity_notice_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -80,12 +80,12 @@
             android:exported="true" />
 
         <activity
-            android:name=".staffmanagement.sign.StaffSignInAndOutActivity"
+            android:name=".fragments.staffmanagement.sign.StaffSignInAndOutActivity"
             android:label="@string/title_activity_staff_sign_in_and_out"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".camera.TempActivity"
+            android:name=".extras.camera.TempActivity"
             android:label="@string/title_activity_temp"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -94,22 +94,22 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".staffmanagement.signhistory.SignDetailActivity"
+            android:name=".fragments.staffmanagement.signhistory.SignDetailActivity"
             android:label="@string/title_activity_sign_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".eventmanagement.event.detail.EventDetailActivity"
+            android:name=".fragments.eventmanagement.event.detail.EventDetailActivity"
             android:label="@string/title_activity_event_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".eventmanagement.event.upload.UploadEventActivity"
+            android:name=".fragments.eventmanagement.event.upload.UploadEventActivity"
             android:label="@string/title_activity_upload_event"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".staffmanagement.staff.StaffFilterActivity"
+            android:name=".fragments.staffmanagement.staff.StaffFilterActivity"
             android:label="@string/title_activity_staff_filter"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -118,12 +118,16 @@
                 android:value="com.sanitation.app.MainActivity" />
         </activity>
         <activity
-            android:name=".eventmanagement.event.detail.EventFinishActivity"
+            android:name=".fragments.eventmanagement.event.detail.EventFinishActivity"
             android:label="@string/title_activity_event_finish"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".assessment.AssessmentActivity"
+            android:name=".fragments.assessment.AssessmentActivity"
             android:label="@string/title_activity_assessment"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".notice.NoticeActivity"
+            android:label="@string/title_activity_notice"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

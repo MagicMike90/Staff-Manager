@@ -13,15 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sanitation.app.factory.notice.Notice;
-import com.sanitation.app.factory.notice.NoticeManager;
+import com.sanitation.app.notice.Notice;
+import com.sanitation.app.notice.NoticeManager;
 import com.sanitation.app.factory.signhistory.SignHistory;
 import com.sanitation.app.factory.signhistory.SignManager;
 import com.sanitation.app.factory.staff.Staff;
 import com.sanitation.app.factory.staff.StaffManager;
-import com.sanitation.app.staffmanagement.notice.NoticeListFragment;
-import com.sanitation.app.staffmanagement.signhistory.SignListFragment;
-import com.sanitation.app.staffmanagement.staff.StaffListFragment;
+import com.sanitation.app.notice.NoticeListFragment;
+import com.sanitation.app.fragments.staffmanagement.signhistory.SignListFragment;
+import com.sanitation.app.fragments.staffmanagement.staff.StaffListFragment;
 import com.ss.bottomnavigation.BottomNavigation;
 import com.ss.bottomnavigation.events.OnSelectedItemChangeListener;
 
@@ -34,7 +34,7 @@ import im.delight.android.ddp.MeteorSingleton;
 
 
 public class MainFragment extends Fragment implements MeteorCallback {
-    private static final String TAG = "MainFragment";
+        private static final String TAG = "MainFragment";
 
     private Context mContext;
     private Utils mUtils;
@@ -179,6 +179,7 @@ public class MainFragment extends Fragment implements MeteorCallback {
                 JSONObject staff = null;
                 try {
                     staff = new JSONObject(newValuesJson);
+                    String staff_id = staff.has("staff_id") ? staff.getString("staff_id") : " ";
                     String name = staff.has("staff_name") ? staff.getString("staff_name") : " ";
                     String gender = staff.has("gender") ? staff.getString("gender") : " ";
                     String date = staff.has("join_work_date") ? staff.getString("join_work_date") : "0";
@@ -187,7 +188,7 @@ public class MainFragment extends Fragment implements MeteorCallback {
                     gender = mUtils.getGender(gender);
                     date = mUtils.getDateStr(date);
 
-                    StaffManager.getInstance().addStaffs(new Staff(documentID, name, gender, date));
+                    StaffManager.getInstance().addStaffs(new Staff(documentID,staff_id, name, gender, date));
                     if (fragment instanceof StaffListFragment)
                         mStaffListFragment.updateList(StaffManager.getInstance().getStaffs());
                 } catch (JSONException e) {

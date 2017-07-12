@@ -1,12 +1,10 @@
 package com.sanitation.app;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,49 +13,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
-import com.amap.api.services.core.AMapException;
-import com.amap.api.services.weather.LocalDayWeatherForecast;
-import com.amap.api.services.weather.LocalWeatherForecast;
-import com.amap.api.services.weather.LocalWeatherForecastResult;
-import com.amap.api.services.weather.LocalWeatherLive;
-import com.amap.api.services.weather.LocalWeatherLiveResult;
-import com.amap.api.services.weather.WeatherSearch;
-import com.amap.api.services.weather.WeatherSearch.OnWeatherSearchListener;
-
-import com.amap.api.services.weather.WeatherSearchQuery;
-import com.sanitation.app.assessment.AssessmentActivity;
-import com.sanitation.app.eventmanagement.EventListFragment;
-import com.sanitation.app.eventmanagement.event.detail.EventDetailActivity;
+import com.sanitation.app.notice.NoticeActivity;
+import com.sanitation.app.fragments.eventmanagement.EventListFragment;
+import com.sanitation.app.fragments.weather.WeatherFragment;
 import com.sanitation.app.service.GPSService;
 
+import com.sanitation.app.fragments.assessment.AssessmentActivity;
 
-import java.util.List;
-
-import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorSingleton;
+import im.delight.android.ddp.ResultListener;
 import im.delight.android.ddp.db.memory.InMemoryDatabase;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnWeatherSearchListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "MainActivity";
-
-    private TextView report_time;
-    private TextView weather;
-    private TextView Temperature;
-    private TextView wind;
-    private TextView humidity;
-    private WeatherSearchQuery mquery;
-    private WeatherSearch mweathersearch;
-    private LocalWeatherLive weatherlive;
-    private LocalWeatherForecast weatherforecast;
-    private List<LocalDayWeatherForecast> forecastlist = null;
-    private String cityname = "沈阳市";//天气搜索的城市，可以写名称或adcode；
 
     private NavigationView mNavigationView;
     private Fragment mCurrentFragment;
-
 
 
     @Override
@@ -67,14 +40,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -83,26 +48,13 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
 
-//        setTitle(R.string.navigation_drawer_menu_notice);
-
-
         init();
-        searchLiveWeather();
-    }
 
+    }
 
     private void init() {
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
-
-        View headerView = mNavigationView.getHeaderView(0);
-        TextView city = (TextView) headerView.findViewById(R.id.city);
-        city.setText(cityname);
-        report_time = (TextView) headerView.findViewById(R.id.report_time);
-        weather = (TextView) headerView.findViewById(R.id.weather);
-        Temperature = (TextView) headerView.findViewById(R.id.temp);
-        wind = (TextView) headerView.findViewById(R.id.wind);
-        humidity = (TextView) headerView.findViewById(R.id.humidity);
 
 
         if (!MeteorSingleton.hasInstance())
@@ -113,26 +65,13 @@ public class MainActivity extends AppCompatActivity
         startService(ddpIntent);
 
 
-        MenuItem item = mNavigationView.getMenu().getItem(0);
-        onNavigationItemSelected(item);
-
+//        MenuItem item = mNavigationView.getMenu().getItem(0);
+//        onNavigationItemSelected(item);
+        Fragment weatherFrag = new WeatherFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, weatherFrag).commit();
     }
 
-    private void searchforcastsweather() {
-        mquery = new WeatherSearchQuery(cityname, WeatherSearchQuery.WEATHER_TYPE_FORECAST);//检索参数为城市和天气类型，实时天气为1、天气预报为2
-        mweathersearch = new WeatherSearch(this);
-        mweathersearch.setOnWeatherSearchListener(this);
-        mweathersearch.setQuery(mquery);
-        mweathersearch.searchWeatherAsyn(); //异步搜索
-    }
-
-    private void searchLiveWeather() {
-        mquery = new WeatherSearchQuery(cityname, WeatherSearchQuery.WEATHER_TYPE_LIVE);//检索参数为城市和天气类型，实时天气为1、天气预报为2
-        mweathersearch = new WeatherSearch(this);
-        mweathersearch.setOnWeatherSearchListener(this);
-        mweathersearch.setQuery(mquery);
-        mweathersearch.searchWeatherAsyn(); //异步搜索
-    }
 
     @Override
     public void onBackPressed() {
@@ -174,6 +113,13 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_notice) {
+//            fragmentClass = NoticeListFragment.class;
+
+            Intent intent = new Intent(getApplicationContext(), NoticeActivity.class);
+            startActivity(intent);
+
+        }
+        if (id == R.id.nav_staff) {
             fragmentClass = MainFragment.class;
 
         }
@@ -198,6 +144,23 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        } else if (id == R.id.nav_send) {
+
+        } else if (id == R.id.nav_exit) {
+            MeteorSingleton.getInstance().logout(new ResultListener() {
+                @Override
+                public void onSuccess(String result) {
+                    Log.d(TAG, "Logout Successfully");
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+                @Override
+                public void onError(String error, String reason, String details) {
+                    Log.d(TAG, "Logout Error");
+                }
+            });
         }
 
         try {
@@ -206,44 +169,23 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
         // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragment_container, mCurrentFragment).commit();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction().replace(R.id.fragment_container, mCurrentFragment).commit();
         // Highlight the selected item has been done by NavigationView
         item.setChecked(true);
-        setTitle(item.getTitle());
+//        setTitle(item.getTitle());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    @Override
-    public void onWeatherLiveSearched(LocalWeatherLiveResult weatherLiveResult, int rCode) {
-        if (rCode == AMapException.CODE_AMAP_SUCCESS) {
-            if (weatherLiveResult != null && weatherLiveResult.getLiveResult() != null) {
-                weatherlive = weatherLiveResult.getLiveResult();
-                report_time.setText(weatherlive.getReportTime() + " 发布");
-                weather.setText(weatherlive.getWeather());
-                Temperature.setText(weatherlive.getTemperature() + "°");
-                wind.setText(weatherlive.getWindDirection() + "风     " + weatherlive.getWindPower() + "级");
-                humidity.setText("湿度     " + weatherlive.getHumidity() + "%");
-            } else {
-                Log.d("time", "no data");
-            }
-        } else {
-            Log.d("rCode", rCode + "");
-        }
-    }
 
-    @Override
-    public void onWeatherForecastSearched(LocalWeatherForecastResult localWeatherForecastResult, int i) {
-
-    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(mCurrentFragment instanceof MainFragment) {
-            ((MainFragment)mCurrentFragment).onActivityResult(requestCode,resultCode,data);
+        if (mCurrentFragment instanceof MainFragment) {
+            ((MainFragment) mCurrentFragment).onActivityResult(requestCode, resultCode, data);
         }
     }
 }

@@ -4,8 +4,12 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_notice"
-            android:icon="@android:drawable/ic_menu_manage"
+            android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/navigation_drawer_menu_notice" />
+        <item
+            android:id="@+id/nav_staff"
+            android:icon="@android:drawable/ic_menu_manage"
+            android:title="@string/navigation_drawer_menu_staff" />
         <item
             android:id="@+id/nav_camera"
             android:icon="@drawable/ic_menu_camera"
@@ -34,6 +38,11 @@
             android:id="@+id/nav_send"
             android:icon="@drawable/ic_menu_send"
             android:title="GPS定位" />
+
+        <item
+            android:id="@+id/nav_exit"
+            android:icon="@drawable/ic_menu_send"
+            android:title="登出" />
     </group>
 
     <!--<item android:staff_name="Communicate">-->

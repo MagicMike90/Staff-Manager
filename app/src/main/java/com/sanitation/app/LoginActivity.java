@@ -175,7 +175,7 @@ public class LoginActivity extends AppCompatActivity implements MeteorCallback {
 
                     Intent externalActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(externalActivityIntent);
-                    finish();
+//                    finish();
                 }
 
                 @Override

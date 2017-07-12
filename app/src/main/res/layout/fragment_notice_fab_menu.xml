@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <!-- Your FAB implementation -->
-    <!--<com.sanitation.app.widget.Fab-->
+    <!--<com.sanitation.app.extras.widget.Fab-->
         <!--android:id="@+id/fab"-->
         <!--style="@style/Widget.MaterialSheetFab.Fab"-->
         <!--&lt;!&ndash;android:layout_alignParentBottom="true"&ndash;&gt;-->
