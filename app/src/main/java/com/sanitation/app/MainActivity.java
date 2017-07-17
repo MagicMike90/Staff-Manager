@@ -1,5 +1,6 @@
 package com.sanitation.app;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import com.sanitation.app.service.GPSService;
 
 import com.sanitation.app.fragments.assessment.AssessmentActivity;
 
+import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorSingleton;
 import im.delight.android.ddp.ResultListener;
 import im.delight.android.ddp.db.memory.InMemoryDatabase;
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity
     private NavigationView mNavigationView;
     private Fragment mCurrentFragment;
 
+    private Utils mUtils;
+    private Meteor mMeteor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +74,9 @@ public class MainActivity extends AppCompatActivity
         Fragment weatherFrag = new WeatherFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragment_container, weatherFrag).commit();
+
+        mUtils = Utils.getInstance(this);
+        mMeteor = MeteorSingleton.getInstance();
     }
 
 

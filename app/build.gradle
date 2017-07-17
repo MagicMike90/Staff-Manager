@@ -38,7 +38,7 @@ dependencies {
 
     //    compile 'me.riddhimanadib.form-master:form-master:1.0.0'
     compile project(path: ':form-master')
-
+//    compile project(path: ':circularimageview')
 
 
     compile 'com.android.volley:volley:1.0.0'
@@ -49,12 +49,14 @@ dependencies {
     compile 'com.stepstone.stepper:material-stepper:3.2.0'
     compile 'com.yalantis:ucrop:2.2.0'
     compile 'com.zhihu.android:matisse:0.4.3'
-    compile 'com.squareup.picasso:picasso:2.5.2'
+//    compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.hrules:charter:1.5.1'
     compile 'com.github.Andy671:Dachshund-Tab-Layout:v0.2.0'
+
+    compile 'com.mikhaellopez:circularimageview:3.0.2'
     testCompile 'junit:junit:4.12'
 }
 
