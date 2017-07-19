@@ -64,7 +64,7 @@
             <!-- android:resource="@xml/searchable"/> -->
         </activity>
         <activity
-            android:name=".fragments.staffmanagement.staff.StaffDetailActivity"
+            android:name=".staff.StaffDetailActivity"
             android:label="@string/title_staff_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -80,7 +80,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".fragments.staffmanagement.sign.StaffSignInAndOutActivity"
+            android:name=".staff.staffmanagement.sign.StaffSignInAndOutActivity"
             android:label="@string/title_activity_staff_sign_in_and_out"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -94,7 +94,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".fragments.staffmanagement.signhistory.SignDetailActivity"
+            android:name=".staff.staffmanagement.signhistory.SignDetailActivity"
             android:label="@string/title_activity_sign_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -109,7 +109,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".fragments.staffmanagement.staff.StaffFilterActivity"
+            android:name=".staff.StaffFilterActivity"
             android:label="@string/title_activity_staff_filter"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -128,6 +128,10 @@
         <activity
             android:name=".notice.NoticeActivity"
             android:label="@string/title_activity_notice"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".staff.StaffActivity"
+            android:label="@string/title_activity_staff"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

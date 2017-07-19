@@ -12,6 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="LinearLayoutManager"
-        tools:context=".fragments.staffmanagement.staff.StaffListFragment"
+        tools:context=".staff.StaffListFragment"
         tools:listitem="@layout/staff_list_content" />
 </android.support.design.widget.CoordinatorLayout>

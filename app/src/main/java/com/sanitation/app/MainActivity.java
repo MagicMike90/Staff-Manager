@@ -21,6 +21,7 @@ import com.sanitation.app.fragments.weather.WeatherFragment;
 import com.sanitation.app.service.GPSService;
 
 import com.sanitation.app.fragments.assessment.AssessmentActivity;
+import com.sanitation.app.staff.StaffActivity;
 
 import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorSingleton;
@@ -127,8 +128,8 @@ public class MainActivity extends AppCompatActivity
 
         }
         if (id == R.id.nav_staff) {
-            fragmentClass = MainFragment.class;
-
+            Intent intent = new Intent(getApplicationContext(), StaffActivity.class);
+            startActivity(intent);
         }
         if (id == R.id.nav_camera) {
             // Handle the camera action

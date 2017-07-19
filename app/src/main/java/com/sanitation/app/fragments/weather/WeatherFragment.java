@@ -23,8 +23,8 @@ import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
 import com.sanitation.app.Constants;
 import com.sanitation.app.R;
-import com.sanitation.app.fragments.staffmanagement.sign.StaffSignInAndOutActivity;
-import com.sanitation.app.fragments.staffmanagement.sign.step.StepInfoStorage;
+import com.sanitation.app.staff.staffmanagement.sign.StaffSignInAndOutActivity;
+import com.sanitation.app.staff.staffmanagement.sign.step.StepInfoStorage;
 import com.sanitation.app.extras.widget.Fab;
 
 import java.util.List;

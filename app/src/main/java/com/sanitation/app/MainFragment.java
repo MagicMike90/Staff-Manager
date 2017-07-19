@@ -17,11 +17,11 @@ import com.sanitation.app.notice.Notice;
 import com.sanitation.app.notice.NoticeManager;
 import com.sanitation.app.factory.signhistory.SignHistory;
 import com.sanitation.app.factory.signhistory.SignManager;
-import com.sanitation.app.factory.staff.Staff;
-import com.sanitation.app.factory.staff.StaffManager;
+import com.sanitation.app.staff.Staff;
+import com.sanitation.app.staff.StaffManager;
 import com.sanitation.app.notice.NoticeListFragment;
-import com.sanitation.app.fragments.staffmanagement.signhistory.SignListFragment;
-import com.sanitation.app.fragments.staffmanagement.staff.StaffListFragment;
+import com.sanitation.app.staff.staffmanagement.signhistory.SignListFragment;
+import com.sanitation.app.staff.StaffListFragment;
 import com.ss.bottomnavigation.BottomNavigation;
 import com.ss.bottomnavigation.events.OnSelectedItemChangeListener;
 

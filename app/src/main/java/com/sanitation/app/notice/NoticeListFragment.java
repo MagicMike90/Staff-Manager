@@ -14,12 +14,6 @@ import com.sanitation.app.Constants;
 import com.sanitation.app.R;
 import com.sanitation.app.Utils;
 import com.sanitation.app.extras.recyclerview.DividerItemDecoration;
-import com.sanitation.app.factory.signhistory.SignHistory;
-import com.sanitation.app.factory.signhistory.SignManager;
-import com.sanitation.app.factory.staff.Staff;
-import com.sanitation.app.factory.staff.StaffManager;
-import com.sanitation.app.fragments.staffmanagement.signhistory.SignListFragment;
-import com.sanitation.app.fragments.staffmanagement.staff.StaffListFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;

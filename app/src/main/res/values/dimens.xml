@@ -7,11 +7,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="app_bar_height">200dp</dimen>
-    <dimen name="item_width">200dp</dimen>
     <dimen name="text_margin">16dp</dimen>
-    <dimen name="appbar_padding_top">8dp</dimen>
-    <dimen name="list_item_spacing">16dp</dimen>
-    <dimen name="list_item_spacing_half">8dp</dimen>
 
 
     <dimen name="keyline_spacing">16dp</dimen>
@@ -29,13 +25,8 @@
     <dimen name="snackbar_spacing">24dp</dimen>
     <dimen name="snackbar_textsize">14sp</dimen>
 
-    <dimen name="toolbar_elevation">4dp</dimen>
     <dimen name="fab_elevation">4dp</dimen>
     <dimen name="fab_sheet_elevation">0dp</dimen>
-
-    <dimen name="drawer_header_height">200dp</dimen>
-    <dimen name="drawer_header_textsize">20sp</dimen>
-    <dimen name="drawer_header_text_spacing">@dimen/keyline_spacing</dimen>
 
     <dimen name="note_spacing">4dp</dimen>
     <dimen name="note_content_spacing">16dp</dimen>
