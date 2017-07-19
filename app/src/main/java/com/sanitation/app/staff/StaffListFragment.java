@@ -86,21 +86,21 @@ public class StaffListFragment extends Fragment {
 //        super.onCreateOptionsMenu(menu, inflater);
 //    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_search:
-//                mStaffFilterFragment.setTargetFragment(StaffListFragment.this, DIALOG_REQ_CODE);
-//                mStaffFilterFragment.show(getFragmentManager(), "StaffFilterFragment");
-                Intent intent = new Intent(getContext(), StaffFilterActivity.class);
-                getActivity().startActivityForResult(intent, MainFragment.STAFF_FRAGMENT_RESULT);
-
-                return false;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.action_search:
+////                mStaffFilterFragment.setTargetFragment(StaffListFragment.this, DIALOG_REQ_CODE);
+////                mStaffFilterFragment.show(getFragmentManager(), "StaffFilterFragment");
+//                Intent intent = new Intent(getContext(), StaffFilterActivity.class);
+//                getActivity().startActivityForResult(intent, MainFragment.STAFF_FRAGMENT_RESULT);
+//
+//                return false;
+//            default:
+//                break;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
 //    @Override
 //    public void OnCloseListener(JSONObject result) {

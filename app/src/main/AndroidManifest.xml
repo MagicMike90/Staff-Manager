@@ -132,7 +132,14 @@
         <activity
             android:name=".staff.StaffActivity"
             android:label="@string/title_activity_staff"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+            <!--<intent-filter>-->
+                <!--<action android:staff_name="android.intent.action.SEARCH" />-->
+            <!--</intent-filter>-->
+            <!--<meta-data-->
+                <!--android:resource="@xml/searchable"-->
+                <!--android:staff_name="android.app.searchable" />-->
+        </activity>
     </application>
 
 </manifest>
