@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:textIsSelectable="true"
-    tools:context=".notice.NoticeDetailActivity">
+    tools:context=".Notice.activities.NoticeDetailActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:padding="16dp"
             android:text="发布时间"
             android:textIsSelectable="true"
-            tools:context=".notice.NoticeDetailActivity" />
+            tools:context=".Notice.activities.NoticeDetailActivity" />
 
         <TextView
             android:id="@+id/updateAt"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:textIsSelectable="true"
-            tools:context=".notice.NoticeDetailActivity" />
+            tools:context=".Notice.activities.NoticeDetailActivity" />
 
     </LinearLayout>
 
@@ -41,6 +41,6 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:textIsSelectable="true"
-        tools:context=".notice.NoticeDetailActivity" />
+        tools:context=".Notice.activities.NoticeDetailActivity" />
 
 </LinearLayout>

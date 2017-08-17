@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sanitation.app.MainFragment">
+    tools:context="com.sanitation.app.Main.fragments.MainFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

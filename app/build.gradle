@@ -53,6 +53,8 @@ dependencies {
     compile 'com.hrules:charter:1.5.1'
     compile 'com.github.Andy671:Dachshund-Tab-Layout:v0.2.0'
     compile 'com.mikhaellopez:circularimageview:3.0.2'
+    compile 'com.google.code.gson:gson:2.8.1'
+
     testCompile 'junit:junit:4.12'
 }
 

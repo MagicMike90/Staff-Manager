@@ -36,6 +36,7 @@ public class Constants {
 
     public class MongoCollection {
         public static final String NOTICE = "notices";
+        public static final String RELATED_STAFF = "relatedStaff";
         public static final String STAFF = "staffs";
         public static final String SIGN = "signInOut";
 
