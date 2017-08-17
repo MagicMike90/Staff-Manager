@@ -28,7 +28,7 @@ import im.delight.android.ddp.MeteorCallback;
 import im.delight.android.ddp.MeteorSingleton;
 
 
-public class NoticeListFragment extends Fragment implements MeteorCallback {
+public class NoticeListFragment extends Fragment {
     private static final String TAG = "NoticeListFragment";
 
 
@@ -37,7 +37,6 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
 
     private Context mContext;
     private Utils mUtils;
-    private Meteor mMeteor;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -60,86 +59,8 @@ public class NoticeListFragment extends Fragment implements MeteorCallback {
 
         mContext = this.getContext();
         mUtils = Utils.getInstance(mContext);
-        mMeteor = MeteorSingleton.getInstance();
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mMeteor.removeCallbacks();
-        mMeteor.addCallback(this);
-        mMeteor.reconnect();
-
-        Log.d(TAG, "onResume");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mMeteor.removeCallback(this);
-        mMeteor.disconnect();
-        Log.d(TAG, "onPause");
-    }
-
-    @Override
-    public void onConnect(boolean signedInAutomatically) {
-        Log.d(TAG, "onConnect");
-        mMeteor.subscribe(Constants.MongoCollection.NOTICE);
-        NoticeManager.getInstance().init();
-    }
-
-    @Override
-    public void onDisconnect() {
-        Log.d(TAG, "onDisconnect");
-    }
-
-    @Override
-    public void onException(Exception e) {
-        Log.d(TAG, "onException");
-    }
-
-    @Override
-    public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
-        Log.d(TAG, "onDataAdded:" + collectionName + " : " + newValuesJson);
-
-        if (collectionName.equals(Constants.MongoCollection.NOTICE)) {
-            try {
-                JSONObject obj = new JSONObject(newValuesJson);
-                String id = documentID;
-                String name = obj.getString("title");
-                String content = obj.getString("content");
-                String time = obj.getString("updateAt");
-                time = mUtils.getDateStr(time);
-
-                Log.d(TAG, name);
-
-                NoticeManager.getInstance().addNotice(new Notice(id, name, content, time));
-                this.updateList(NoticeManager.getInstance().getNotices());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public void onDataChanged(String collectionName, String documentID, String updatedValuesJson, String removedValuesJson) {
-        Log.d(TAG, collectionName);
-        switch (collectionName) {
-            case Constants.MongoCollection.NOTICE:
-                break;
-            case Constants.MongoCollection.STAFF:
-                break;
-            case Constants.MongoCollection.SIGN:
-                break;
-        }
-
-    }
-
-    @Override
-    public void onDataRemoved(String collectionName, String documentID) {
-        Log.d(TAG, "onDataRemoved");
-    }
-
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
