@@ -22,7 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.sanitation.app.StaffInfo;
+import com.sanitation.app.Login.StaffInfo;
 import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
 

@@ -14,7 +14,7 @@ import com.sanitation.app.R;
 import com.sanitation.app.StaffManagement.models.Staff;
 import com.sanitation.app.StaffManagement.activities.StaffManager;
 import com.sanitation.app.StaffManagement.adapters.StaffListFragmentAdapter;
-import com.sanitation.app.extras.recyclerview.DividerItemDecoration;
+import com.sanitation.app.CustomComponent.recyclerview.DividerItemDecoration;
 
 import java.util.List;
 

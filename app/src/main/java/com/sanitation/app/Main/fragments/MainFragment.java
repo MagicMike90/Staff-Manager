@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 import com.sanitation.app.Constants;
 import com.sanitation.app.R;
-import com.sanitation.app.Utils;
+import com.sanitation.app.Utils.Utils;
 import com.sanitation.app.Notice.models.Notice;
 import com.sanitation.app.Notice.models.NoticeManager;
 import com.sanitation.app.factory.signhistory.SignHistory;

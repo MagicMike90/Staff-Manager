@@ -92,7 +92,7 @@
         </LinearLayout>
     </android.support.v7.widget.LinearLayoutCompat>
 
-    <com.sanitation.app.extras.widget.Fab
+    <com.sanitation.app.CustomComponent.widget.Fab
         android:id="@+id/fab"
         style="@style/Widget.MaterialSheetFab.Fab"
         android:layout_width="wrap_content"

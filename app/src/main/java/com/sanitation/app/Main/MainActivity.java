@@ -14,23 +14,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.sanitation.app.Constants;
 import com.sanitation.app.Login.LoginActivity;
 import com.sanitation.app.Main.fragments.MainFragment;
 import com.sanitation.app.Main.fragments.WeatherFragment;
 import com.sanitation.app.R;
-import com.sanitation.app.Utils;
 import com.sanitation.app.Notice.activities.NoticeListActivity;
-import com.sanitation.app.fragments.eventmanagement.EventListFragment;
+import com.sanitation.app.Event.fragments.EventListFragment;
 import com.sanitation.app.Services.GPSService;
 
-import com.sanitation.app.fragments.assessment.AssessmentActivity;
+import com.sanitation.app.Assessment.activities.AssessmentActivity;
 import com.sanitation.app.StaffManagement.activities.StaffActivity;
 
-import im.delight.android.ddp.Meteor;
 import im.delight.android.ddp.MeteorSingleton;
 import im.delight.android.ddp.ResultListener;
-import im.delight.android.ddp.db.memory.InMemoryDatabase;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -39,8 +35,6 @@ public class MainActivity extends AppCompatActivity
     private NavigationView mNavigationView;
     private Fragment mCurrentFragment;
 
-    private Utils mUtils;
-    private Meteor mMeteor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +75,6 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragment_container, weatherFrag).commit();
 
-        mUtils = Utils.getInstance(this);
-        mMeteor = MeteorSingleton.getInstance();
     }
 
 

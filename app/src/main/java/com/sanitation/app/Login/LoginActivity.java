@@ -21,7 +21,6 @@ import android.widget.TextView;
 import com.sanitation.app.Constants;
 import com.sanitation.app.Main.MainActivity;
 import com.sanitation.app.R;
-import com.sanitation.app.StaffInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;

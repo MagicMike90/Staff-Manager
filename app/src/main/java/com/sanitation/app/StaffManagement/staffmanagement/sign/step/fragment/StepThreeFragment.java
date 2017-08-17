@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.sanitation.app.Constants;
 import com.sanitation.app.R;
-import com.sanitation.app.extras.camera.PickerBuilder;
+import com.sanitation.app.CustomComponent.camera.PickerBuilder;
 import com.sanitation.app.StaffManagement.staffmanagement.sign.step.OnNavigationBarListener;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;

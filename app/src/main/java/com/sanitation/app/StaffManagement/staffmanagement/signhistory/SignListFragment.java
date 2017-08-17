@@ -17,7 +17,7 @@ import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.sanitation.app.R;
 import com.sanitation.app.factory.signhistory.SignHistory;
 import com.sanitation.app.factory.signhistory.SignManager;
-import com.sanitation.app.extras.recyclerview.DividerItemDecoration;
+import com.sanitation.app.CustomComponent.recyclerview.DividerItemDecoration;
 import com.sanitation.app.StaffManagement.staffmanagement.sign.StaffSignInAndOutActivity;
 
 import java.util.List;

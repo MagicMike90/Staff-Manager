@@ -14,14 +14,13 @@ import com.sanitation.app.Notice.models.NoticeManager;
 import com.sanitation.app.Notice.fragments.NoticeListFragment;
 import com.sanitation.app.Notice.models.Notice;
 import com.sanitation.app.R;
-import com.sanitation.app.Utils;
+import com.sanitation.app.Utils.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import im.delight.android.ddp.Meteor;
-import im.delight.android.ddp.MeteorCallback;
 import im.delight.android.ddp.MeteorSingleton;
 import im.delight.android.ddp.ResultListener;
 

@@ -15,10 +15,10 @@ import android.view.MenuItem;
 
 import com.sanitation.app.Constants;
 import com.sanitation.app.R;
-import com.sanitation.app.StaffInfo;
+import com.sanitation.app.Login.StaffInfo;
 import com.sanitation.app.StaffManagement.fragments.StaffListFragment;
 import com.sanitation.app.StaffManagement.models.Staff;
-import com.sanitation.app.Utils;
+import com.sanitation.app.Utils.Utils;
 import com.sanitation.app.Notice.activities.NoticeListActivity;
 
 import org.json.JSONException;

@@ -10,22 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sanitation.app.Constants;
 import com.sanitation.app.Notice.models.Notice;
 import com.sanitation.app.Notice.adapters.NoticeListFragmentAdapter;
 import com.sanitation.app.Notice.models.NoticeManager;
 import com.sanitation.app.R;
-import com.sanitation.app.Utils;
-import com.sanitation.app.extras.recyclerview.DividerItemDecoration;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.sanitation.app.Utils.Utils;
+import com.sanitation.app.CustomComponent.recyclerview.DividerItemDecoration;
 
 import java.util.List;
-
-import im.delight.android.ddp.Meteor;
-import im.delight.android.ddp.MeteorCallback;
-import im.delight.android.ddp.MeteorSingleton;
 
 
 public class NoticeListFragment extends Fragment {
@@ -60,7 +52,7 @@ public class NoticeListFragment extends Fragment {
         mContext = this.getContext();
         mUtils = Utils.getInstance(mContext);
     }
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

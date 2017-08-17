@@ -85,7 +85,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".extras.camera.TempActivity"
+            android:name=".CustomComponent.camera.TempActivity"
             android:label="@string/title_activity_temp"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -99,12 +99,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".fragments.eventmanagement.event.detail.EventDetailActivity"
+            android:name=".Event.eventmanagement.event.detail.EventDetailActivity"
             android:label="@string/title_activity_event_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".fragments.eventmanagement.event.upload.UploadEventActivity"
+            android:name=".Event.eventmanagement.event.upload.UploadEventActivity"
             android:label="@string/title_activity_upload_event"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -118,11 +118,11 @@
                 android:value="com.sanitation.app.Main.MainActivity" />
         </activity>
         <activity
-            android:name=".fragments.eventmanagement.event.detail.EventFinishActivity"
+            android:name=".Event.eventmanagement.event.detail.EventFinishActivity"
             android:label="@string/title_activity_event_finish"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".fragments.assessment.AssessmentActivity"
+            android:name=".Assessment.activities.AssessmentActivity"
             android:label="@string/title_activity_assessment"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

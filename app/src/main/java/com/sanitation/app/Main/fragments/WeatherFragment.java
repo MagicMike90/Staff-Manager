@@ -25,7 +25,7 @@ import com.sanitation.app.Constants;
 import com.sanitation.app.R;
 import com.sanitation.app.StaffManagement.staffmanagement.sign.StaffSignInAndOutActivity;
 import com.sanitation.app.StaffManagement.staffmanagement.sign.step.StepInfoStorage;
-import com.sanitation.app.extras.widget.Fab;
+import com.sanitation.app.CustomComponent.widget.Fab;
 
 import java.util.List;
 
