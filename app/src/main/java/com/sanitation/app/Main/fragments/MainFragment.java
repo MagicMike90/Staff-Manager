@@ -2,252 +2,199 @@ package com.sanitation.app.Main.fragments;
 
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.sanitation.app.Constants;
+import com.amap.api.services.core.AMapException;
+import com.amap.api.services.weather.LocalDayWeatherForecast;
+import com.amap.api.services.weather.LocalWeatherForecast;
+import com.amap.api.services.weather.LocalWeatherForecastResult;
+import com.amap.api.services.weather.LocalWeatherLive;
+import com.amap.api.services.weather.LocalWeatherLiveResult;
+import com.amap.api.services.weather.WeatherSearch;
+import com.amap.api.services.weather.WeatherSearchQuery;
+import com.gordonwong.materialsheetfab.MaterialSheetFab;
+import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
+import com.sanitation.app.CustomComponent.widget.Fab;
+import com.sanitation.app.Main.interfaces.OnOptionSelectedListener;
 import com.sanitation.app.R;
-import com.sanitation.app.Utils.Utils;
-import com.sanitation.app.Notice.models.Notice;
-import com.sanitation.app.Notice.models.NoticeManager;
-import com.sanitation.app.factory.signhistory.SignHistory;
-import com.sanitation.app.factory.signhistory.SignManager;
-import com.sanitation.app.StaffManagement.models.Staff;
-import com.sanitation.app.StaffManagement.activities.StaffManager;
-import com.sanitation.app.Notice.fragments.NoticeListFragment;
-import com.sanitation.app.StaffManagement.staffmanagement.signhistory.SignListFragment;
-import com.sanitation.app.StaffManagement.fragments.StaffListFragment;
-import com.ss.bottomnavigation.BottomNavigation;
-import com.ss.bottomnavigation.events.OnSelectedItemChangeListener;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import im.delight.android.ddp.Meteor;
-import im.delight.android.ddp.MeteorCallback;
-import im.delight.android.ddp.MeteorSingleton;
+import java.util.List;
 
 
-public class MainFragment extends Fragment implements MeteorCallback {
-        private static final String TAG = "MainFragment";
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class MainFragment extends Fragment implements WeatherSearch.OnWeatherSearchListener {
+    private static String TAG = "WeatherFragment";
+    private TextView report_time;
+    private TextView weather;
+    private TextView Temperature;
+    private TextView wind;
+    private TextView humidity;
+    private WeatherSearchQuery mquery;
+    private WeatherSearch mweathersearch;
+    private LocalWeatherLive weatherlive;
+    private LocalWeatherForecast weatherforecast;
+    private List<LocalDayWeatherForecast> forecastlist = null;
+    private String cityname = "沈阳市";//天气搜索的城市，可以写名称或adcode；
 
-    private Context mContext;
-    private Utils mUtils;
-    private Meteor mMeteor;
-
-    private NoticeListFragment mNoticeListFragment;
-    private StaffListFragment mStaffListFragment;
-    private SignListFragment mSignListFragment;
-
-
-    public static final int STAFF_FRAGMENT_RESULT = 1;
-    public static final String STAFF_FILTER_NAME = "staff_name";
-    public static final String STAFF_FILTER_DEPARTMENT = "department";
-    public static final String STAFF_FILTER_TIME = "sign_time";
-    public static final String STAFF_FILTER_LATE = "late";
+    private MaterialSheetFab materialSheetFab;
+    private int statusBarColor;
+    private OnClickListener mOnClickListener;
+    private OnOptionSelectedListener mListener;
 
     public MainFragment() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static MainFragment newInstance(String param1, String param2) {
-        MainFragment fragment = new MainFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+
+    private void searchforcastsweather() {
+        mquery = new WeatherSearchQuery(cityname, WeatherSearchQuery.WEATHER_TYPE_FORECAST);//检索参数为城市和天气类型，实时天气为1、天气预报为2
+        mweathersearch = new WeatherSearch(getContext());
+        mweathersearch.setOnWeatherSearchListener(this);
+        mweathersearch.setQuery(mquery);
+        mweathersearch.searchWeatherAsyn(); //异步搜索
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+    private void searchLiveWeather() {
+        mquery = new WeatherSearchQuery(cityname, WeatherSearchQuery.WEATHER_TYPE_LIVE);//检索参数为城市和天气类型，实时天气为1、天气预报为2
+        mweathersearch = new WeatherSearch(getContext());
+        mweathersearch.setOnWeatherSearchListener(this);
+        mweathersearch.setQuery(mquery);
+        mweathersearch.searchWeatherAsyn(); //异步搜索
+    }
 
+
+    private void setupFab(View view) {
+        mOnClickListener = new OnClickListener();
+
+        Fab fab = (Fab) view.findViewById(R.id.fab);
+        View sheetView = view.findViewById(R.id.fab_sheet);
+        View overlay = view.findViewById(R.id.overlay);
+        int sheetColor = getResources().getColor(R.color.background_card);
+        int fabColor = getResources().getColor(R.color.theme_accent);
+
+        // Create material sheet FAB
+        materialSheetFab = new MaterialSheetFab<>(fab, sheetView, overlay, sheetColor, fabColor);
+
+        // Set material sheet event listener
+        materialSheetFab.setEventListener(new MaterialSheetFabEventListener() {
+            @Override
+            public void onShowSheet() {
+                // Save current status bar color
+                statusBarColor = getStatusBarColor();
+                // Set darker status bar color to match the dim overlay
+                setStatusBarColor(getResources().getColor(R.color.theme_primary_dark2));
+            }
+
+            @Override
+            public void onHideSheet() {
+                // Restore status bar color
+                setStatusBarColor(statusBarColor);
+            }
+        });
+
+        // Set material sheet item click listeners
+        view.findViewById(R.id.staff_sign).setOnClickListener(mOnClickListener);
+        view.findViewById(R.id.staff_sign_history).setOnClickListener(mOnClickListener);
+    }
+
+    private void setStatusBarColor(int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getActivity().getWindow().setStatusBarColor(color);
         }
-        mContext = this.getContext();
-        mUtils = Utils.getInstance(mContext);
-        mMeteor = MeteorSingleton.getInstance();
+    }
+
+    private int getStatusBarColor() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return getActivity().getWindow().getStatusBarColor();
+        }
+        return 0;
+    }
+
+    private class OnClickListener implements View.OnClickListener {
+        int type = R.string.title_activity_supervisor_check_in;
+
+        @Override
+        public void onClick(View v) {
+//            switch (v.getId()) {
+//                case R.id.fab_sheet_item_type_1:
+//                    type = R.string.title_activity_supervisor_check_in;
+//                    // Send the event and Uri to the host activity
+//                    mListener.onOptionSelected(v.getId());
+//
+//                    break;
+//                case R.id.fab_sheet_item_type_2:
+////                    type = R.string.title_activity_supervisor_check_out;
+////                    StepInfoStorage.getInstance().type = Constants.SignType.SIGN_OUT;
+////                    StepInfoStorage.getInstance().staff_role = Constants.StaffRole.SUPERVISOR;
+//                    break;
+//            }
+            mListener.onOptionSelected(v.getId());
+            materialSheetFab.hideSheet();
+
+//            Intent intent = new Intent(MainFragment.this.getContext(), StaffSignInAndOutActivity.class);
+//            intent.putExtra(StaffSignInAndOutActivity.CHECK_IN_AN_OUT_TYPE, type);
+//            startActivity(intent);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
-        BottomNavigation bottomNavigation = (BottomNavigation) view.findViewById(R.id.bottom_navigation);
+        View v = inflater.inflate(R.layout.fragment_main, container, false);
+        TextView city = (TextView) v.findViewById(R.id.city);
+        city.setText(cityname);
+        report_time = (TextView) v.findViewById(R.id.report_time);
+        weather = (TextView) v.findViewById(R.id.weather);
+        Temperature = (TextView) v.findViewById(R.id.temp);
+        wind = (TextView) v.findViewById(R.id.wind);
+        humidity = (TextView) v.findViewById(R.id.humidity);
 
-        mNoticeListFragment = NoticeListFragment.newInstance();
-        mStaffListFragment = StaffListFragment.newInstance();
-        mSignListFragment = SignListFragment.newInstance();
 
-        bottomNavigation.setOnSelectedItemChangeListener(new OnSelectedItemChangeListener() {
-            @Override
-            public void onSelectedItemChanged(int itemId) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                switch (itemId) {
-                    case R.id.tab_home:
-                        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
-                        transaction.replace(R.id.child_fragment_container, mNoticeListFragment).commit();
-                        break;
-                    case R.id.tab_images:
-                        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
-                        transaction.replace(R.id.child_fragment_container, mStaffListFragment).commit();
-                        break;
-                    case R.id.tab_camera:
-                        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
-                        transaction.replace(R.id.child_fragment_container, mSignListFragment).commit();
-                        break;
-                }
+        searchLiveWeather();
+
+        setupFab(v);
+
+        return v;
+    }
+
+    @Override
+    public void onWeatherLiveSearched(LocalWeatherLiveResult weatherLiveResult, int rCode) {
+        if (rCode == AMapException.CODE_AMAP_SUCCESS) {
+            if (weatherLiveResult != null && weatherLiveResult.getLiveResult() != null) {
+                weatherlive = weatherLiveResult.getLiveResult();
+                report_time.setText(weatherlive.getReportTime() + " 发布");
+                weather.setText(weatherlive.getWeather());
+                Temperature.setText(weatherlive.getTemperature() + "°");
+                wind.setText(weatherlive.getWindDirection() + "风     " + weatherlive.getWindPower() + "级");
+                humidity.setText("湿度     " + weatherlive.getHumidity() + "%");
+            } else {
+                Log.d("time", "no data");
             }
-        });
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mMeteor.removeCallbacks();
-        mMeteor.addCallback(this);
-        mMeteor.reconnect();
-
-        Log.d(TAG, "onResume");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mMeteor.removeCallback(this);
-        mMeteor.disconnect();
-        Log.d(TAG, "onPause");
-    }
-
-    @Override
-    public void onConnect(boolean signedInAutomatically) {
-        Log.d(TAG, "onConnect");
-        mMeteor.subscribe(Constants.MongoCollection.NOTICE);
-        mMeteor.subscribe(Constants.MongoCollection.RELATED_STAFF);
-        mMeteor.subscribe(Constants.MongoCollection.SIGN);
-
-        NoticeManager.getInstance().init();
-        StaffManager.getInstance().init();
-        SignManager.getInstance().init();
-    }
-
-    @Override
-    public void onDisconnect() {
-        Log.d(TAG, "onDisconnect");
-    }
-
-    @Override
-    public void onException(Exception e) {
-        Log.d(TAG, "onException");
-    }
-
-    @Override
-    public void onDataAdded(String collectionName, String documentID, String newValuesJson) {
-        Log.d(TAG, "onDataAdded:" + collectionName + " : " + newValuesJson);
-        Fragment fragment = getFragmentManager().findFragmentById(R.id.child_fragment_container);
-
-        switch (collectionName) {
-            case Constants.MongoCollection.NOTICE:
-                try {
-                    JSONObject obj = new JSONObject(newValuesJson);
-                    String id = documentID;
-                    String name = obj.getString("title");
-                    String content = obj.getString("content");
-                    String time = obj.getString("updateAt");
-                    time = mUtils.getDateStr(time);
-
-                    Log.d(TAG,name);
-
-                    NoticeManager.getInstance().addNotice(new Notice(id, name, content, time));
-                    if (fragment instanceof NoticeListFragment)
-                        mNoticeListFragment.updateList(NoticeManager.getInstance().getNotices());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case Constants.MongoCollection.STAFF:
-                JSONObject staff = null;
-                try {
-                    staff = new JSONObject(newValuesJson);
-                    String staff_id = staff.has("staff_id") ? staff.getString("staff_id") : " ";
-                    String name = staff.has("staff_name") ? staff.getString("staff_name") : " ";
-                    String gender = staff.has("gender") ? staff.getString("gender") : " ";
-                    String date = staff.has("join_work_date") ? staff.getString("join_work_date") : "0";
-
-                    name = mUtils.getName(name);
-                    gender = mUtils.getGender(gender);
-                    date = mUtils.getDateStr(date);
-
-                    StaffManager.getInstance().addStaffs(new Staff(documentID,staff_id, name, gender, date));
-                    if (fragment instanceof StaffListFragment)
-                        mStaffListFragment.updateList(StaffManager.getInstance().getStaffs());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case Constants.MongoCollection.SIGN:
-                try {
-                    JSONObject newVal = new JSONObject(newValuesJson);
-                    String staff_name = newVal.has("staff_name") ? newVal.getString("staff_name").toString() : "null";
-                    String staff_department = newVal.has("staff_department") ? newVal.getString("staff_department").toString() : "null";
-                    String createdAt = newVal.has("createdAt") ? mUtils.getDateStr(newVal.getString("createdAt")) : "0";
-
-                    SignManager.getInstance().addSign(new SignHistory(collectionName, staff_name, staff_department, createdAt));
-                    if (fragment instanceof SignListFragment)
-                        mSignListFragment.updateList(SignManager.getInstance().getSigns());
-                } catch (JSONException e) {
-                    Log.d(TAG, Log.getStackTraceString(e));
-                }
-
-                break;
+        } else {
+            Log.d("rCode", rCode + "");
         }
     }
-
     @Override
-    public void onDataChanged(String collectionName, String documentID, String updatedValuesJson, String removedValuesJson) {
-        Log.d(TAG, collectionName);
-        switch (collectionName) {
-            case Constants.MongoCollection.NOTICE:
-                break;
-            case Constants.MongoCollection.STAFF:
-                break;
-            case Constants.MongoCollection.SIGN:
-                break;
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnOptionSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnArticleSelectedListener");
         }
-
     }
-
     @Override
-    public void onDataRemoved(String collectionName, String documentID) {
-        Log.d(TAG, "onDataRemoved");
-    }
+    public void onWeatherForecastSearched(LocalWeatherForecastResult localWeatherForecastResult, int i) {
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onActivityResult");
-        switch (requestCode) {
-            case STAFF_FRAGMENT_RESULT: {
-                if (resultCode == Activity.RESULT_OK) {
-                    String name = data.getStringExtra(STAFF_FILTER_NAME);
-                    String department = data.getStringExtra(STAFF_FILTER_DEPARTMENT);
-                    String time = data.getStringExtra(STAFF_FILTER_TIME);
-                    String late = data.getStringExtra(STAFF_FILTER_LATE);
-                    Fragment fragment = getFragmentManager().findFragmentById(R.id.child_fragment_container);
-
-                    Log.d(TAG, "name: " + name);
-                }
-                break;
-            }
-        }
     }
 }

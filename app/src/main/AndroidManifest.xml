@@ -52,7 +52,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Main.MainActivity"
+            android:name=".Main.activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -115,7 +115,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.sanitation.app.Main.MainActivity" />
+                android:value="com.sanitation.app.Main.activities.MainActivity" />
         </activity>
         <activity
             android:name=".Event.eventmanagement.event.detail.EventFinishActivity"

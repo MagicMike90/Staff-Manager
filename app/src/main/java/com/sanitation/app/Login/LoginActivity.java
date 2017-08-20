@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.sanitation.app.Constants;
-import com.sanitation.app.Main.MainActivity;
+import com.sanitation.app.Main.activities.MainActivity;
 import com.sanitation.app.R;
 
 import org.json.JSONException;

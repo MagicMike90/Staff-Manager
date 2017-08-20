@@ -54,20 +54,20 @@ public class StaffFilterActivity extends AppCompatActivity {
 
                 Intent resultIntent = new Intent();
 
-                String name = mNameField.getValue();
-                String department = mDepartmentField.getValue();
-                String time = mTimeField.getValue();
-                String late = mLateField.getValue();
-
-                Log.d(TAG, "name: " + name);
-                Log.d(TAG, "department:" + department);
-                Log.d(TAG, "time: " + time);
-                Log.d(TAG, "late: " + late);
-
-                resultIntent.putExtra(MainFragment.STAFF_FILTER_NAME, name);
-                resultIntent.putExtra(MainFragment.STAFF_FILTER_DEPARTMENT, department);
-                resultIntent.putExtra(MainFragment.STAFF_FILTER_TIME, time);
-                resultIntent.putExtra(MainFragment.STAFF_FILTER_LATE, late);
+//                String name = mNameField.getValue();
+//                String department = mDepartmentField.getValue();
+//                String time = mTimeField.getValue();
+//                String late = mLateField.getValue();
+//
+//                Log.d(TAG, "name: " + name);
+//                Log.d(TAG, "department:" + department);
+//                Log.d(TAG, "time: " + time);
+//                Log.d(TAG, "late: " + late);
+//
+//                resultIntent.putExtra(MainFragment.STAFF_FILTER_NAME, name);
+//                resultIntent.putExtra(MainFragment.STAFF_FILTER_DEPARTMENT, department);
+//                resultIntent.putExtra(MainFragment.STAFF_FILTER_TIME, time);
+//                resultIntent.putExtra(MainFragment.STAFF_FILTER_LATE, late);
 
                 setResult(Activity.RESULT_OK, resultIntent);
                 finish();

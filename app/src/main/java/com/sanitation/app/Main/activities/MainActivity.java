@@ -1,35 +1,34 @@
-package com.sanitation.app.Main;
+package com.sanitation.app.Main.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.sanitation.app.Assessment.activities.AssessmentActivity;
+import com.sanitation.app.Event.fragments.EventListFragment;
 import com.sanitation.app.Login.LoginActivity;
 import com.sanitation.app.Main.fragments.MainFragment;
-import com.sanitation.app.Main.fragments.WeatherFragment;
-import com.sanitation.app.R;
+import com.sanitation.app.Main.interfaces.OnOptionSelectedListener;
 import com.sanitation.app.Notice.activities.NoticeListActivity;
-import com.sanitation.app.Event.fragments.EventListFragment;
+import com.sanitation.app.R;
 import com.sanitation.app.Services.GPSService;
-
-import com.sanitation.app.Assessment.activities.AssessmentActivity;
 import com.sanitation.app.StaffManagement.activities.StaffActivity;
 
 import im.delight.android.ddp.MeteorSingleton;
 import im.delight.android.ddp.ResultListener;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnOptionSelectedListener {
     private static final String TAG = "MainActivity";
 
     private NavigationView mNavigationView;
@@ -71,9 +70,9 @@ public class MainActivity extends AppCompatActivity
 
 //        MenuItem item = mNavigationView.getMenu().getItem(0);
 //        onNavigationItemSelected(item);
-        Fragment weatherFrag = new WeatherFragment();
+        Fragment mainFrag = new MainFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragment_container, weatherFrag).commit();
+        fragmentManager.beginTransaction().replace(R.id.fragment_container, mainFrag).commit();
 
     }
 
@@ -186,11 +185,23 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (mCurrentFragment instanceof MainFragment) {
+//            ((MainFragment) mCurrentFragment).onActivityResult(requestCode, resultCode, data);
+//        }
+//    }
+
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (mCurrentFragment instanceof MainFragment) {
-            ((MainFragment) mCurrentFragment).onActivityResult(requestCode, resultCode, data);
+    public void onOptionSelected(int id) {
+        switch (id) {
+            case R.id.staff_sign:
+
+                break;
+            case R.id.staff_sign_history:
+
+                break;
         }
     }
 }
