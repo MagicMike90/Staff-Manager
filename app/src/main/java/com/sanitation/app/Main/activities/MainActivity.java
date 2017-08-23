@@ -2,6 +2,7 @@ package com.sanitation.app.Main.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
 import com.sanitation.app.Assessment.activities.AssessmentActivity;
 import com.sanitation.app.Event.fragments.EventListFragment;
 import com.sanitation.app.Login.LoginActivity;
@@ -22,18 +24,21 @@ import com.sanitation.app.Main.interfaces.OnOptionSelectedListener;
 import com.sanitation.app.Notice.activities.NoticeListActivity;
 import com.sanitation.app.R;
 import com.sanitation.app.Services.GPSService;
+import com.sanitation.app.Main.Sign.activities.StaffSignInAndOutActivity;
 import com.sanitation.app.StaffManagement.activities.StaffActivity;
 
 import im.delight.android.ddp.MeteorSingleton;
 import im.delight.android.ddp.ResultListener;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnOptionSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnOptionSelectedListener, FullScreenDialogFragment.OnConfirmListener,
+        FullScreenDialogFragment.OnDiscardListener {
     private static final String TAG = "MainActivity";
 
     private NavigationView mNavigationView;
     private Fragment mCurrentFragment;
-
+    private FullScreenDialogFragment mSignActionFragment;
+    private static final String dialogTag = "signActionFragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,14 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        final String dialogTag = "dialog";
+        if (savedInstanceState != null) {
+            mSignActionFragment = (FullScreenDialogFragment) getSupportFragmentManager().findFragmentByTag(dialogTag);
+            if (mSignActionFragment != null) {
+                mSignActionFragment.setOnConfirmListener(this);
+                mSignActionFragment.setOnDiscardListener(this);
+            }
+        }
 
         init();
 
@@ -195,13 +208,38 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onOptionSelected(int id) {
+        Intent intent = new Intent();
         switch (id) {
             case R.id.staff_sign:
-
+                intent.setClass(this, StaffSignInAndOutActivity.class);
+                startActivity(intent);
+//                final Bundle args = new Bundle();
+//                args.putString(SignActionFragment.EXTRA_NAME, "");
+//                mSignActionFragment = new FullScreenDialogFragment.Builder(MainActivity.this)
+//                        .setTitle(R.string.sign_action)
+//                        .setConfirmButton(R.string.sign_dialog_positive_action)
+//                        .setOnConfirmListener(MainActivity.this)
+//                        .setOnDiscardListener(MainActivity.this)
+//                        .setContent(SignActionFragment.class,args)
+//                        .build();
+//
+//                mSignActionFragment.show(getSupportFragmentManager(), dialogTag);
                 break;
             case R.id.staff_sign_history:
-
+                intent.setClass(this, StaffSignInAndOutActivity.class);
+//                Intent intent = new Intent(this, StaffSignInAndOutActivity.class);
+                startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    public void onConfirm(@Nullable Bundle result) {
+
+    }
+
+    @Override
+    public void onDiscard() {
+
     }
 }

@@ -1,4 +1,4 @@
-package com.sanitation.app.StaffManagement.staffmanagement.sign.step.fragment;
+package com.sanitation.app.Main.Sign.step.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

@@ -1,12 +1,12 @@
-package com.sanitation.app.StaffManagement.staffmanagement.sign.step;
+package com.sanitation.app.Main.Sign.step;
 
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 
 import com.sanitation.app.R;
-import com.sanitation.app.StaffManagement.staffmanagement.sign.step.fragment.StepOneFragment;
-import com.sanitation.app.StaffManagement.staffmanagement.sign.step.fragment.StepThreeFragment;
-import com.sanitation.app.StaffManagement.staffmanagement.sign.step.fragment.StepTwoFragment;
+import com.sanitation.app.Main.Sign.step.fragment.StepOneFragment;
+import com.sanitation.app.Main.Sign.step.fragment.StepThreeFragment;
+import com.sanitation.app.Main.Sign.step.fragment.StepTwoFragment;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.adapter.AbstractFragmentStepAdapter;
 import com.stepstone.stepper.viewmodel.StepViewModel;

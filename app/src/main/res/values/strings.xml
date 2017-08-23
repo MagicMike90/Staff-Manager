@@ -46,4 +46,11 @@
     <string name="title_activity_assessment">AssessmentActivity</string>
     <string name="title_activity_notice">最新通知</string>
     <string name="title_activity_staff">人员管理</string>
+
+    <string name="sign_action">添加签到／签退</string>
+    <string name="sign_dialog_positive_action">确认</string>
+
+    <string name="dialog_discarded">取消修改</string>
+    <string name="discard_confirmation_title">未提交修改</string>
+    <string name="discard_confirmation_message">请确认你想取消签到／签退?</string>
 </resources>

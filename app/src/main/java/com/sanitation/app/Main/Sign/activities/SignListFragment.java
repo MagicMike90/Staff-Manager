@@ -1,4 +1,4 @@
-package com.sanitation.app.StaffManagement.staffmanagement.signhistory;
+package com.sanitation.app.Main.Sign.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,10 +15,10 @@ import android.view.ViewGroup;
 
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.sanitation.app.R;
-import com.sanitation.app.factory.signhistory.SignHistory;
-import com.sanitation.app.factory.signhistory.SignManager;
+import com.sanitation.app.Main.Sign.models.SignHistory;
+import com.sanitation.app.Main.Sign.models.SignManager;
 import com.sanitation.app.CustomComponent.recyclerview.DividerItemDecoration;
-import com.sanitation.app.StaffManagement.staffmanagement.sign.StaffSignInAndOutActivity;
+import com.sanitation.app.Main.Sign.adapters.SignListFragmentAdapter;
 
 import java.util.List;
 

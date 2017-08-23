@@ -1,4 +1,4 @@
-package com.sanitation.app.StaffManagement.staffmanagement.sign.step.fragment;
+package com.sanitation.app.Main.Sign.step.fragment;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.sanitation.app.Constants;
 import com.sanitation.app.R;
 import com.sanitation.app.CustomComponent.camera.PickerBuilder;
-import com.sanitation.app.StaffManagement.staffmanagement.sign.step.OnNavigationBarListener;
+import com.sanitation.app.Main.Sign.step.OnNavigationBarListener;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.VerificationError;
 

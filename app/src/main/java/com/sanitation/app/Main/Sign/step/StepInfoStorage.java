@@ -1,4 +1,4 @@
-package com.sanitation.app.StaffManagement.staffmanagement.sign.step;
+package com.sanitation.app.Main.Sign.step;
 
 /**
  * Created by Michael on 4/23/17.

@@ -1,4 +1,4 @@
-package com.sanitation.app.StaffManagement.staffmanagement.signhistory;
+package com.sanitation.app.Main.Sign.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sanitation.app.R;
-import com.sanitation.app.factory.signhistory.SignHistory;
-import com.sanitation.app.factory.signhistory.SignManager;
+import com.sanitation.app.Main.Sign.models.SignHistory;
+import com.sanitation.app.Main.Sign.models.SignManager;
 
 /**
  * A placeholder fragment containing a simple view.

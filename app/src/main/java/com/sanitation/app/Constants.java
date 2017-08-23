@@ -12,6 +12,8 @@ public class Constants {
     public static final String[] DEPARTMENT = {"一所", "二所", "三所", "四所", "五所", "六所"};
     public static final String[] ONLINE_STATUS = {"只显示在线", "所有人员"};
 
+    public static final String[] SIGN_TYPES = {"签到","签退"};
+
     public class SearchHin {
         private static final String SEARCH_NOTICE = "搜索通知";
         private static final String SEARCH_STAFF = "搜索员工";

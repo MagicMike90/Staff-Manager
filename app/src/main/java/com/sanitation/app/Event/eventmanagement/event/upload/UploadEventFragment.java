@@ -18,7 +18,7 @@ import com.sanitation.app.Constants;
 import com.sanitation.app.R;
 import com.sanitation.app.Login.StaffInfo;
 import com.sanitation.app.factory.eventtype.EventTypeManager;
-import com.sanitation.app.StaffManagement.staffmanagement.sign.step.StepInfoStorage;
+import com.sanitation.app.Main.Sign.step.StepInfoStorage;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;

@@ -80,7 +80,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".StaffManagement.staffmanagement.sign.StaffSignInAndOutActivity"
+            android:name=".Main.Sign.activities.StaffSignInAndOutActivity"
             android:label="@string/title_activity_staff_sign_in_and_out"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -94,7 +94,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".StaffManagement.staffmanagement.signhistory.SignDetailActivity"
+            android:name=".Main.Sign.activities.SignDetailActivity"
             android:label="@string/title_activity_sign_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

@@ -1,4 +1,4 @@
-package com.sanitation.app.factory.signhistory;
+package com.sanitation.app.Main.Sign.models;
 
 /**
  * Created by Michael on 2/27/17.

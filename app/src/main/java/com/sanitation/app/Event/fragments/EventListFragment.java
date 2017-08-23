@@ -25,8 +25,8 @@ import com.sanitation.app.factory.event.EventManager;
 import com.sanitation.app.factory.eventtype.EventType;
 import com.sanitation.app.factory.eventtype.EventTypeManager;
 import com.sanitation.app.CustomComponent.recyclerview.DividerItemDecoration;
-import com.sanitation.app.StaffManagement.staffmanagement.sign.StaffSignInAndOutActivity;
-import com.sanitation.app.StaffManagement.staffmanagement.sign.step.StepInfoStorage;
+import com.sanitation.app.Main.Sign.activities.StaffSignInAndOutActivity;
+import com.sanitation.app.Main.Sign.step.StepInfoStorage;
 import com.sanitation.app.CustomComponent.widget.Fab;
 
 import org.json.JSONException;
