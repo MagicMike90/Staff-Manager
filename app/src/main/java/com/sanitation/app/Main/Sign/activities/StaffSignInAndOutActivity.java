@@ -16,11 +16,17 @@ import com.sanitation.app.Constants;
 import com.sanitation.app.Login.StaffInfo;
 import com.sanitation.app.Main.Sign.step.StepInfoStorage;
 import com.sanitation.app.R;
+import com.sanitation.app.Utils.Utils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import im.delight.android.ddp.Meteor;
@@ -80,7 +86,9 @@ public class StaffSignInAndOutActivity extends AppCompatActivity {
                 sign.put("type",type.getValue());
                 sign.put("staff_id", staff.getValue());
                 sign.put("department", department.getValue());
-                sign.put("date", date.getValue());
+
+
+                sign.put("date", Utils.getInstance(StaffSignInAndOutActivity.this).convertDate(date.getValue()));
                 sign.put("time", time.getValue());
                 sign.put("latitude", StepInfoStorage.getInstance().latitude);
                 sign.put("longitude", StepInfoStorage.getInstance().longitude);
@@ -89,10 +97,12 @@ public class StaffSignInAndOutActivity extends AppCompatActivity {
 
 
                 mMeteor.call("signInOut.mobile_insert",
-                        new Object[]{type.getValue(), department.getValue(), staff.getValue(), date.getValue(), time.getValue(), location.getValue()},
+                        new Object[]{sign},
                         new ResultListener() {
                             @Override
                             public void onSuccess(String result) {
+                                Toast.makeText(StaffSignInAndOutActivity.this, "签到／签退成功: " + result, Toast.LENGTH_SHORT).show();
+                                finish();
                             }
 
                             @Override
