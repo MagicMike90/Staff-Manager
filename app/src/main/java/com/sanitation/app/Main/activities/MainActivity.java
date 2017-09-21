@@ -170,6 +170,8 @@ public class MainActivity extends AppCompatActivity
                 public void onSuccess(String result) {
                     Log.d(TAG, "Logout Successfully");
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();
                 }

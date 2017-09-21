@@ -93,6 +93,11 @@ public class LoginActivity extends AppCompatActivity implements MeteorCallback {
         showProgress(true);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!mMeteor.isConnected())mMeteor.connect();
+    }
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -178,9 +183,11 @@ public class LoginActivity extends AppCompatActivity implements MeteorCallback {
                         e.printStackTrace();
                     }
 
-                    Intent externalActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(externalActivityIntent);
-//                    finish();
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
                 }
 
                 @Override
@@ -297,9 +304,10 @@ public class LoginActivity extends AppCompatActivity implements MeteorCallback {
                     }
                     Log.d(TAG, "Call result: " + result);
                     //start location tracker
-                    Intent externalActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(externalActivityIntent);
-
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                     finish();
                 }
 
