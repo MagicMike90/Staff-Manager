@@ -1,5 +1,5 @@
 # Staff-Manager
-An Android DPP project connect to meteor web app, mix with REST servi
+An Android DPP project connect to meteor web app
 
 # Project features
 1.Reactive data exchange.
